@@ -15,7 +15,7 @@ $factory->define(Reservation::class, function (Faker $faker) {
         'pet_id' => function () {
             return Pet::all()->random();
         },
-        'date' => $faker->dateTimeBetween('-1 years', '+1 years'),
+        'date' => $faker->dateTimeBetween('now', '+1 weeks'),
         'status' => $faker->randomElement(['pending', 'approved', 'cancelled']),
 
     ];

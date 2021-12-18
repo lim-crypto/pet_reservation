@@ -12,7 +12,7 @@ $factory->define(Appointment::class, function (Faker $faker) {
             return   User::all()->random();
         },
         'purpose' => $faker->word,
-        'date' => $faker->dateTimeBetween('now', '+1 weeks'),
+        'date' => $faker->dateTimeBetween('now', '+1 months'),
         'status' => $faker->randomElement(['pending', 'approved', 'cancelled']),
 
     ];
