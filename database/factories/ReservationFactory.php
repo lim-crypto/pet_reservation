@@ -2,9 +2,9 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Pet;
-use App\Reservation;
-use App\User;
+use App\Model\Pet;
+use App\Model\Reservation;
+use App\Model\User;
 use Faker\Generator as Faker;
 
 $factory->define(Reservation::class, function (Faker $faker) {
@@ -15,8 +15,9 @@ $factory->define(Reservation::class, function (Faker $faker) {
         'pet_id' => function () {
             return Pet::all()->random();
         },
-        'date' => $faker->dateTimeBetween('now', '+1 weeks'),
-        'status' => $faker->randomElement(['pending', 'approved', 'cancelled']),
-
+        'status' => $faker->randomElement(['pending', 'approved','rejected', 'cancelled', 'completed' ]), //  'expired'
+        'created_at' =>  $faker->dateTimeBetween('-1 weeks',  'now'),
+        'expiration_date' =>  $faker->dateTimeBetween('now',  '+ 7 days'),
+        'date' =>  $faker->dateTimeBetween('now',  '+ 7 days'),
     ];
 });

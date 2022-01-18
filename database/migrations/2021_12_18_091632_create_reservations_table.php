@@ -20,8 +20,8 @@ class CreateReservationsTable extends Migration
             $table->unsignedBigInteger('pet_id');
             $table->foreign('pet_id')->references('id')->on('pets');
             $table->dateTime('date', 0);
+            $table->dateTime('expiration_date', 0);
             $table->string('status')->default('pending');
-
             $table->timestamps();
         });
     }

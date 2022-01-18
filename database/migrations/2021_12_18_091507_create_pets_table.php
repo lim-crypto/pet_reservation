@@ -15,14 +15,21 @@ class CreatePetsTable extends Migration
     {
         Schema::create('pets', function (Blueprint $table) {
             $table->id();
+            $table->string('slug');
+            $table->unsignedBigInteger('type_id');
+            $table->foreign('type_id')->references('id')->on('types');
             $table->unsignedBigInteger('breed_id');
             $table->foreign('breed_id')->references('id')->on('breeds');
             $table->string('name');
-            $table->json('image')->nullable();
-            $table->integer('age')->nullable();
+            $table->string('gender');
+            $table->json('images');
+            $table->date('birthday');
             $table->integer('weight')->nullable();
             $table->integer('height')->nullable();
-            $table->text('description')->nullable();
+            $table->float('price', 8, 2);
+            $table->longText('description')->nullable();
+            $table->string('status'); //   available or for sale // reserved //  adopted  // for breeding  ,
+            $table->integer('user_id')->nullable();
             $table->timestamps();
         });
     }

@@ -15,9 +15,10 @@ class CreateBreedsTable extends Migration
     {
         Schema::create('breeds', function (Blueprint $table) {
             $table->id();
+            $table->string('slug');
             $table->unsignedBigInteger('type_id');
             $table->foreign('type_id')->references('id')->on('types');
-            $table->string('breed');
+            $table->string('name');
             $table->timestamps();
         });
     }

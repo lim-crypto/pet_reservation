@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Pet;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -11,10 +12,10 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -25,4 +26,27 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    // services
+    public function services()
+    {
+        return view('services.index');
+    }
+    public function grooming()
+    {
+        return view('services.grooming');
+    }
+    public function petBoarding()
+    {
+        return view('services.petboarding');
+    }
+    public function breeding()
+    {
+        return view('services.breeding');
+    }
+    public function about()
+    {
+        return view('about');
+    }
+
 }

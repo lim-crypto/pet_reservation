@@ -2,8 +2,8 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Appointment;
-use App\User;
+use App\Model\Appointment;
+use App\Model\User;
 use Faker\Generator as Faker;
 
 $factory->define(Appointment::class, function (Faker $faker) {
@@ -13,7 +13,7 @@ $factory->define(Appointment::class, function (Faker $faker) {
         },
         'purpose' => $faker->word,
         'date' => $faker->dateTimeBetween('now', '+1 months'),
-        'status' => $faker->randomElement(['pending', 'approved', 'cancelled']),
+        'status' => $faker->randomElement(['pending', 'approved','rejected', 'cancelled']),
 
     ];
 });
