@@ -97,7 +97,86 @@
         </div>
     </section>
 
-    <section id="about">
+   
+     <!-- ======= About Us Section ======= -->
+    <section id="about" class="about card-footer">
+      <div class="container ">
+
+        <div class="section-title text-center" data-aos="fade-up">
+          <h2>About Us</h2>
+        </div>
+
+        <div class="row content">
+          <div class="col-lg-6 border border-success rounded" data-aos="fade-up" data-aos-delay="150">
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+              magna aliqua.
+            </p>
+            <ul>
+              <li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>
+              <li><i class="ri-check-double-line"></i> Duis aute irure dolor in reprehenderit in voluptate velit</li>
+              <li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>
+            </ul>
+          </div>
+          <div class="col-lg-6 pt-4 pt-lg-0 " data-aos="fade-up" data-aos-delay="300">
+            <p>
+              Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+              culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+            
+          </div>
+        </div>
+
+      </div>
     </section>
+    <!-- End About Us Section -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container">
+
+        <div class="section-title text-center" data-aos="fade-up">
+          <h2>Contact Us</h2>
+        </div>
+
+        <div class="row justify-content-md-center">
+          <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+            <div class="container info">
+              <div class="row">
+              <div class="text-center col-lg-6">
+                <h2 class="font-weight-bold ">Location</h2>
+                <i class="fas fa-map-marker-alt text-success"></i>
+                <p>A108 Adam Street<br>New York, NY 535022</p>
+              </div>
+
+              <div class="text-center col-lg-6 " >
+                <h2 class="font-weight-bold" >Email</h2>
+                <i class="fas fa-envelope text-success"></i>
+                <p>info@example.com</p>
+              </div>
+
+              <div class="text-center  col-lg-6">
+                <h2 class="font-weight-bold" >Phone</h2>
+                <i class="fas fa-phone  text-success "></i>
+                <p>+1 5589 55488 55s</p>
+              </div>
+
+              <div class="text-center  col-lg-6 " >
+                <h2 class="font-weight-bold" >Working Hours</h2>
+                <i class="fas fa-clock text-success"></i>
+                <p>8:00 AM - 5:00 PM </p>
+              </div>
+            </div>
+            </div>
+          </div>
+
+          
+
+        </div>
+
+      </div>
+    </section><!-- End Contact Section -->
+
 </div>
 @endsection
