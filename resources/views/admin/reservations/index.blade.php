@@ -7,13 +7,13 @@
 @section('main-content')
 
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper py-4">
+<div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <div class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Starter Page</h1>
+          <h1 class="m-0">Reservations</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
@@ -29,10 +29,24 @@
   <!-- Main content -->
   <div class="content">
     <div class="container-fluid">
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">DataTable with default features</h3>
+      <div class="d-flex">
+        <h4 class="text-muted">Filter : &nbsp; </h4>
+        <div class="dropdown">
+          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+            Status
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="{{route('reservationByStatus','pending')}}">Pending</a>
+            <a class="dropdown-item" href="{{route('reservationByStatus','approved')}}">Approved</a>
+            <a class="dropdown-item" href="{{route('reservationByStatus','cancelled')}}">Cancelled</a>
+            <a class="dropdown-item" href="{{route('reservationByStatus','rejected')}}">Rejected</a>
+            <a class="dropdown-item" href="{{route('reservationByStatus','completed')}}">Completed</a>
+            <a class="dropdown-item" href="{{route('reservations')}}">All</a>
+          </div>
         </div>
+      </div>
+
+      <div class="card">
 
         <div class="card-body">
           <table id="table" class="table  table-striped table-hover ">

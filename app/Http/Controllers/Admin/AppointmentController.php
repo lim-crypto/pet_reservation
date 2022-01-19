@@ -15,8 +15,8 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-       $appointments = Appointment::all();
-       return view('admin.appointments.index', compact('appointments'));
+        $appointments = Appointment::all();
+        return view('admin.appointments.index', compact('appointments'));
     }
 
     /**
@@ -83,5 +83,11 @@ class AppointmentController extends Controller
     public function destroy(Appointment $appointment)
     {
         //
+    }
+
+    public function appointmentByStatus($status)
+    {
+        $appointments = Appointment::where('status', $status)->get();
+        return view('admin.appointments.index', compact('appointments'));
     }
 }

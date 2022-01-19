@@ -56,7 +56,7 @@ class AppointmentController extends Controller
         $appointment = new Appointment;
         $appointment->user_id = auth()->user()->id;
         $appointment->purpose = $request->purpose;
-        $appointment->date = date('Y-m-d H:i:s', strtotime($request->date));
+        $appointment->date = date('Y-m-d H:i:s', strtotime("$request->date $request->time"));
         $appointment->save();
         $user = User::find(auth()->user()->id);
         $user->first_name = $request->first_name;

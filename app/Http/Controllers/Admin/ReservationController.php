@@ -51,6 +51,11 @@ class ReservationController extends Controller
             $pet->user_id = null;
             $pet->save();
         }
+        if($request->status == 'completed') {
+            $pet = Pet::find($reservation->pet_id);
+            $pet->status = 'adopted';
+            $pet->save();
+        }
         return redirect()->back()->with('success', 'Status updated successfully');
     }
 
@@ -63,5 +68,12 @@ class ReservationController extends Controller
     public function destroy(Reservation $reservation)
     {
         //
+    }
+
+
+    public function reservationByStatus($status)
+    {
+        $reservations = Reservation::where('status', $status)->get();
+        return view('admin.reservations.index', compact('reservations'));
     }
 }

@@ -23,7 +23,6 @@ class PetController extends Controller
     public function index()
     {
         $pets = Pet::all();
-
         return view('admin.pets.index', compact('pets'));
     }
 
@@ -266,4 +265,21 @@ class PetController extends Controller
             $files->deleteDirectory($path);
         }
     }
+
+    public function getPetsByStatus($status)
+    {
+        $pets = Pet::where('status',$status)->get();
+        return view('admin.pets.index', compact('pets'));
+    }
+    public function getPetsByType(Type $type)
+    {
+        $pets = Pet::where('type_id',$type->id)->get();
+        return view('admin.pets.index', compact('pets'));
+    }
+    public function getPetsByBreed(Breed $breed)
+    {
+        $pets = Pet::where('breed_id',$breed->id)->get();
+        return view('admin.pets.index', compact('pets'));
+    }
+
 }

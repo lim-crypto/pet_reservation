@@ -2,7 +2,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
   <!-- Brand Logo -->
   <a href="{{route('admin.home')}}" class="brand-link">
-    <img src="{{asset('images/kennel-logo.png')}}" alt="Premium kennel Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+    <img src="{{asset('images/kennel-logo.png')}}" alt="Premium kennel Logo" class="brand-image img-circle elevation-3" >
     <span class="brand-text font-weight-light">Premium Kennel</span>
   </a>
 
@@ -11,6 +11,13 @@
     <!-- Sidebar Menu -->
     <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+      <li class="nav-item">
+          <a href="{{route('home')}}" class="nav-link">
+            <i class="fas fa-home nav-icon"></i>
+            <p> Home
+            </p>
+          </a>
+        </li>
         <li class="nav-item">
           <a href="{{route('admin.home')}}" class="nav-link">
             <i class="fas fa-tachometer-alt nav-icon"></i>
@@ -53,6 +60,14 @@
             </p>
           </a>
         </li>
+        <li class="nav-item">
+          <a href="{{route('users.index')}}" class="nav-link">
+            <i class="fas fa-users nav-icon"></i>
+            <p>Users
+            </p>
+          </a>
+        </li>
+
       </ul>
     </nav>
     <!-- /.sidebar-menu -->

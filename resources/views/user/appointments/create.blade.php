@@ -53,6 +53,44 @@
                         </div>
                         <div class="row">
                             <div class="col-6">
+                                <!-- Date -->
+                                <div class="form-group">
+                                    <label>Date:</label>
+                                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                                        <input type="text" name="date" class="form-control datetimepicker-input" data-target="#reservationdate" data-toggle="datetimepicker" required>
+                                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- time -->
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="time">Time:</label>
+                                    <div class="input-group">
+                                        <select class="form-control" name="time" id="time">
+                                            <option value="7:00 AM">7:00 AM</option>
+                                            <option value="8:00 AM">8:00 AM</option>
+                                            <option value="9:00 AM">9:00 AM</option>
+                                            <option value="10:00 AM">10:00 AM</option>
+                                            <option value="11:00 AM">11:00 AM</option>
+                                            <option value="12:00 PM">12:00 PM</option>
+                                            <option value="1:00 PM">1:00 PM</option>
+                                            <option value="2:00 PM">2:00 PM</option>
+                                            <option value="3:00 PM">3:00 PM</option>
+                                            <option value="4:00 PM">4:00 PM</option>
+                                            <option value="5:00 PM">5:00 PM</option>
+                                        </select>
+                                        <div class="input-group-append">
+                                            <div class="input-group-text"><i class="fa fa-clock"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
                                 <!-- select purpose -->
                                 <div class="form-group">
                                     <label for="">Purpose</label>
@@ -67,18 +105,6 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-6">
-                                <!-- Date and time -->
-                                <div class="form-group">
-                                    <label>Date and time:</label>
-                                    <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
-                                        <input type="text" class="form-control datetimepicker-input" name="date" data-target="#reservationdatetime" data-toggle="datetimepicker" required />
-                                        <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
-                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <button type="submit" class="btn custom-bg-color float-right">Book now</button>
 
@@ -89,8 +115,6 @@
     </div>
 </div>
 @endsection
-
-
 @section('script')
 <!-- InputMask -->
 <script src="{{ asset('Adminlte/plugins/moment/moment.min.js') }}"></script>
@@ -100,14 +124,11 @@
 <script src="{{ asset('js/form-validation.js') }}"></script>
 <script>
     $(function() {
-        //Date and time picker
-        $('#reservationdatetime').datetimepicker({
-            minDate: new Date(),
-            sideBySide: true,
-
+        //Date picker
+        $('#reservationdate').datetimepicker({
+            minDate: new Date(new Date().getTime() + (1 * 24 * 60 * 60 * 1000)),
+            format: 'L'
         });
     });
 </script>
-
-
 @endsection

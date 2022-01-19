@@ -23,7 +23,9 @@
 
 <body>
     <div id="loading">
-        <img id="loading-image" src="https://help.presentations2go.eu/LTI/lib/Spinner.gif" alt="Loading..." />
+        <div id="loading-image">
+        </div>
+        <div id="loading-image2"></div>
     </div>
     <div id="app">
         @include('layouts.nav')
@@ -87,7 +89,7 @@
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-12">
-                        <div class="card card-outline card-primary ">
+                        <div class="card card-outline card-success ">
                             {!! $calendar->calendar() !!}
                             {!! $calendar->script() !!}
                         </div>
@@ -145,6 +147,11 @@
             });
 
         });
+
+        //  loading
+        $(window).on('load', function() {
+            $('#loading').hide();
+        })
     </script>
 </body>
 

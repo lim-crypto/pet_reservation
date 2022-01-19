@@ -50,12 +50,12 @@ class ReservationController extends Controller
         $reservation = new Reservation;
         $reservation->pet_id = $request->pet_id;
         $reservation->user_id = auth()->user()->id;
-        $reservation->date = date('Y-m-d H:i:s', strtotime($request->date));
+        $reservation->date = date('Y-m-d H:i:s', strtotime("$request->date $request->time"));
         $reservation->expiration_date = date('Y-m-d H:i:s', strtotime("+7 day", strtotime(now())));
         $reservation->save();
         // update pet status
         $pet = Pet::find($request->pet_id);
-        $pet->status = 'not available';
+        $pet->status = 'reserved';
         $pet->user_id= auth()->user()->id;
         $pet->save();
         // update user information
@@ -71,7 +71,7 @@ class ReservationController extends Controller
     // update
     public function update(Request $request, Reservation $reservation)
     {
-        $reservation->date = date('Y-m-d H:i:s', strtotime($request->date));
+        $reservation->date = date('Y-m-d H:i:s',  strtotime("$request->date $request->time"));
         $reservation->expiration_date = date('Y-m-d H:i:s', strtotime("+7 day", strtotime(now())));
         $reservation->save();
         return redirect()->route('user.reservations')->with('success', 'Reservation Updated Successfully');

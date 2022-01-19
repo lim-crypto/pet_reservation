@@ -28,6 +28,7 @@ class PetController extends Controller
         foreach ($pets as $pet) {
             $pet->images = json_decode($pet->images);
         }
+        session()->flash('pet', $type->name);
         return view('pets.index', compact('pets'));
     }
     public function getByBreed(Breed $breed)
@@ -36,6 +37,7 @@ class PetController extends Controller
         foreach ($pets as $pet) {
             $pet->images = json_decode($pet->images);
         }
+        session()->flash('pet', $breed->name);
         return view('pets.index', compact('pets'));
     }
 

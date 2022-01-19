@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('contact_number')->nullable();
             $table->string('image')->nullable();
             $table->boolean('is_admin')->default(0);
+            $table->boolean('is_active')->default(1);
             $table->rememberToken();
             $table->timestamps();
         });

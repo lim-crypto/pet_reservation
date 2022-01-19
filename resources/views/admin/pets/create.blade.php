@@ -157,7 +157,7 @@
                                             <label for="status">Status</label> <span class="text-danger">*</span>
                                             <select class="form-control {{ $errors->has('status') ? ' is-invalid' : '' }}" id="status" name="status" required>
                                                 <option value="" selected disabled hidden>Select Status</option>
-                                                <option {{old('status') == 'available' ? 'selected' : ''}} value="available">For Reservation/Sale </option>
+                                                <option {{old('status') == 'available' ? 'selected' : ''}} value="available">Available</option>
                                                 <option {{old('status') == 'not available' ? 'selected' : ''}} value="not available">Not Available</option>
                                                 <option {{old('status') == 'for breed' ? 'selected' : ''}} value="for breed">For Breeding</option>
                                             </select>

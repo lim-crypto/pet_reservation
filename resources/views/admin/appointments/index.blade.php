@@ -29,6 +29,22 @@
   <!-- Main content -->
   <div class="content">
     <div class="container-fluid">
+    <div class="d-flex">
+        <h4 class="text-muted">Filter : &nbsp; </h4>
+        <div class="dropdown">
+          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+            Status
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="{{route('appointmentByStatus','pending')}}">Pending</a>
+            <a class="dropdown-item" href="{{route('appointmentByStatus','approved')}}">Approved</a>
+            <a class="dropdown-item" href="{{route('appointmentByStatus','cancelled')}}">Cancelled</a>
+            <a class="dropdown-item" href="{{route('appointmentByStatus','rejected')}}">Rejected</a>
+            <a class="dropdown-item" href="{{route('appointmentByStatus','completed')}}">Completed</a>
+            <a class="dropdown-item" href="{{route('appointments')}}">All</a>
+          </div>
+        </div>
+      </div>
       <div class="card">
         <div class="card-header">
           <h3 class="card-title">DataTable with default features</h3>

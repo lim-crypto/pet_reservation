@@ -29,16 +29,55 @@
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
-            <a class="btn btn-success mb-3" href="{{route('pets.create')}}">Add Pet</a>
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">DataTable with default features</h3>
+            <a class="btn btn-success btn-sm mb-3" href="{{route('pets.create')}}">Add Pet</a>
+            <div class="float-right  d-flex">
+                <h4 class="text-muted">Filter : &nbsp; </h4>
+                <div class="dropdown">
+                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                        Status
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{{route('getPetsByStatus','available')}}">available</a>
+                        <a class="dropdown-item" href="{{route('getPetsByStatus','not available')}}">not available</a>
+                        <a class="dropdown-item" href="{{route('getPetsByStatus','reserved')}}">reserved</a>
+                        <a class="dropdown-item" href="{{route('getPetsByStatus','adopted')}}">adopted</a>
+                        <a class="dropdown-item" href="{{route('getPetsByStatus','for breed')}}">For breed</a>
+                    </div>
                 </div>
 
+                <div class="dropdown">
+                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                        Type
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        @foreach(App\Model\Type::all() as $type )
+                        <a class="dropdown-item" href="{{route('getPetsByType',$type->slug)}}">
+                            {{$type->name}}
+                        </a>
+                        @endforeach
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                        Breed
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        @foreach(App\Model\Breed::all() as $breed )
+                        <a class="dropdown-item" href="{{route('getPetsByBreed',$breed->slug)}}">
+                            {{$breed->name}}
+                        </a>
+                        @endforeach
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card">
                 <div class="card-body">
                     <table id="table" class="table table-hover table-striped">
                         <thead>
-                            <tr" >
+                            <tr">
                                 <th>No.</th>
                                 <th>Pet name</th>
                                 <th>Pet type</th>
@@ -47,15 +86,15 @@
                                 <th>Status</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
-                            </tr>
+                                </tr>
                         </thead>
                         <tbody>
 
                             @foreach ($pets as $pet)
-                            <tr  class='clickable-row' data-href="{{route('petDetails',$pet->slug)}}">
+                            <tr class='clickable-row' data-href="{{route('petDetails',$pet->slug)}}">
                                 <td>{{$loop->index+1}}</td>
                                 <td>{{$pet->name}}</td>
-                                <td>{{$pet->breed->type->name}} </td>
+                                <td>{{$pet->type->name}} </td>
                                 <td>{{$pet->breed->name}}</td>
                                 <td>{{ date('F d, Y', strtotime($pet->birthday))   }}</td>
                                 <td>

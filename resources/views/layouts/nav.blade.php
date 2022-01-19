@@ -15,12 +15,10 @@
                     <a href="{{route('home')}}#home" class="nav-link">Home</a>
                 </li>
 
-
+                @if(App\Model\Type::all()->count() > 1)
                 <li class="nav-item dropdown d-flex flex-nowrap">
                     <a href="{{route('home')}}#pets" class="nav-link float-left pr-0">Pets</a>
-                    <a class="nav-link dropdown-toggle float-left pl-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-
-                    </a>
+                    <a class="nav-link dropdown-toggle float-left pl-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></a>
                     <ul class="dropdown-menu dropdown-menu-left">
                         @foreach(App\Model\Type::all() as $type )
                         <a class="dropdown-item" href="{{route('petType',$type->slug)}}">
@@ -31,6 +29,12 @@
                         <a href="{{route('pets')}}" class="dropdown-item"> All Pets</a>
                     </ul>
                 </li>
+                @else
+                <li class="nav-item ">
+                    <a href="{{route('pets')}}" class="nav-link">Pets</a>
+                </li>
+                @endif
+
                 <li class="nav-item ">
                     <a href="{{route('home')}}#services" class="nav-link">Services</a>
                 </li>
@@ -53,10 +57,14 @@
                 @else
                 @if(Auth::user()->is_admin)
                 <li class="nav-item ">
-                    <a href="{{route('reservations')}}" class="nav-link">Reservation</a>
+                    <a href="{{ route('admin.home') }}" class="nav-link">Dashboard</a>
                 </li>
                 <li class="nav-item ">
-                    <a href="{{route('appointments')}}" class="nav-link">Appointment</a>
+                    <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
                 </li>
                 @else
                 <li class="nav-item ">
@@ -65,24 +73,14 @@
                 <li class="nav-item ">
                     <a href="{{route('user.appointments')}}" class="nav-link">Appointment</a>
                 </li>
-                @endif
                 <li class="nav-item dropdown">
-
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         {{ Auth::user()->getName() }}
                     </a>
-
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <!-- if admin -->
-                        @if(Auth::user()->is_admin)
-                        <a class="dropdown-item" href="{{ route('admin.home') }}">
-                            {{ __('Dashboard') }}
-                        </a>
-                        @else
                         <a class="dropdown-item" href="{{route('profile')}}">Profile</a>
-                        @endif
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                                        document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}
                         </a>
 
@@ -91,6 +89,8 @@
                         </form>
                     </div>
                 </li>
+                @endif
+
                 @endguest
             </ul>
         </div>

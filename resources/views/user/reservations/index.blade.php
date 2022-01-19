@@ -89,11 +89,11 @@
                 </div>
                 <div class="card-body">
                     <a class="btn custom-bg-color btn-block" href="{{route('user.reservations')}}">All</a>
-                    <a class="btn custom-bg-color btn-block" href="{{route('getByStatus','pending')}}">Pending</a>
-                    <a class="btn custom-bg-color btn-block" href="{{route('getByStatus','approved')}}">Approved</a>
-                    <a class="btn custom-bg-color btn-block" href="{{route('getByStatus','cancelled')}}">Cancelled</a>
-                    <a class="btn custom-bg-color btn-block" href="{{route('getByStatus','rejected')}}">Rejected</a>
-                    <a class="btn custom-bg-color btn-block" href="{{route('getByStatus','completed')}}">Completed</a>
+                    <a class="btn custom-bg-color btn-block" href="{{route('getReservationByStatus','pending')}}">Pending</a>
+                    <a class="btn custom-bg-color btn-block" href="{{route('getReservationByStatus','approved')}}">Approved</a>
+                    <a class="btn custom-bg-color btn-block" href="{{route('getReservationByStatus','cancelled')}}">Cancelled</a>
+                    <a class="btn custom-bg-color btn-block" href="{{route('getReservationByStatus','rejected')}}">Rejected</a>
+                    <a class="btn custom-bg-color btn-block" href="{{route('getReservationByStatus','completed')}}">Completed</a>
                 </div>
             </div>
         </div>
@@ -117,7 +117,7 @@
                 <form id="cancel-form" action="" method="POST">
                     @csrf
                     @method('PUT')
-                    <button type="sumbit" class="btn btn-danger">Cancel</button>
+                    <button type="sumbit" class="btn btn-danger">Yes</button>
                 </form>
             </div>
         </div>
@@ -136,18 +136,43 @@
             <form id="edit-form" action="" method="POST" class="needs-validation" novalidate="">
                 @csrf
                 @method('PUT')
-                <div class="modal-body">
-                    <!-- Date and time -->
-                    <div class="form-group">
-                        <label>Date and time:</label> <span class="text-info small">please pick a date within 7 days from now</span>
-                        <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
-                            <input type="text" class="form-control datetimepicker-input" name="date" id="date" data-target="#reservationdatetime" data-toggle="datetimepicker" required />
-                            <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
-                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                <div class="modal-body row">
+                    <div class="col-6">
+                        <!-- Date -->
+                        <div class="form-group">
+                            <label>Date:</label>
+                            <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                                <input type="text" name="date" id="date" class="form-control datetimepicker-input" data-target="#reservationdate" data-toggle="datetimepicker" required>
+                                <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <span class="text-info small float-right mb-1"><i>note: your reservation will expire after 7days on the day of reservation date if not process</i></span>
+                    <!-- time -->
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="time">Time:</label>
+                            <div class="input-group">
+                                <select class="form-control" name="time" id="time">
+                                    <option value="07:00 AM">7:00 AM</option>
+                                    <option value="08:00 AM">8:00 AM</option>
+                                    <option value="09:00 AM">9:00 AM</option>
+                                    <option value="10:00 AM">10:00 AM</option>
+                                    <option value="11:00 AM">11:00 AM</option>
+                                    <option value="12:00 PM">12:00 PM</option>
+                                    <option value="01:00 PM">1:00 PM</option>
+                                    <option value="02:00 PM">2:00 PM</option>
+                                    <option value="03:00 PM">3:00 PM</option>
+                                    <option value="04:00 PM">4:00 PM</option>
+                                    <option value="05:00 PM">5:00 PM</option>
+                                </select>
+                                <div class="input-group-append">
+                                    <div class="input-group-text"><i class="fa fa-clock"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -171,16 +196,14 @@
 <script src="{{ asset('js/form-validation.js') }}"></script>
 <script>
     $(function() {
-        //Date and time picker
-        $('#reservationdatetime').datetimepicker({
-            minDate: new Date(),
+        //Date picker
+        $('#reservationdate').datetimepicker({
+            minDate: new Date(new Date().getTime() + (1 * 24 * 60 * 60 * 1000)),
             maxDate: new Date(new Date().getTime() + (7 * 24 * 60 * 60 * 1000)),
-            sideBySide: true,
-
+            format: 'L'
         });
     });
 </script>
-
 <script>
     // cancel
     $('.cancelModal').click(function() {
@@ -193,9 +216,16 @@
     $('.editModal').click(function() {
         const date = $(this).attr('data-date');
         const link = $(this).attr('data-link');
-        const dateFormat = moment(date).format('MM/DD/YYYY hh:mm A');
-        $('#date').val(dateFormat);
+        const dateFormat = moment(date).format('MM/DD/YYYY');
+        const time = moment(date).format('hh:mm A');
         $('#edit-form').attr('action', link);
+        $('#date').val(dateFormat);
+        $('#time').val(time);
+        $('#time').find('option').each(function() {
+            if ($(this).val() == time) {
+                $(this).attr('selected', 'selected');
+            }
+        });
     });
 </script>
 @endsection

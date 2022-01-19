@@ -9,15 +9,32 @@
     <div class="row justify-content-center">
         <div class="col-12">
             @if($pets->count() > 0)
-            <h1 class="text-center py-5">Pet Collections</h1>
+            <h1 class="text-center py-5">
+                @if(session()->has('pet'))
+                {{session()->get('pet')}}
+                {{session()->forget('pet')}}
+                @else
+                Pets
+                @endif
+                Collections
+            </h1>
             @else
-            <h1 class="text-center text-muted py-5">No Pets Available</h1>
+            <h1 class="text-center text-muted py-5">
+                No
+                @if(session()->has('pet'))
+                {{session()->get('pet')}}
+                {{session()->forget('pet')}}
+                @else
+                Pets
+                @endif
+                Available
+            </h1>
             @endif
         </div>
 
         @foreach($pets as $pet)
         <div class="col-md-3">
-            <div class="card" >
+            <div class="card">
                 @foreach($pet->images as $image)
                 <a href="{{asset('storage/images/pets/'.$image)}}" data-toggle="lightbox{{$pet->id}}" data-gallery="gallery{{$pet->id}}">
                     <img src="{{asset('storage/images/pets/'.$image)}}" class="card-img-top {{++$loop->index == 1 ? '':'d-none'}} " alt=" {{$pet->name}}" style="height:250px; object-fit:cover;">

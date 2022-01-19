@@ -29,6 +29,8 @@
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
+        <a class="btn btn-success mb-3" href="{{route('breed.create')}}">Add Breed</a>
+
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Breed of Pets</h3>
@@ -43,18 +45,11 @@
                                     <option value="{{$type->id}}" @if(old('type_id')==$type->id) selected @endif >{{$type->name}}</option>
                                     @endforeach
                                 </select>
-                                <!-- <span class="invalid-feedback">
-                                    Type is required
-                                </span> -->
                                 <div class="input-group-append input-group-sm">
                                     <input type="text" class="form-control float-right {{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" id="type" placeholder="add pet Breed" required>
-                                    <!-- <span class="invalid-feedback">
-                                        Breed is required
-                                    </span> -->
                                     <button type="submit" class="btn btn-primary"><i class="fas fa-plus "></i></button>
                                 </div>
                             </div>
-
                         </form>
                     </div>
                 </div>

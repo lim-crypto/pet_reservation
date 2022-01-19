@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Model\Appointment;
+use App\Model\Pet;
 use App\Model\Reservation;
+use App\Model\User;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -33,12 +35,17 @@ class AdminController extends Controller
                 'stringEventId'
             );
         }
+        $reservation = Reservation::all()->count();
+        $appointment = Appointment::all()->count();
+        $pets = Pet::all()->count();
+        $users = User::all()->count();
+
 
 
 
 
 
         $calendar = \Calendar::addEvents($events) ;//add an array with addEvents
-        return view('admin.dashboard',  compact('calendar'));
+        return view('admin.dashboard',  compact('calendar', 'reservation','appointment','pets','users'));
     }
 }
