@@ -13,13 +13,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Starter Page</h1>
-        </div><!-- /.col -->
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">Starter Page</li>
-          </ol>
+          <h1 class="m-0">Appointments</h1>
         </div><!-- /.col -->
       </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -29,7 +23,7 @@
   <!-- Main content -->
   <div class="content">
     <div class="container-fluid">
-    <div class="d-flex">
+      <div class="d-flex">
         <h4 class="text-muted">Filter : &nbsp; </h4>
         <div class="dropdown">
           <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
@@ -46,9 +40,7 @@
         </div>
       </div>
       <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">DataTable with default features</h3>
-        </div>
+      
 
         <div class="card-body">
           <table id="table" class="table table-hover table-striped">
@@ -67,7 +59,7 @@
             </thead>
             <tbody>
               @foreach($appointments as $appointment)
-              <tr  class='clickable-row' data-href="{{route('appointment',$appointment->id)}}" >
+              <tr class='clickable-row' data-href="{{route('appointment',$appointment->id)}}">
                 <td>{{$appointment->created_at->diffForHumans()}}</td>
                 <td>{{$appointment->id}}</td>
                 <td>{{$appointment->user->getName()}}</td>
@@ -121,8 +113,8 @@
       "lengthChange": false,
       "autoWidth": false
     });
-        //  on click of row
-        $(".clickable-row").click(function() {
+    //  on click of row
+    $(".clickable-row").click(function() {
       window.location = $(this).data("href");
     }).css("cursor", "pointer");
 

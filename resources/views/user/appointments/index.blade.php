@@ -32,7 +32,7 @@
         <main>
             <div class="container py-4">
                 <div class="row justify-content-center">
-                    <div class="col-lg-6 col-md-12">
+                    <div class="col-lg-6 col-md-12" data-aos="fade-right">
                         <div class="card">
                             <div class="card-header">
                                 <a href="{{ route('appointment.create') }}" class="btn custom-bg-color float-right">
@@ -88,7 +88,7 @@
 
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-12">
+                    <div class="col-lg-6 col-md-12" data-aos="fade-left">
                         <div class="card card-outline card-success ">
                             {!! $calendar->calendar() !!}
                             {!! $calendar->script() !!}

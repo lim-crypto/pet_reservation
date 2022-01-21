@@ -23,7 +23,7 @@
                         <a href="{{route('petDetails', $reservation->pet->slug)}}">
                             <img src="{{asset('storage/images/pets/'.$reservation->pet->images[0])}}" class="card-img-top" alt="{{$reservation->pet->name}}" title="view info" style="height:250px; object-fit:cover;">
                         </a>
-                        <div class="card-body pb-0">
+                        <div class="card-body pb-0" >
                             <h5 class="card-title">{{$reservation->pet->breed->name}}</h5>
                             @if($reservation->status == 'pending')
                             <span class="badge badge-warning float-right">Pending</span>
@@ -80,7 +80,7 @@
                 {!! $reservations->links() !!}
             </div>
         </div>
-        <div class="col-md-2 col-sm-12 mt-2 order-lg-1">
+        <div class="col-md-2 col-sm-12 mt-2 order-lg-1"  data-aos="fade-up-right">
             <div class="card mt-md-5">
                 <div class="card-header">
                     <h4>

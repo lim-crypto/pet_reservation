@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{{asset('Adminlte/plugins/ekko-lightbox/ekko-lightbox.css')}}">
 @endsection
 @section('content')
-<div class="container py-4">
+<div class="container py-4 mb-5" >
     <div class="row justify-content-center">
         <div class="col-12">
             @if($pets->count() > 0)
@@ -33,7 +33,7 @@
         </div>
 
         @foreach($pets as $pet)
-        <div class="col-md-3">
+        <div class="col-md-3 mb-5" data-aos="zoom-out" >
             <div class="card">
                 @foreach($pet->images as $image)
                 <a href="{{asset('storage/images/pets/'.$image)}}" data-toggle="lightbox{{$pet->id}}" data-gallery="gallery{{$pet->id}}">

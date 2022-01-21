@@ -24,7 +24,7 @@
 
 
 @section('content')
-<div class="container py-4">
+<div class="container py-4" data-aos="zoom-out">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card">
