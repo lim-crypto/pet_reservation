@@ -12,7 +12,7 @@
 @section('content')
 <div class="container py-4">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-8" data-aos="zoom-in">
             <div class="card">
                 <h1 class="card-header text-success">Appointment Form</h1>
 
