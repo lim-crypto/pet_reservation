@@ -28,19 +28,19 @@
   </div>
 </div>
 <div class="container py-4">
-  @if(App\Model\Breed::all()->count() > 0)
+  @if(App\Model\Type::all()->count() > 0)
   <section id="pets" class="row justify-content-center pt-5">
     <div class="col-12">
       <h1 class="text-center text-success">Our Pets</h1>
     </div>
-    @foreach(App\Model\Breed::all() as $breed)
+    @foreach(App\Model\Type::all() as $type)
 
     <div class="col-lg-3 col-md-5 col-8 p-4" data-aos="zoom-in">
-      <a href="{{route('petBreed',$breed->slug)}}">
+      <a href="{{route('petType',$type->slug)}}">
         <div class="card custom-border custom-bg-color h-100">
           <div class="card-body text-center">
             <h2 class="card-text ">
-              {{$breed->name}}
+              {{$type->name}}
             </h2>
           </div>
         </div>

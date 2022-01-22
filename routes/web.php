@@ -16,8 +16,7 @@ Route::get('/pets', 'PetController@index')->name('pets');
 Route::get('/pet/{pet}', 'PetController@show')->name('petDetails');
 // get pet by type
 Route::get('/type/{type}/pets', 'PetController@getByType')->name('petType');
-// get pet by breed
-Route::get('/breed/{breed}/pets', 'PetController@getByBreed')->name('petBreed');
+
 
 Route::group(['prefix' => 'services'], function () {
     Route::get('/', 'HomeController@services')->name('services');
