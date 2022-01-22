@@ -40,7 +40,7 @@
         </div>
       </div>
       <div class="card">
-      
+
 
         <div class="card-body">
           <table id="table" class="table table-hover table-striped">
@@ -66,7 +66,7 @@
                 <td>{{$appointment->user->email}}</td>
                 <td>{{$appointment->user->contact_number}}</td>
                 <td>{{$appointment->purpose}}</td>
-                <td>{{date('F m, Y h:m:s a', strtotime($appointment->date))}}</td>
+                <td>{{date('F d, Y h:i:s a', strtotime($appointment->date))}}</td>
                 <td>
                   @if($appointment->status == 'pending')
                   <span class="badge badge-warning">Pending</span>

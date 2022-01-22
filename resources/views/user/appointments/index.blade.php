@@ -58,7 +58,8 @@
                                         <tr>
                                             <td>{{++$loop->index}}</td>
                                             <td>{{$appointment->purpose}}</td>
-                                            <td>{{$appointment->date}}</td>
+                                            <td>{{date('F d, Y h:i:s a', strtotime($appointment->date))}}</td>
+
                                             <td>
                                                 @if($appointment->status == 'pending')
                                                 <span class="badge badge-warning">{{$appointment->status}}</span>
