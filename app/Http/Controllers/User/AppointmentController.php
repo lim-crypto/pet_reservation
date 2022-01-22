@@ -42,7 +42,13 @@ class AppointmentController extends Controller
      */
     public function create()
     {
-        return view('user.appointments.create');
+        $appointments = Appointment::all();
+        $dates=[];
+        foreach ($appointments as $appointment) {
+                $dates[] = $appointment->date;
+        }
+        $dates = json_encode($dates);
+        return view('user.appointments.create', compact('dates'));
     }
 
     /**

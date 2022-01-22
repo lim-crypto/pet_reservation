@@ -122,12 +122,18 @@
 <script src="{{ asset('Adminlte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 <!-- form validation -->
 <script src="{{ asset('js/form-validation.js') }}"></script>
+
 <script>
+var dates = {!! $dates !!};
+
+console.log(dates);
+
     $(function() {
         //Date picker
         $('#reservationdate').datetimepicker({
             minDate: new Date(new Date().getTime() + (1 * 24 * 60 * 60 * 1000)),
-            format: 'L'
+            format: 'L',
+            disabledDates: dates
         });
     });
 </script>
