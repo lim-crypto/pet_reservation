@@ -23,14 +23,14 @@
                             <div class="col-6">
                                 <!-- first name -->
                                 <div class="form-group">
-                                    <label for="">First name</label>
+                                    <label for="">First name</label> <span class="text-danger">*</span>
                                     <input type="text" class="form-control" name="first_name" placeholder="Enter your first name" value="{{ old('first_name') ? old('first_name') : auth()->user()->first_name}}" required>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <!-- last name -->
                                 <div class="form-group">
-                                    <label for="">Last name</label>
+                                    <label for="">Last name</label> <span class="text-danger">*</span>
                                     <input type="text" class="form-control" name="last_name" placeholder="Enter your last name" value="{{ old('last_name') ? old('last_name') : auth()->user()->last_name}}" required>
                                 </div>
                             </div>
@@ -46,7 +46,7 @@
                             <div class="col-6">
                                 <!-- contact number -->
                                 <div class="form-group">
-                                    <label for="">Contact number</label>
+                                    <label for="">Contact number</label> <span class="text-danger">*</span>
                                     <input type="tel" class="form-control" name="contact_number" placeholder="Enter your contact number" value="{{ old('contact_number') ? old('contact_number') : auth()->user()->contact_number}}" required>
                                 </div>
                             </div>
@@ -55,11 +55,11 @@
                             <div class="col-6">
                                 <!-- Date -->
                                 <div class="form-group">
-                                    <label>Date:</label>
+                                    <label>Date:</label> <span class="text-danger">*</span>
                                     <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                        <input type="text" name="date" class="form-control datetimepicker-input" data-target="#reservationdate" data-toggle="datetimepicker" required>
+                                        <input id="date" type="text" name="date" class="form-control datetimepicker-input" data-target="#reservationdate" data-toggle="datetimepicker" required>
                                         <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                            <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
                                         </div>
                                     </div>
                                 </div>
@@ -67,9 +67,10 @@
                             <!-- time -->
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label for="time">Time:</label>
+                                    <label for="time">Time:</label> <span class="text-danger">*</span>
                                     <div class="input-group">
-                                        <select class="form-control" name="time" id="time">
+                                        <select class="form-control" name="time" id="time"  required disabled>
+                                            <option disabled selected value="">Select time</option>
                                             <option value="7:00 AM">7:00 AM</option>
                                             <option value="8:00 AM">8:00 AM</option>
                                             <option value="9:00 AM">9:00 AM</option>
@@ -93,15 +94,25 @@
                             <div class="col-6">
                                 <!-- select purpose -->
                                 <div class="form-group">
-                                    <label for="">Purpose</label>
-                                    <select class="form-control" name="purpose" required>
-                                        <option value="">Select purpose</option>
-                                        <!-- Pet Grooming -->
-                                        <option value="Pet Grooming" {{ old('purpose') == 'Pet Grooming' ? 'selected' : ''}}>Pet Grooming</option>
-                                        <!-- Pet Boarding -->
-                                        <option value="Pet Boarding" {{ old('purpose') == 'Pet Boarding' ? 'selected' : ''}}>Pet Boarding</option>
-                                        <!-- Pet Breeding -->
-                                        <option value="Pet Breeding" {{ old('purpose') == 'Pet Breeding' ? 'selected' : ''}}>Pet Breeding</option>
+                                    <label for="service">Service</label> <span class="text-danger">*</span>
+                                    <select id="service" class="form-control" name="purpose" required>
+                                        <option selected disabled value="">Select Service</option>
+                                        @foreach ($services as $service)
+                                        <option value="{{$service->service}}">{{$service->service}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="offer">Offer</label> <span class="text-danger">*</span>
+                                    <select class="form-control" name="offer" id="offer" required disabled>
+                                        <option selected disabled data-service="" value="">Select offer</option>
+                                        @foreach($services as $service)
+                                        @foreach($service->offer as $offer)
+                                        <option data-service="{{$service->service}}" value="{{$offer->offer}}">{{$offer->offer }}&nbsp;&nbsp;&nbsp; &#8369; &nbsp;{{$offer->price }}</option>
+                                        @endforeach
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -124,16 +135,44 @@
 <script src="{{ asset('js/form-validation.js') }}"></script>
 
 <script>
-var dates = {!! $dates !!};
+var disabledDates = {!! $disabledDates!!};
+    $('#reservationdate').datetimepicker({
+        minDate: new Date(),
+        format: 'L',
+        disabledDates: disabledDates,
+    });
 
-console.log(dates);
+    var dates = {!! $dates !!};
+    $('#date').blur( function() {
+        var date = $(this).val();
+        if (date == moment().format('L')) {
+            $(this).val(''); // if today is selected, clear the field
+        }
+        var date_format = moment(date, 'MM-DD-YYYY').format('YYYY-MM-DD');
+        $('#time').removeAttr('disabled');
+        $('div.form-group').find('#time').find('option').each(function() {
+            if ($(this).val() != '') { // if not empty || <option disabled value="">Select time</option>
+                var time = $(this).val();
+                var time_format = moment(time, 'hh:mm A').format('HH:mm:ss');
+                if (dates.includes(date_format + ' ' + time_format)) {
+                    $(this).attr('disabled', 'disabled').text(time + ' not available');
+                    $('#time').val('');
+                } else {
+                    $(this).removeAttr('disabled').text(time);
+                }
+            }
+        });
+    });
+    $('#service').change(function() {
+        $('#offer').removeAttr('disabled').val('');
 
-    $(function() {
-        //Date picker
-        $('#reservationdate').datetimepicker({
-            minDate: new Date(new Date().getTime() + (1 * 24 * 60 * 60 * 1000)),
-            format: 'L',
-            disabledDates: dates
+        var service = $(this).val().toLowerCase();
+        $('div.form-group').find('#offer').find('option').each(function() {
+            if ($(this).attr('data-service').toLowerCase() == service) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
         });
     });
 </script>

@@ -50,60 +50,36 @@
     @endforeach
   </section>
   @endif
+  @if(App\Model\Service::all()->count() > 0)
   <section id="services" class="row justify-content-center pt-5">
     <div class="col-12 text-center">
       <h1 class="text-center custom-color">Pet Services</h1>
     </div>
-    <div class="col-lg-3 col-md-5 col-8 p-4" data-aos="fade-right">
-      <div class="card custom-border h-100">
-        <img src="https://static.onecms.io/wp-content/uploads/sites/24/2020/05/28/2640602_petsHiGettyImages-1068118124-2000.jpg" class="card-img-top" height="250px" style="object-fit:cover;" alt="">
-        <div class="card-body">
-          <h5 class="card-title">
-            <i class="fas fa-paw"></i>
-            Pet Grooming
-          </h5>
-          <p class="card-text">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Quisquam, quidem.
-          </p>
-        </div>
-      </div>
-    </div>
+    @foreach(App\Model\Service::all() as $service)
     <div class="col-lg-3 col-md-5 col-8 p-4" data-aos="fade-up">
       <div class="card custom-border h-100">
-        <img src="https://www.thesprucepets.com/thmb/uC46sc1p1rJg_hiOII07kt6DAlY=/500x350/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-603295352-18b15258214f4777855e337a1adee185.jpg" class="card-img-top" style="object-fit:cover;" height="250px" alt="">
+        <img src="{{asset('storage/images/service/'.$service->image)}}" class="card-img-top" style="object-fit:cover;" height="250px" alt="">
         <div class="card-body">
           <!-- pet boarding -->
           <h5 class="card-title">
             <i class="fas fa-paw"></i>
-            Pet Boarding
+            {{$service->service}}
           </h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <p class="card-text text-truncate">{{$service->description}}</p>
+        </div>
+        <div class="card-footer">
+        <a href="{{route('serviceDetails', $service->id)}}" class="btn btn-sm custom-bg-color">Read more</a>
 
         </div>
+
       </div>
     </div>
-    <div class="col-lg-3 col-md-5 col-8 p-4" data-aos="fade-left">
-      <div class="card custom-border h-100">
-        <img src="https://www.petbacker.com/blog/images/2016/basket-of-dogs.jpg" class="card-img-top" height="250px" style="object-fit:cover;" alt="">
-        <div class="card-body">
-          <!-- pet boarding -->
-          <h5 class="card-title">
-            <i class="fas fa-paw"></i>
-            Pet Breeding
-          </h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-
-        </div>
-      </div>
-    </div>
-
-
+    @endforeach
     <div class="col-12 text-center py-5">
-      <a href="{{route('appointment.create')}}" class="btn btn-lg custom-bg-color"> Make an appointment now </a>
+      <a href="{{route('appointment.create')}}" class="btn btn-lg custom-bg-color"> Book appointment now </a>
     </div>
   </section>
-
+  @endif
 
   <!-- ======= About Us Section ======= -->
   <section id="about">
@@ -130,7 +106,7 @@
   <!-- ======= Contact Section ======= -->
   <section id="contact" data-aos="fade-up">
     <div class="container py-5">
-      <div class="section-title text-center pb-5" >
+      <div class="section-title text-center pb-5">
         <h1>Contact Us</h1>
       </div>
       <div class="row justify-content-md-center">

@@ -16,13 +16,12 @@ Route::get('/pets', 'PetController@index')->name('pets');
 Route::get('/pet/{pet}', 'PetController@show')->name('petDetails');
 // get pet by type
 Route::get('/type/{type}/pets', 'PetController@getByType')->name('petType');
-
+// get pet by breed
+Route::get('/breed/{breed}/pets', 'PetController@getByBreed')->name('petBreed');
 
 Route::group(['prefix' => 'services'], function () {
     Route::get('/', 'HomeController@services')->name('services');
-    Route::get('/grooming', 'HomeController@grooming')->name('grooming');
-    Route::get('/pet-boarding', 'HomeController@petBoarding')->name('petBoarding');
-    Route::get('/breeding', 'HomeController@breeding')->name('breeding');
+    Route::get('/{service}', 'HomeController@serviceDetails')->name('serviceDetails');
 });
 Route::get('/about', 'HomeController@about')->name('about');
 
@@ -65,11 +64,13 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'admi
     // get appointment by status
     Route::get('/appointment/status/{status}', 'AppointmentController@appointmentByStatus')->name('appointmentByStatus');
 
-    // users
-    Route::get('/users','UserController@index')->name('users.index');
-    Route::get('/user/{user}','UserController@show')->name('user');
-    Route::put('/user/ban/{user}', 'UserController@ban')->name('banUser');
+    // services
+    Route::resource('/services','ServiceController');
 
+    // users
+    Route::get('/users', 'UserController@index')->name('users.index');
+    Route::get('/user/{user}', 'UserController@show')->name('user');
+    Route::put('/user/ban/{user}', 'UserController@ban')->name('banUser');
 });
 
 //user routes

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\Pet;
+use App\Model\Service;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -32,21 +33,11 @@ class HomeController extends Controller
     {
         return view('services.index');
     }
-    public function grooming()
+    public function serviceDetails(Service $service)
     {
-        return view('services.grooming');
+        $service->offer = json_decode($service->offer);
+        return view('services.show', compact('service'));
     }
-    public function petBoarding()
-    {
-        return view('services.petboarding');
-    }
-    public function breeding()
-    {
-        return view('services.breeding');
-    }
-    public function about()
-    {
-        return view('about');
-    }
+
 
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Model\Appointment;
+use App\Model\Service;
 use App\Model\User;
 use Illuminate\Http\Request;
 
@@ -42,13 +43,27 @@ class AppointmentController extends Controller
      */
     public function create()
     {
-        $appointments = Appointment::all();
-        $dates=[];
-        foreach ($appointments as $appointment) {
-                $dates[] = $appointment->date;
+        $services = Service::all();
+        foreach ($services as $service) {
+            $service->offer = json_decode($service->offer);
         }
+        $appointments = Appointment::all();
+        $dates = [];
+        $booked = [];
+        $disabledDates = [];
+        foreach ($appointments as $appointment) {
+            $dates[] = $appointment->date;
+            $booked[] = date('Y-m-d', strtotime($appointment->date));
+        }
+        $booked = array_count_values($booked);
+        foreach ($booked as $key => $value) {
+            if ($value > 7) {
+                $disabledDates[] = $key;
+            }
+        }
+        $disabledDates = json_encode($disabledDates);
         $dates = json_encode($dates);
-        return view('user.appointments.create', compact('dates'));
+        return view('user.appointments.create', compact('dates', 'services', 'disabledDates'));
     }
 
     /**
