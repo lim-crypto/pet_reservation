@@ -1,11 +1,7 @@
 @extends('admin.layouts.app')
 @section('style')
-<!-- Select2 -->
-<link rel="stylesheet" href="{{asset('Adminlte/plugins/select2/css/select2.min.css')}}">
 <!-- summernote -->
 <link rel="stylesheet" href="{{asset('Adminlte/plugins/summernote/summernote-bs4.min.css')}}">
-<!-- daterange picker -->
-<link rel="stylesheet" href="{{asset('Adminlte/plugins/daterangepicker/daterangepicker.css')}}">
 <!-- Tempusdominus Bootstrap 4 -->
 <link rel="stylesheet" href="{{asset('Adminlte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
 <!-- Ekko Lightbox -->
@@ -21,6 +17,10 @@
     /* Firefox */
     input[type=number] {
         -moz-appearance: textfield;
+    }
+
+   .ekko-lightbox .modal-dialog .modal-content .modal-body {
+        padding: 0px;
     }
 </style>
 @endsection
@@ -68,12 +68,12 @@
                                         <!-- type -->
                                         <div class="form-group">
                                             <label for="type">Type</label> <span class="text-danger">*</span>
-                                            <input id="type" class="form-control" name="type" list="datalistOptions" placeholder="Type to search..." required value="{{old('type')}}">
-                                            <datalist id="datalistOptions">
+                                            <select name="type_id" id="type" class="form-control  {{ $errors->has('type_id') ? ' is-invalid' : '' }}" required>
+                                                <option value="" selected disabled>Select Pet type</option>
                                                 @foreach($types as $type)
-                                                <option data-type_id="{{$type->id}}" value="{{$type->name}}">{{$type->name}}</option>
+                                                <option value="{{$type->id}}">{{$type->name}}</option>
                                                 @endforeach
-                                            </datalist>
+                                            </select>
                                             <span class="invalid-feedback" role="alert">
                                                 Type is required
                                             </span>
@@ -83,12 +83,12 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="breed">Breed</label> <span class="text-danger">*</span>
-                                            <input id="breed" name="breed" class="form-control  {{ $errors->has('breed') ? ' is-invalid' : '' }}" list="datalistOptions2" placeholder="Type to search..." disabled required value="{{old('breed')}}">
-                                            <datalist id="datalistOptions2">
+                                            <select id="breed" name="breed_id" class="form-control  {{ $errors->has('breed_id') ? ' is-invalid' : '' }}" disabled required>
+                                                <option value="" selected disabled>Select Pet Breed</option>
                                                 @foreach ($breeds as $breed)
-                                                <option data-breed_type_id="{{$breed->type->id}}" value="{{$breed->name}}">{{$breed->name}}</option>
+                                                <option data-breed_type_id="{{$breed->type->id}}" value="{{$breed->id}}">{{$breed->name}}</option>
                                                 @endforeach
-                                            </datalist>
+                                            </select>
                                             <span class="invalid-feedback" role="alert">
                                                 Breed is required
                                             </span>
@@ -97,7 +97,6 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-6">
-
                                         <div class="form-group">
                                             <label for="name">Name</label> <span class="text-danger">*</span>
                                             <input type="text" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" id="name" name="name" placeholder="Enter Name" required value="{{old('name')}}">
@@ -105,13 +104,12 @@
                                                 Name is required
                                             </span>
                                         </div>
-
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label> Birthday </label> <span class="text-danger">*</span> <span class="text-info small">mm/dd/yyyy</span>
                                             <div class="input-group date" id="birthday" data-target-input="nearest">
-                                                <input type="text" class="form-control datetimepicker-input  {{ $errors->has('birthday') ? ' is-invalid' : '' }}" name="birthday" data-target="#birthday" placeholder="Enter Birthday" required value="{{date('m/d/Y', strtotime(old('birthday')))}}">
+                                                <input type="text" class="form-control datetimepicker-input  {{ $errors->has('birthday') ? ' is-invalid' : '' }}" name="birthday" data-target="#birthday" data-toggle="datetimepicker" placeholder="Enter Birthday" required value="{{old('birthday') ? date('m/d/Y', strtotime(old('birthday'))): '' }}" autocomplete="off">
                                                 <div class="input-group-append" data-target="#birthday" data-toggle="datetimepicker">
                                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                 </div>
@@ -159,7 +157,6 @@
                                                 <option value="" selected disabled hidden>Select Status</option>
                                                 <option {{old('status') == 'available' ? 'selected' : ''}} value="available">Available</option>
                                                 <option {{old('status') == 'not available' ? 'selected' : ''}} value="not available">Not Available</option>
-                                                <option {{old('status') == 'for breed' ? 'selected' : ''}} value="for breed">For Breeding</option>
                                             </select>
                                             <span class="invalid-feedback" role="alert">
                                                 Status is required
@@ -190,8 +187,19 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="gallery w-100 row   m-0">
+
                                     </div>
                                 </div>
+                                @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                @endif
+
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
@@ -227,8 +235,6 @@
 <script src="{{asset('Adminlte/plugins/summernote/summernote-bs4.min.js')}}"></script>
 <!-- InputMask -->
 <script src="{{ asset('Adminlte/plugins/moment/moment.min.js') }}"></script>
-<!-- date-range-picker -->
-<script src="{{ asset('Adminlte/plugins/daterangepicker/daterangepicker.js') }}"></script>
 <!-- Tempusdominus Bootstrap 4 -->
 <script src="{{ asset('Adminlte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 <!-- form validation -->
@@ -239,12 +245,30 @@
 
 <!-- Page specific script -->
 <script>
+    function findSameTypeId($type) {
+        $('#breed').find('option').each(function() {
+            if ($(this).attr('data-breed_type_id') == type) {
+                $(this).show();
+                $(this).removeAttr('disabled');
+            } else {
+                $(this).hide();
+                $(this).attr('disabled', 'disabled');
+            }
+        });
+    }
+
+    //check the value of type
+    var type = $('#type').val();
+    findSameTypeId(type);
+    $('#type').change(function() {
+        $('#breed').removeAttr('disabled');
+        type = $(this).val();
+        $('#breed').val('');
+        findSameTypeId(type);
+    });
     $(function() {
-        //Initialize Select2 Elements
-        $('.select2').select2()
-
+        // custom file input
         bsCustomFileInput.init();
-
         // Summernote
         $('#summernote').summernote({
             toolbar: [
@@ -262,32 +286,6 @@
             format: 'L',
             maxDate: new Date()
         });
-
-    })
-    if ($('#type').val()) {
-        $('input[name="breed"]').removeAttr('disabled');
-    }
-
-    $('#type').change(function() {
-        $('input[name="breed"]').removeAttr('disabled');
-        var type = $(this).val().toLowerCase();
-        var type_id;
-        $('div.form-group').find('#datalistOptions').find('option').each(function() {
-            if ($(this).val().toLowerCase() == type) {
-                type_id = $(this).attr('data-type_id');
-            }
-        });
-        $('div.form-group').find('#datalistOptions2').find('option').each(function() {
-            if ($(this).attr('data-breed_type_id') == type_id) {
-                console.log($(this).attr('data-breed_type_id') + ' ' + type_id);
-                $(this).removeAttr('disabled');
-            } else {
-                $(this).attr('disabled', true);
-            }
-        });
-    });
-
-    $(function() {
         // Multiple images preview in browser
         var imagesPreview = function(input, placeToInsertImagePreview) {
             if (input.files) {
@@ -310,8 +308,7 @@
             $('.gallery').empty();
             imagesPreview(this, 'div.gallery');
         });
-    });
-    $(function() {
+
         $(document).on('click', '[data-toggle="lightbox"]', function(event) {
             event.preventDefault();
             $(this).ekkoLightbox();

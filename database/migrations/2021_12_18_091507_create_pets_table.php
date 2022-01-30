@@ -26,7 +26,7 @@ class CreatePetsTable extends Migration
             $table->date('birthday');
             $table->integer('weight')->nullable();
             $table->integer('height')->nullable();
-            $table->float('price', 8, 2);
+            $table->float('price', 8, 2)->nullable();
             $table->longText('description')->nullable();
             $table->string('status'); //   available or for sale // reserved //  adopted  // for breeding  ,
             $table->integer('user_id')->nullable();

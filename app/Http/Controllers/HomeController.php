@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\Helper;
 use App\Model\Pet;
 use App\Model\Service;
 use Illuminate\Http\Request;
@@ -13,10 +14,10 @@ class HomeController extends Controller
      *
      * @return void
      */
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+    public function __construct()
+    {
+        Helper::checkPetReservation();
+    }
 
     /**
      * Show the application dashboard.
@@ -29,15 +30,9 @@ class HomeController extends Controller
     }
 
     // services
-    public function services()
-    {
-        return view('services.index');
-    }
     public function serviceDetails(Service $service)
     {
         $service->offer = json_decode($service->offer);
         return view('services.show', compact('service'));
     }
-
-
 }

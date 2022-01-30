@@ -25,8 +25,8 @@ class PetRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'type' => 'required|string|max:255',
-            'breed' => 'required|string|max:255',
+            'type_id' => 'required|string|max:255',
+            'breed_id' => 'required|string|max:255',
             'price' => 'integer',
             'status' => 'required|string|max:255',
             'birthday' => 'required|date',

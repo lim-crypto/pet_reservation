@@ -1,9 +1,4 @@
 @extends('admin.layouts.app')
-@section('style')
-<!-- DataTables -->
-<link rel="stylesheet" href="{{asset('Adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
-<link rel="stylesheet" href="{{asset('Adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
-@endsection
 @section('main-content')
 
 <!-- Content Wrapper. Contains page content -->
@@ -23,62 +18,80 @@
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3 col-md-5 col-8 p-2" data-toggle="modal" data-target="#addModal">
+                    <summary class="card custom-border h-100">
+                        <div class="card-body d-flex justify-content-center align-items-center">
+                            <i class="fas fa-plus fa-5x text-success"></i>
+                        </div>
+                    </summary>
+                </div>
+                @foreach ( $types as $type)
+                <div class="col-lg-3 col-md-5 col-8 p-2" data-aos="fade-left">
+                    <div class="card custom-border h-100">
+                        <img src="{{asset('storage/images/type/'.$type->image)}}" class="card-img-top" height="250px" style="object-fit:cover;" alt="{{$type->name}}">
 
-            <div class="card">
-                <div class="card-header">
-                    <!-- tool -->
-                    <div class="card-tools">
-                        <form action="{{route('type.store')}}" method="POST" class="needs-validation" novalidate="">
-                            @csrf
-                            <div class="input-group input-group-sm" style="width: 200px;">
-                                <input type="text" class="form-control float-right {{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" id="type" placeholder="add pet type" required>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                {{$type->name}}
+                            </h5>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-outline-primary btn-sm editModal" data-toggle="modal" data-target="#editModal" data-name="{{$type->name}}" data-link="{{route('type.update', $type->slug)}}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button type="button" class="btn btn-outline-danger btn-sm deleteModal" data-toggle="modal" data-target="#deleteModal" data-name="{{$type->name}}" data-link="{{route('type.destroy', $type->slug)}}" @if ( $type->breed->count() ) disabled @endif>
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+
+            </div>
+            <div id="getType"></div>
+        </div>
+        <!-- add modal -->
+        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editeModalLabel">Add</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form id="add-form" action="{{route('type.store')}}" method="POST" class="needs-validation" novalidate="" enctype="multipart/form-data">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="type"> Add Type of Pets</label><span class="text-danger">*</span>
+                                <input type="text" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" id="addType" placeholder="title" value="" required>
                                 <span class="invalid-feedback" role="alert">
                                     Type is required
                                 </span>
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-primary"><i class="fas fa-plus "></i></button>
+                            </div>
+                            <div class="form-group">
+                                <label for="image">Image</label> <span class="text-danger">*</span>
+                                <div class="custom-file">
+                                    <input type="file" name="image" class="custom-file-input  {{ $errors->has('image') ? ' is-invalid'  :''  }}" accept="image/*" required>
+                                    <label class="custom-file-label" for="gallery-photo-add">Choose Image</label>
+                                    <div class="invalid-feedback">
+                                        Please choose image
+                                    </div>
                                 </div>
                             </div>
-
-                        </form>
-                    </div>
-                </div>
-
-                <div class="card-body">
-                    <table id="table" class="table table-sm table-striped">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Types of Pet</th>
-                                <th>Created At</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ( $types as $type)
-                            <tr>
-                                <td>{{$loop->index+1}}</td>
-                                <td>{{ $type->name}}</td>
-                                <td>{{ $type->created_at->diffForHumans()}}</td>
-                                <td>
-                                    <button type="button" class="btn btn-primary btn-sm editModal" data-toggle="modal" data-target="#editModal" data-name="{{$type->name}}" data-link="{{route('type.update', $type->slug)}}">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                <td>
-                                    <button type="button" class="btn btn-danger btn-sm deleteModal" data-toggle="modal" data-target="#deleteModal" data-name="{{$type->name}}" data-link="{{route('type.destroy', $type->slug)}}" @if ( $type->breed->count() ) disabled @endif>
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-
-                    </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="sumbit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div id="getType"></div>
-        </div><!-- /.container-fluid -->
+        </div>
         <!-- delete modal -->
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -113,7 +126,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form id="edit-form" action="" method="POST" class="needs-validation" novalidate="">
+                    <form id="edit-form" action="" method="POST" class="needs-validation" novalidate="" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="modal-body">
@@ -122,8 +135,18 @@
 
                                 <input type="text" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" id="editType" placeholder="title" value="" required>
                                 <span class="invalid-feedback" role="alert">
-                                    Type  is required
+                                    Type is required
                                 </span>
+                            </div>
+                            <div class="form-group">
+                                <label for="image">Image</label>
+                                <div class="custom-file">
+                                    <input type="file" name="image" class="custom-file-input  {{ $errors->has('image') ? ' is-invalid'  :''  }}" accept="image/*" >
+                                    <label class="custom-file-label" for="gallery-photo-add">Choose Image</label>
+                                    <div class="invalid-feedback">
+                                        Please choose image
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -143,24 +166,17 @@
 
 @section('script')
 
-<!-- DataTables  & Plugins -->
-<script src="{{asset('Adminlte/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('Adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-<script src="{{asset('Adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-<script src="{{asset('Adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
 <!-- jquery validation -->
 <script src="{{ asset('Adminlte/plugins/jquery-validation/jquery-validation.js') }}"></script>
+<!-- bs-custom-file-input -->
+<script src="{{asset('Adminlte/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
 
 <!-- Page specific script -->
 <script>
     $(function() {
-        $("#table").DataTable({
-            "responsive": true,
-            "lengthChange": false,
-            "autoWidth": false
-        });
-
+        bsCustomFileInput.init();
     });
+
     // delete
     $('.deleteModal').click(function() {
         const name = $(this).attr('data-name');

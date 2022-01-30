@@ -12,7 +12,7 @@ iframe {
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <iframe src="{{route('petDetails',$pet->slug)}}"  >
+    <iframe src="{{route('serviceDetails', $service->id)}}"  >
     </iframe>
     <!-- /.content -->
 </div>

@@ -41,14 +41,14 @@
           <div class="row">
             <div class="col-lg-3 col-6">
               <!-- small box -->
-              <div class="small-box bg-info">
+              <div class="small-box bg-primary">
                 <div class="inner">
                   <h3>{{$reservation}}</h3>
 
                   <p>Reservations</p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-bag"></i>
+                  <i class="fas fa-calendar-alt"></i>
                 </div>
                 <a href="{{route('reservations')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
@@ -62,7 +62,7 @@
                   <p>Appointments</p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-stats-bars"></i>
+                  <i class="fas fa-calendar-check nav-icon"></i>
                 </div>
                 <a href="{{route('appointments')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
@@ -78,7 +78,7 @@
                   <p>Pets</p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-pie-graph"></i>
+                  <i class="fas fa-paw"></i>
                 </div>
                 <a href="{{route('pets.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
@@ -102,9 +102,84 @@
 
           </div>
           <div class="row">
-            <div class="col-sm-6">
-              <div class="card">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-sm-6 mb-4">
+                  <div class="card card-outline card-primary h-100">
+                    <div class="card-header">
+                      <h1 class="card-title">
+                        Latest Reservations
+                      </h1>
+                    </div>
+                    <div class="card-body">
+                      @foreach($latestReservations as $reservation)
+                      <a href="{{route('reservation', $reservation->id)}}">
+                        <span class="text-muted small">{{ $reservation->created_at->diffForHumans()}}</span>
+                        <p class="card-text mb-2"> {{date('m/d/Y h a',strtotime($reservation->date))}}
+                          @if($reservation->status == 'pending')
+                          <span class="badge badge-warning">Pending</span>
+                          @elseif($reservation->status == 'approved')
+                          <span class="badge badge-success">Approved</span>
+                          @elseif($reservation->status == 'rejected')
+                          <span class="badge badge-danger">Rejected</span>
+                          @elseif($reservation->status == 'cancelled')
+                          <span class="badge badge-danger">Cancelled</span>
+                          @elseif($reservation->status == 'expired')
+                          <span class="badge badge-danger">Expired</span>
+                          @else
+                          <span class="badge badge-success">Completed</span>
+                          @endif
+                        </p>
+                      </a>
+                      <hr class="mb-2">
+                      @endforeach
 
+                    </div>
+                    <div class="card-footer">
+                      <a href="{{route('reservations')}}" class="btn btn-primary">View All</a>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col-sm-6 mb-4">
+                  <div class="card card-outline card-success h-100">
+                    <div class="card-header">
+                      <h1 class="card-title">
+                        Latest Appointment
+                      </h1>
+                    </div>
+                    <div class="card-body">
+                      @foreach($latestAppointments as $appointment)
+                      <span class="text-muted small">{{ $appointment->created_at->diffForHumans()}}</span>
+                      <p class="card-text mb-2"> {{date('m/d/Y h a',strtotime($appointment->date))}}
+                        @if($appointment->status == 'pending')
+                        <span class="badge badge-warning">Pending</span>
+                        @elseif($appointment->status == 'approved')
+                        <span class="badge badge-success">Approved</span>
+                        @elseif($appointment->status == 'rejected')
+                        <span class="badge badge-danger">Rejected</span>
+                        @elseif($appointment->status == 'cancelled')
+                        <span class="badge badge-danger">Cancelled</span>
+                        @elseif($appointment->status == 'expired')
+                        <span class="badge badge-danger">Expired</span>
+                        @else
+                        <span class="badge badge-success">Completed</span>
+                        @endif
+                      </p>
+                      <hr class="mb-2">
+                      @endforeach
+
+                    </div>
+                    <div class="card-footer">
+                      <a class="btn btn-success" href="{{route('appointments')}}">View All</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-6 mb-4">
+              <div class="card card-outline card-secondary">
                 {!! $calendar->calendar() !!}
                 {!! $calendar->script() !!}
               </div>

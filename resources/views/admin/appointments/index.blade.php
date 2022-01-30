@@ -47,26 +47,20 @@
             <thead>
               <tr>
                 <th>created at</th>
-                <th>No.</th>
                 <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Purpose</th>
-                <th>Date</th>
+                <th>Service</th>
+                <th>Date of visit</th>
                 <th>Status</th>
-
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
               @foreach($appointments as $appointment)
-              <tr class='clickable-row' data-href="{{route('appointment',$appointment->id)}}">
-                <td>{{$appointment->created_at->diffForHumans()}}</td>
-                <td>{{$appointment->id}}</td>
+              <tr>
+                <td class="small">{{date('m/d/Y h:i a',strtotime($appointment->created_at))}}</td>
                 <td>{{$appointment->user->getName()}}</td>
-                <td>{{$appointment->user->email}}</td>
-                <td>{{$appointment->user->contact_number}}</td>
-                <td>{{$appointment->purpose}}</td>
-                <td>{{date('F d, Y h:i:s a', strtotime($appointment->date))}}</td>
+                <td>{{$appointment->service}} - {{$appointment->offer}}</td>
+                <td class="small">{{date('M d, Y - gA', strtotime($appointment->date))}}</td>
                 <td>
                   @if($appointment->status == 'pending')
                   <span class="badge badge-warning">Pending</span>
@@ -76,9 +70,29 @@
                   <span class="badge badge-danger">Rejected</span>
                   @elseif($appointment->status == 'cancelled')
                   <span class="badge badge-danger">Cancelled</span>
+                  @elseif($appointment->status == 'completed')
+                  <span class="badge badge-success">Completed</span>
                   @endif
                 </td>
+                <td>
+                  <!-- view -->
+                  <button title="view" type="button" class="btn btn-info btn-sm viewModal" data-toggle="modal" data-target="#viewModal" data-appointment="{{$appointment}}">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <!-- approved -->
+                  <button title="approve" type="button" class="btn btn-primary btn-sm statusModal" data-toggle="modal" data-target="#statusModal" data-status="approved" data-link="{{route('appointment.status',$appointment->id)}}" @if($appointment->status != 'pending' ) disabled @endif>
+                    <i class="fas fa-thumbs-up"></i>
+                  </button>
+                  <!-- rejected -->
+                  <button title="reject" type="button" class="btn btn-danger btn-sm statusModal" data-toggle="modal" data-target="#statusModal" data-status="rejected" data-link="{{route('appointment.status',$appointment->id)}}" @if($appointment->status != 'pending') disabled @endif>
+                    <i class="fas fa-thumbs-down"></i>
+                  </button>
+                  <!-- completed -->
+                  <button title="complete" type="button" class="btn btn-success btn-sm statusModal" data-toggle="modal" data-target="#statusModal" data-status="completed" data-link="{{route('appointment.status',$appointment->id)}}" @if($appointment->status != 'pending' && $appointment->status != 'approved') disabled @endif>
+                    <i class="fas fa-check"></i>
+                  </button>
 
+                </td>
               </tr>
               @endforeach
             </tbody>
@@ -87,7 +101,63 @@
         </div>
       </div>
 
-    </div><!-- /.container-fluid -->
+    </div>
+
+    <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="statusModalLabel">Confirm update</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p id="statusModalText"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <form id="status-form" action="" method="POST">
+              @csrf
+              @method('PUT')
+              <input type="hidden" name="status" id="status" value="">
+              <button type="sumbit" class="btn btn-primary">Confirm</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="statusModalLabel"><b>Date of visit : </b> <span id="date"></span></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body row">
+            <div class="col-md-6">
+              <span class="text-muted small" id="created_at"></span><br>
+              Name : <span id="name"></span><br>
+              Phone : <small id="contact_number"></small> <br>
+              Email : <small id="email"></small>
+            </div>
+            <div class="col-md-6">
+              <br>
+              <b id="service"></b><br>
+              <span id="offer"></span><br>
+              <span>Status : </span> <span id="appointmentStatus"></span>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
   </div>
   <!-- /.content -->
@@ -113,10 +183,58 @@
       "lengthChange": false,
       "autoWidth": false
     });
-    //  on click of row
-    $(".clickable-row").click(function() {
-      window.location = $(this).data("href");
-    }).css("cursor", "pointer");
+  });
+  $('.statusModal').click(function() {
+    const status = $(this).attr('data-status');
+    const link = $(this).attr('data-link');
+    $('#statusModalText').text(`Are you sure you want to update appointment status to be ${status}?`);
+    $('#status').val(status);
+    $('#status-form').attr('action', link);
+  });
+
+  $('.viewModal').click(function() {
+    let appointment = $(this).attr('data-appointment');
+    appointment = JSON.parse(appointment);
+    console.log(appointment);
+    $('#name').text(appointment.user.first_name + ' ' + appointment.user.last_name);
+    $('#contact_number').text(appointment.user.contact_number);
+    $('#email').text(appointment.user.email);
+    $('#service').text(appointment.service);
+    $('#offer').text(appointment.offer);
+    if (appointment.status == 'pending') {
+      $('#appointmentStatus').text(appointment.status).css('color', 'orange');
+    } else if (appointment.status == 'approved' || appointment.status == 'completed') {
+      $('#appointmentStatus').text(appointment.status).css('color', 'green');
+    } else if (appointment.status == 'rejected' || appointment.status == 'cancelled') {
+      $('#appointmentStatus').text(appointment.status).css('color', 'red');
+    } else {
+      $('#appointmentStatus').text(appointment.status).css('color', 'black');
+    }
+
+    // $('#created_at').text(appointment.created_at);
+    let created_at = new Date(appointment.created_at);
+    $('#created_at').text(formatDateTime(created_at));
+    let date = new Date(appointment.date);
+    $('#date').text(formatDateTime(date));
+
+    function formatDateTime(date) {
+      var months = date.getMonth() + 1;
+      months = months < 10 ? '0' + months : months;
+      var days = date.getDate();
+      days = days < 10 ? '0' + days : days;
+      var hours = date.getHours();
+      var minutes = date.getMinutes();
+      var seconds = date.getSeconds();
+      var ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      hours = hours < 10 ? '0' + hours : hours;
+      minutes = minutes < 10 ? '0' + minutes : minutes; // leading zero
+      var strTime = hours + ':' + minutes + ' ' + ampm;
+      let formattedDate = months + '/' + days + '/' + date.getFullYear() + ' ' + strTime;
+      return formattedDate;
+    }
+
 
   });
 </script>

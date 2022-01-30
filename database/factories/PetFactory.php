@@ -24,9 +24,8 @@ $factory->define(Pet::class, function (Faker $faker) {
         'height' => $faker->numberBetween(0, 20),
         'description' => $faker->paragraph,
         'price' => $faker->numberBetween(0, 20),
-        'status' => $faker->randomElement(['available', 'not available', 'reserved', 'adopted', 'for breed']),
-        'user_id' => function () {
-            return User::all()->random();
-        },
+        // 'status' => $faker->randomElement(['available', 'not available', 'reserved', 'adopted']),
+        'status' =>'available',
+        'user_id' =>  null,
     ];
 });

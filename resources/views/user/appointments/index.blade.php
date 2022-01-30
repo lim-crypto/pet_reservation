@@ -32,7 +32,7 @@
         <main>
             <div class="container py-4">
                 <div class="row justify-content-center">
-                    <div class="col-lg-6 col-md-12" data-aos="fade-right">
+                    <div class="col-md-12" data-aos="fade-right">
                         <div class="card">
                             <div class="card-header">
                                 <a href="{{ route('appointment.create') }}" class="btn custom-bg-color float-right">
@@ -46,20 +46,21 @@
                                 <table id="table" class="table table-hover table-striped">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>Service</th>
+                                            <th>created at</th>
+                                            <th colspan="2">Service</th>
+
                                             <th>Date</th>
                                             <th>Status</th>
-                                            <th>Actions</th>
+                                            <th>Cancel</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach($appointments as $appointment)
                                         <tr>
-                                            <td>{{++$loop->index}}</td>
-                                            <td>{{$appointment->purpose}}</td>
-                                            <td>{{date('F d, Y h:i:s a', strtotime($appointment->date))}}</td>
+                                            <td>{{date('m/d/Y h:i:s a',strtotime($appointment->created_at))}}</td>
+                                            <td colspan="2">{{$appointment->service}} - {{$appointment->offer}} </td>
 
+                                            <td> {{date('M d, Y - gA', strtotime($appointment->date))}}</td>
                                             <td>
                                                 @if($appointment->status == 'pending')
                                                 <span class="badge badge-warning">{{$appointment->status}}</span>
@@ -72,11 +73,9 @@
                                                 @elseif($appointment->status == 'completed')
                                                 <span class="badge badge-success">{{$appointment->status}}</span>
                                                 @endif
-
-
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-outline-danger btn-sm cancelModal" data-toggle="modal" data-target="#cancelModal" data-purpose="{{$appointment->purpose}}" data-link="{{route('appointment.cancel',$appointment->id)}}" @if ($appointment->status != 'pending' ) disabled @endif>
+                                                <button title="cancel" type="button" class="btn btn-outline-danger btn-sm cancelModal" data-toggle="modal" data-target="#cancelModal" data-service="{{$appointment->service}}" data-link="{{route('appointment.cancel',$appointment->id)}}" @if ($appointment->status != 'pending' ) disabled @endif>
                                                     <i class="fas fa-times"></i>
                                                 </button>
                                             </td>
@@ -89,7 +88,7 @@
 
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-12" data-aos="fade-left">
+                    <div class="col-md-12" data-aos="fade-up">
                         <div class="card card-outline card-success ">
                             {!! $calendar->calendar() !!}
                             {!! $calendar->script() !!}
@@ -115,7 +114,7 @@
                             <form id="cancel-form" action="" method="POST">
                                 @csrf
                                 @method('PUT')
-                                <button type="sumbit" class="btn btn-danger">Cancel</button>
+                                <button type="sumbit" class="btn btn-danger">Yes</button>
                             </form>
                         </div>
                     </div>
@@ -135,9 +134,9 @@
     <script>
         // cancel
         $('.cancelModal').click(function() {
-            const purpose = $(this).attr('data-purpose');
+            const service = $(this).attr('data-service');
             const link = $(this).attr('data-link');
-            $('#cancelModalText').text(`Are you sure you want to cancel ${purpose}?`);
+            $('#cancelModalText').text(`Are you sure you want to cancel ${service}?`);
             $('#cancel-form').attr('action', link);
         });
         $(function() {

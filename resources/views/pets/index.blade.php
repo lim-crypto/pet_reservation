@@ -33,7 +33,7 @@
         </div>
 
         @foreach($pets as $pet)
-        <div class="col-md-3 mb-5" data-aos="zoom-out" >
+        <div class="col-md-3 mb-5">
             <div class="card">
                 @foreach($pet->images as $image)
                 <a href="{{asset('storage/images/pets/'.$image)}}" data-toggle="lightbox{{$pet->id}}" data-gallery="gallery{{$pet->id}}">

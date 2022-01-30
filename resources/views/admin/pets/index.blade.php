@@ -30,7 +30,7 @@
                     <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
                         Status
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="{{route('getPetsByStatus','available')}}">available</a>
                         <a class="dropdown-item" href="{{route('getPetsByStatus','not available')}}">not available</a>
                         <a class="dropdown-item" href="{{route('getPetsByStatus','reserved')}}">reserved</a>
@@ -43,7 +43,7 @@
                     <button class="btn btn-secondary btn-sm dropdown-toggle mx-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
                         Type
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                         @foreach(App\Model\Type::all() as $type )
                         <a class="dropdown-item" href="{{route('getPetsByType',$type->slug)}}">
                             {{$type->name}}
@@ -56,7 +56,7 @@
                     <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
                         Breed
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                         @foreach(App\Model\Breed::all() as $breed )
                         <a class="dropdown-item" href="{{route('getPetsByBreed',$breed->slug)}}">
                             {{$breed->name}}
@@ -78,14 +78,13 @@
                                 <th>Pet breed</th>
                                 <th>Birthday</th>
                                 <th>Status</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
+                                <th>Action</th>
                                 </tr>
                         </thead>
                         <tbody>
 
                             @foreach ($pets as $pet)
-                            <tr class='clickable-row' data-href="{{route('petDetails',$pet->slug)}}">
+                            <tr>
                                 <td>{{$loop->index+1}}</td>
                                 <td>{{$pet->name}}</td>
                                 <td>{{$pet->type->name}} </td>
@@ -104,9 +103,14 @@
                                     <span class="badge badge-info">{{$pet->status}}</span>
                                     @endif
                                 </td>
-                                <td><a href="{{route('pets.edit',$pet->slug)}}" class="btn btn-primary  btn-sm"><i class="fas fa-edit"></i></a></td>
                                 <td>
-                                    <button type="button" class="btn btn-danger btn-sm deleteModal" data-toggle="modal" data-target="#deleteModal" data-name="{{$pet->name}}" data-link="{{route('pets.destroy',$pet->slug)}}" @if ( $pet->status == 'reserved' || $pet->status == 'adopted' ) disabled @endif>
+                                    <a href="{{route('pets.show',$pet->slug)}}"  class="btn btn-info  btn-sm" title="view" >
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{route('pets.edit',$pet->slug)}}" class="btn btn-primary  btn-sm" title="edit" >
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button class="btn btn-danger btn-sm deleteModal" title="delete" data-toggle="modal" data-target="#deleteModal" data-name="{{$pet->name}}" data-link="{{route('pets.destroy',$pet->slug)}}" @if ( $pet->status == 'reserved' || $pet->status == 'adopted' ) disabled @endif>
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </td>
@@ -174,11 +178,6 @@
             "lengthChange": false,
             "autoWidth": false
         });
-        //  on click of row
-        $(".clickable-row").click(function() {
-            window.location = $(this).data("href");
-        }).css("cursor", "pointer");
-
     });
 </script>
 @endsection

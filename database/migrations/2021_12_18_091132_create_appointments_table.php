@@ -17,7 +17,8 @@ class CreateAppointmentsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('purpose');
+            $table->string('service');
+            $table->string('offer');
             $table->dateTime('date', 0);
             $table->string('status')->default('pending');
             $table->timestamps();

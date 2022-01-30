@@ -1,10 +1,6 @@
 @extends('layouts.app')
 
 @section('style')
-<!-- Select2 -->
-<link rel="stylesheet" href="{{asset('Adminlte/plugins/select2/css/select2.min.css')}}">
-<!-- daterange picker -->
-<link rel="stylesheet" href="{{asset('Adminlte/plugins/daterangepicker/daterangepicker.css')}}">
 <!-- Tempusdominus Bootstrap 4 -->
 <link rel="stylesheet" href="{{asset('Adminlte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
 
@@ -15,49 +11,16 @@
         <div class="col-md-8" data-aos="zoom-in">
             <div class="card">
                 <h1 class="card-header text-success">Appointment Form</h1>
-
                 <div class="card-body">
                     <form action="{{route('appointment.store')}}" method="POST" class="needs-validation" novalidate="">
                         @csrf
                         <div class="row">
                             <div class="col-6">
-                                <!-- first name -->
-                                <div class="form-group">
-                                    <label for="">First name</label> <span class="text-danger">*</span>
-                                    <input type="text" class="form-control" name="first_name" placeholder="Enter your first name" value="{{ old('first_name') ? old('first_name') : auth()->user()->first_name}}" required>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <!-- last name -->
-                                <div class="form-group">
-                                    <label for="">Last name</label> <span class="text-danger">*</span>
-                                    <input type="text" class="form-control" name="last_name" placeholder="Enter your last name" value="{{ old('last_name') ? old('last_name') : auth()->user()->last_name}}" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <!-- email -->
-                                <div class="form-group">
-                                    <label for="">Email</label>
-                                    <input type="email" class="form-control" placeholder="Enter your email" value="{{ old('email') ? old('email') : auth()->user()->email}}" disabled>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <!-- contact number -->
-                                <div class="form-group">
-                                    <label for="">Contact number</label> <span class="text-danger">*</span>
-                                    <input type="tel" class="form-control" name="contact_number" placeholder="Enter your contact number" value="{{ old('contact_number') ? old('contact_number') : auth()->user()->contact_number}}" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
                                 <!-- Date -->
                                 <div class="form-group">
-                                    <label>Date:</label> <span class="text-danger">*</span>
+                                    <label>Date of visit:</label> <span class="text-danger">*</span>
                                     <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                        <input id="date" type="text" name="date" class="form-control datetimepicker-input" data-target="#reservationdate" data-toggle="datetimepicker" required>
+                                        <input id="date" type="text" name="date" class="form-control datetimepicker-input" data-target="#reservationdate" data-toggle="datetimepicker" required autocomplete="off">
                                         <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                                             <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
                                         </div>
@@ -69,7 +32,7 @@
                                 <div class="form-group">
                                     <label for="time">Time:</label> <span class="text-danger">*</span>
                                     <div class="input-group">
-                                        <select class="form-control" name="time" id="time"  required disabled>
+                                        <select class="form-control" name="time" id="time" required disabled>
                                             <option disabled selected value="">Select time</option>
                                             <option value="7:00 AM">7:00 AM</option>
                                             <option value="8:00 AM">8:00 AM</option>
@@ -92,10 +55,9 @@
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                <!-- select purpose -->
                                 <div class="form-group">
                                     <label for="service">Service</label> <span class="text-danger">*</span>
-                                    <select id="service" class="form-control" name="purpose" required>
+                                    <select id="service" class="form-control" name="service" required>
                                         <option selected disabled value="">Select Service</option>
                                         @foreach ($services as $service)
                                         <option value="{{$service->service}}">{{$service->service}}</option>
@@ -110,13 +72,14 @@
                                         <option selected disabled data-service="" value="">Select offer</option>
                                         @foreach($services as $service)
                                         @foreach($service->offer as $offer)
-                                        <option data-service="{{$service->service}}" value="{{$offer->offer}}">{{$offer->offer }}&nbsp;&nbsp;&nbsp; &#8369; &nbsp;{{$offer->price }}</option>
+                                        <option data-service="{{$service->service}}" value="{{$offer->offer .' -  ₱'. $offer->price}}">{{$offer->offer }}&nbsp;&nbsp;&nbsp; &#8369; &nbsp;{{$offer->price }}</option>
                                         @endforeach
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                         </div>
+
                         <button type="submit" class="btn custom-bg-color float-right">Book now</button>
 
                     </form>
@@ -135,15 +98,16 @@
 <script src="{{ asset('js/form-validation.js') }}"></script>
 
 <script>
-var disabledDates = {!! $disabledDates!!};
+    //  var disabledDates = {!!$disabledDates!!};
+    var disabledDates = {!!$disabledDates!!};
     $('#reservationdate').datetimepicker({
         minDate: new Date(),
         format: 'L',
         disabledDates: disabledDates,
     });
-
-    var dates = {!! $dates !!};
-    $('#date').blur( function() {
+    // var dates = {!!$dates!!};
+    var dates = {!!$dates!!};
+    $('#date').blur(function() {
         var date = $(this).val();
         if (date == moment().format('L')) {
             $(this).val(''); // if today is selected, clear the field
@@ -165,7 +129,6 @@ var disabledDates = {!! $disabledDates!!};
     });
     $('#service').change(function() {
         $('#offer').removeAttr('disabled').val('');
-
         var service = $(this).val().toLowerCase();
         $('div.form-group').find('#offer').find('option').each(function() {
             if ($(this).attr('data-service').toLowerCase() == service) {

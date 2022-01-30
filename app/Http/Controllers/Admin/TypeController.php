@@ -2,73 +2,52 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helper\Helper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TypeRequest;
 use App\Model\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TypeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $types = Type::all();
         return view('admin.types.index', compact('types'));
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function create()
     {
-        $this->validate($request, [
-            'name' => 'required',
-        ]);
+        return view('admin.types.create');
+    }
+
+    public function store(TypeRequest $request)
+    {
         $type = new Type;
         $type->name = $request->name;
+        $type->image = Helper::saveImage($request->image, $request->name, 'type');
         $type->save();
-
         return redirect()->route('type.index')->with('success', $type->name . ' Added Successfully');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Type  $type
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Type $type)
+    public function update(TypeRequest $request, Type $type)
     {
-        $this->validate($request, [
-            'name' => 'required',
-        ]);
         $type->name = $request->name;
+        if ($request->image) {
+            Helper::deleteImage($type->image, 'type');
+            $type->image = Helper::saveImage($request->image, $request->name, 'type');
+        }
         $type->save();
-
         return redirect()->route('type.index')->with('success', $type->name . ' Updated Successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Type  $type
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Type $type)
     {
-
         if ($type->breed->count() > 0) {
             return redirect()->route('type.index')->with('error', $type->name . ' Cannot be delete');
         }
+        Helper::deleteImage($type->image, 'type');
         $type->delete();
         return redirect()->route('type.index')->with('success', $type->name . ' Deleted Successfully');
     }
-
 }

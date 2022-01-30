@@ -4,13 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Model\Breed;
 use App\Model\Pet;
+use App\Model\Reservation;
 use App\Model\Type;
 use Illuminate\Http\Request;
+use App\Helper\Helper;
 
 class PetController extends Controller
 {
+    public function __construct()
+    {
+        Helper::checkPetReservation();
+    }
     public function index()
     {
+
         $pets = Pet::where('status', 'available')->paginate(16);
         foreach ($pets as $pet) {
             $pet->images = json_decode($pet->images);
@@ -40,5 +47,4 @@ class PetController extends Controller
         session()->flash('pet', $breed->name);
         return view('pets.index', compact('pets'));
     }
-
 }

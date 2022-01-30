@@ -11,20 +11,40 @@
 @section('content')
 <div class="container py-4">
     <div class="row justify-content-center">
-        <div class="col-lg-10 col-md-12  order-lg-2">
+        @if($reservations->count() > 0)
+        <div class="col-lg-10 col-md-12">
+
+            <div class="float-right btn-group mt-2">
+                <div class="dropdown">
+                    <button class="btn btn-sm custom-bg-color" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-sliders-h"></i> Filters
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="javascript:void(0)" data-filter="all"> All items </a>
+                        <a class="dropdown-item" href="javascript:void(0)" data-filter="pending"> Pending</a>
+                        <a class="dropdown-item" href="javascript:void(0)" data-filter="approved"> Approved</a>
+                        <a class="dropdown-item" href="javascript:void(0)" data-filter="cancelled"> Cancelled</a>
+                        <a class="dropdown-item" href="javascript:void(0)" data-filter="rejected"> Rejected</a>
+                        <a class="dropdown-item" href="javascript:void(0)" data-filter="expired"> Expired</a>
+                        <a class="dropdown-item" href="javascript:void(0)" data-filter="completed"> Completed</a>
+                    </div>
+                </div>
+                <select class="custom-select" style="width: auto; display:none;" data-sortOrder>
+                    <option value="sortData"> Sort by Custom Data </option>
+                </select>
+                <a class="btn btn-sm btn-default sort-btn asc" href="javascript:void(0)" data-sortAsc> <i class="fas fa-sort"></i> Sort </a>
+                <a class="btn btn-sm btn-default sort-btn desc d-none" href="javascript:void(0)" data-sortDesc> <i class="fas fa-sort"></i> Sort </a>
+            </div>
             <div class="h1">Reservations</div>
-
-            <div class="row">
+            <div class="filter-container">
                 @foreach($reservations as $reservation)
-
-                <div class=" col-lg-3 col-md-4 col-sm-6">
+                <div class="filtr-item col-lg-3 col-md-4 col-6" data-category="{{$reservation->status}}" data-sort="{{date( 'm/d/y', strtotime($reservation->created_at))}}">
                     <div class="card h-100 ">
-
                         <a href="{{route('petDetails', $reservation->pet->slug)}}">
                             <img src="{{asset('storage/images/pets/'.$reservation->pet->images[0])}}" class="card-img-top" alt="{{$reservation->pet->name}}" title="view info" style="height:250px; object-fit:cover;">
                         </a>
-                        <div class="card-body pb-0" >
-                            <h5 class="card-title">{{$reservation->pet->breed->name}}</h5>
+                        <div class="card-body">
+                            <h5 class="card-title">{{$reservation->pet->breed->name}} </h5>
                             @if($reservation->status == 'pending')
                             <span class="badge badge-warning float-right">Pending</span>
                             @elseif($reservation->status == 'cancelled')
@@ -33,70 +53,40 @@
                             <span class="badge badge-danger float-right">Rejected</span>
                             @elseif($reservation->status == 'approved')
                             <span class="badge badge-success float-right">Approved</span>
+                            @elseif($reservation->status == 'expired')
+                            <span class="badge badge-danger float-right">Expired</span>
                             @else
                             <span class="badge badge-success float-right">Completed</span>
                             @endif
-                            <p class="card-text">{{$reservation->pet->name}}</p>
-                            <p class="card-text text-muted small ">{{$reservation->pet->type->name}}</p>
+                            <p class="card-text custom-color mb-0">{{$reservation->pet->name}} </p>
+                            <p class="text-muted small mb-0">{{$reservation->pet->type->name}}</p>
+                            <p class="text-muted small mb-0">{{date( 'm/d/y h a', strtotime($reservation->date))}}</p>
+                            <span class="text-muted small">{{ $reservation->created_at->diffForHumans()}}</span>
                             @if($reservation->status == 'pending')
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-outline-danger btn-sm cancelModal float-right" data-toggle="modal" data-target="#cancelModal" data-reservation="{{$reservation->pet->breed->name.' '.$reservation->pet->name}}" data-link="{{route('reservation.cancel',$reservation->id)}}">
-                                        <i class="fas fa-times"></i> Cancel
-                                    </button>
-                                    <button type="button" class="btn  btn-outline-secondary btn-sm editModal" data-toggle="modal" data-target="#editModal" data-date="{{$reservation->date}}" data-link="{{route('reservation.update',$reservation->id)}}">
-                                        <i class="fas fa-calendar"></i>
-                                        Edit
-                                    </button>
-                                </div>
-                                <small class="text-muted">{{date( 'm/d/y', strtotime($reservation->date))}}</small>
+                            <div class="btn-group float-right">
+                                <button title="cancel" type="button" class="btn btn-outline-danger btn-xs cancelModal float-right" data-toggle="modal" data-target="#cancelModal" data-reservation="{{$reservation->pet->breed->name.' '.$reservation->pet->name}}" data-link="{{route('reservation.cancel',$reservation->id)}}">
+                                    <i class="fas fa-times-circle"></i>
+                                </button>
+                                <button title="edit" type="button" class="btn  btn-outline-secondary btn-xs editModal" data-toggle="modal" data-target="#editModal" data-date="{{$reservation->date}}" data-link="{{route('reservation.update',$reservation->id)}}">
+                                    <i class="fas fa-pen"></i>
+                                </button>
                             </div>
                             @endif
+
                         </div>
+
                     </div>
                 </div>
-
                 @endforeach
-                @if($reservations->count() == 0)
-                <div class="col-12 text-center">
-                    <div class="card bg-secondary">
-
-                        <div class="card-body">
-                            <h4>No <strong>
-                                    @if(session()->has('status'))
-                                    {{session()->get('status')}}
-                                    {{session()->forget('status')}}
-                                    @endif
-
-                                </strong> reservation</h4>
-
-                        </div>
-                    </div>
-                </div>
-                @endif
             </div>
-
+        </div>
+        @else
+        <div class="col-lg-10 col-md-12">
             <div class="d-flex justify-content-center pt-4">
-                {!! $reservations->links() !!}
+                <div class="h1">You don't have reservation</div>
             </div>
         </div>
-        <div class="col-md-2 col-sm-12 mt-2 order-lg-1"  data-aos="fade-up-right">
-            <div class="card mt-md-5">
-                <div class="card-header">
-                    <h4>
-                        Filter
-                    </h4>
-                </div>
-                <div class="card-body">
-                    <a class="btn custom-bg-color btn-block" href="{{route('user.reservations')}}">All</a>
-                    <a class="btn custom-bg-color btn-block" href="{{route('getReservationByStatus','pending')}}">Pending</a>
-                    <a class="btn custom-bg-color btn-block" href="{{route('getReservationByStatus','approved')}}">Approved</a>
-                    <a class="btn custom-bg-color btn-block" href="{{route('getReservationByStatus','cancelled')}}">Cancelled</a>
-                    <a class="btn custom-bg-color btn-block" href="{{route('getReservationByStatus','rejected')}}">Rejected</a>
-                    <a class="btn custom-bg-color btn-block" href="{{route('getReservationByStatus','completed')}}">Completed</a>
-                </div>
-            </div>
-        </div>
+        @endif
     </div>
 </div>
 <!-- cancel modal -->
@@ -194,7 +184,32 @@
 <script src="{{ asset('Adminlte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 <!-- form validation -->
 <script src="{{ asset('js/form-validation.js') }}"></script>
+<!-- Filterizr-->
+<script src="{{ asset('Adminlte/plugins/filterizr/jquery.filterizr.min.js') }}"></script>
+
 <script>
+    $('.filter-container').filterizr({
+        gutterPixels: 3
+    });
+    $('.btn[data-filter]').on('click', function() {
+        $('.btn[data-filter]').removeClass('active');
+        $(this).addClass('active');
+    });
+    // sort toggle
+    $('.sort-btn').on('click', function() {
+        console.log(1);
+        if ($(this).hasClass('asc')) {
+            $('.asc').hide();
+            $('.desc').show();
+            $('.desc').removeClass('d-none')
+        } else {
+            $('.desc').hide();
+            $('.asc').show();
+        }
+
+    });
+
+
     $(function() {
         //Date picker
         $('#reservationdate').datetimepicker({

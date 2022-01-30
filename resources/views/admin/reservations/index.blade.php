@@ -34,6 +34,7 @@
             <a class="dropdown-item" href="{{route('reservationByStatus','approved')}}">Approved</a>
             <a class="dropdown-item" href="{{route('reservationByStatus','cancelled')}}">Cancelled</a>
             <a class="dropdown-item" href="{{route('reservationByStatus','rejected')}}">Rejected</a>
+            <a class="dropdown-item" href="{{route('reservationByStatus','expired')}}">Expired</a>
             <a class="dropdown-item" href="{{route('reservationByStatus','completed')}}">Completed</a>
             <a class="dropdown-item" href="{{route('reservations')}}">All</a>
           </div>
@@ -47,25 +48,20 @@
             <thead>
               <tr>
                 <th>created at</th>
-                <th>No.</th>
                 <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
                 <th>Pet name</th>
+                <th>Date of visit</th>
                 <th>Status</th>
-
-
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
               @foreach($reservations as $reservation)
-              <tr class='clickable-row' data-href="{{route('reservation',$reservation->id)}}">
-                <td>{{$reservation->created_at->diffForHumans()}}</td>
-                <td>{{$reservation->id}}</td>
+              <tr>
+                <td>{{date('m/d/Y h:i:s a',strtotime($reservation->created_at))}}</td>
                 <td>{{$reservation->user->getName()}}</td>
-                <td>{{$reservation->user->email}}</td>
-                <td>{{$reservation->user->contact_number}}</td>
                 <td>{{$reservation->pet->name}}</td>
+                <td>{{date('m/d/Y h a',strtotime($reservation->date))}}</td>
                 <td>
                   @if($reservation->status == 'pending')
                   <span class="badge badge-warning">Pending</span>
@@ -75,13 +71,19 @@
                   <span class="badge badge-danger">Rejected</span>
                   @elseif($reservation->status == 'cancelled')
                   <span class="badge badge-danger">Cancelled</span>
+                  @elseif($reservation->status == 'expired')
+                  <span class="badge badge-danger">Expired</span>
                   @else
                   <span class="badge badge-success  ">Completed</span>
                   @endif
 
 
                 </td>
-
+                <td>
+                  <a href="{{route('reservation',$reservation->id)}}" class="btn btn-sm btn-primary">
+                    <i class="fas fa-eye"></i>
+                  </a>
+                </td>
               </tr>
               @endforeach
             </tbody>
@@ -116,11 +118,6 @@
       "lengthChange": false,
       "autoWidth": false
     });
-    //  on click of row
-    $(".clickable-row").click(function() {
-      window.location = $(this).data("href");
-    }).css("cursor", "pointer");
-
   });
 </script>
 @endsection

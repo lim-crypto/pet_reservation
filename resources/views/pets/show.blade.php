@@ -97,7 +97,7 @@
           <hr>
           @foreach($pet->breed->type->pets as $p)
           @if($pet->id != $p->id)
-          <li><a href="{{route('pets.show',$p->slug)}}">{{$p->name}}</a></li>
+          <li><a  href="{{route('petDetails',$pet->slug)}}" >{{$p->name}}</a></li>
           @endif
           @endforeach
 

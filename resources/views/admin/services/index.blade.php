@@ -86,7 +86,7 @@
                         </div>
                         <div class="card-footer d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <a class="btn btn-sm btn-outline-primary" href="{{route('serviceDetails', $service->id)}}">View</a>
+                                <a class="btn btn-sm btn-outline-primary" href="{{route('services.show', $service->id)}}">View</a>
                                 <a href="{{route('services.edit', $service->id)}}" class="btn  btn-outline-secondary btn-sm">
 
                                     Edit

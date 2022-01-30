@@ -23,31 +23,10 @@
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
-        <a class="btn btn-success mb-3" href="{{route('breed.create')}}">Add Breed</a>
-
+            <button type="button" class="btn btn-success btn-sm  mb-3 addModal" data-toggle="modal" data-target="#addModal">
+                <i class="fas fa-plus"></i> Add Breed
+            </button>
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Breed of Pets</h3>
-                    <div class="card-tools my-2">
-                        <form action="{{route('breed.store')}}" method="POST" class="needs-validation" novalidate="">
-                            @csrf
-                            <div class="input-group input-group-sm" style="width: 350px;">
-
-                                <select name="type_id" id="type" class="form-control {{ $errors->has('type_id') ? ' is-invalid' : '' }}" required>
-                                    <option value="" disabled selected>Select type</option>
-                                    @foreach($types as $type)
-                                    <option value="{{$type->id}}" @if(old('type_id')==$type->id) selected @endif >{{$type->name}}</option>
-                                    @endforeach
-                                </select>
-                                <div class="input-group-append input-group-sm">
-                                    <input type="text" class="form-control float-right {{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" id="type" placeholder="add pet Breed" required>
-                                    <button type="submit" class="btn btn-primary"><i class="fas fa-plus "></i></button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
                 <div class="card-body">
                     <table id="table" class="table table-sm table-striped">
                         <thead>
@@ -70,12 +49,12 @@
                                 <td>{{ $breed->created_at->diffForHumans()}}</td>
 
                                 <td>
-                                    <button type="button" class="btn btn-primary  btn-sm editModal"   data-toggle="modal" data-target="#editModal" data-name="{{$breed->name}}" data-type-id="{{$breed->type_id}}" data-link="{{route('breed.update', $breed->slug)}}">
+                                    <button type="button" class="btn btn-primary  btn-sm editModal" data-toggle="modal" data-target="#editModal" data-name="{{$breed->name}}" data-type-id="{{$breed->type_id}}" data-link="{{route('breed.update', $breed->slug)}}">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-danger   btn-sm deleteModal"  data-toggle="modal" data-target="#deleteModal" data-name="{{$breed->name}}" data-link="{{route('breed.destroy', $breed->slug)}}"  @if ( $breed->pets->count() ) disabled @endif >
+                                    <button type="button" class="btn btn-danger   btn-sm deleteModal" data-toggle="modal" data-target="#deleteModal" data-name="{{$breed->name}}" data-link="{{route('breed.destroy', $breed->slug)}}" @if ( $breed->pets->count() ) disabled @endif >
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </td>
@@ -88,6 +67,52 @@
             </div>
 
         </div><!-- /.container-fluid -->
+
+        <!-- add modal -->
+        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editeModalLabel">Add</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form id="add-form" action="{{route('breed.store')}}" method="POST" class="needs-validation" novalidate="" enctype="multipart/form-data">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="type">Type</label><span class="text-danger">*</span>
+                                <select class="form-control {{ $errors->has('type_id') ? ' is-invalid' : '' }}" name="type_id" id="addType" required>
+                                    <option value="" selected disabled >Select Type</option>
+                                    @foreach ($types as $type)
+                                    <option value="{{$type->id}}">{{$type->name}}</option>
+                                    @endforeach
+                                </select>
+                                <span class="invalid-feedback" role="alert">
+                                    Type is required
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label for="type">Breed</label><span class="text-danger">*</span>
+                                <input type="text" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" id="addType" placeholder="Pet Breed" value="" required>
+                                <span class="invalid-feedback" role="alert">
+                                    Breed is required
+                                </span>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="sumbit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+
         <!-- delete modal -->
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -127,7 +152,7 @@
                         @method('PUT')
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="type">Type</label>
+                                <label for="type">Type</label><span class="text-danger">*</span>
                                 <select name="type_id" id="editType" class="form-control {{ $errors->has('type_id') ? ' is-invalid' : '' }}" required>
                                     <option value="" disabled selected>Select type</option>
                                     @foreach($types as $type)
@@ -140,7 +165,7 @@
                                 </span>
                             </div>
                             <div class="form-group">
-                                <label for="type">Breed</label>
+                                <label for="type">Breed</label><span class="text-danger">*</span>
                                 <input type="text" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" id="editBreed" placeholder="title" value="" required>
                                 <span class="invalid-feedback">
                                     Breed is required
@@ -176,7 +201,6 @@
 
 <!-- Page specific script -->
 <script>
-
     // delete
     $('.deleteModal').click(function() {
         console.log(' delete clicked 2');

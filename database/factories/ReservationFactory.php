@@ -16,8 +16,6 @@ $factory->define(Reservation::class, function (Faker $faker) {
             return Pet::all()->random();
         },
         'status' => $faker->randomElement(['pending', 'approved','rejected', 'cancelled', 'completed' ]), //  'expired'
-        'created_at' =>  $faker->dateTimeBetween('-1 weeks',  'now'),
-        'expiration_date' =>  $faker->dateTimeBetween('now',  '+ 7 days'),
         'date' =>  $faker->dateTimeBetween('now',  '+ 7 days'),
     ];
 });

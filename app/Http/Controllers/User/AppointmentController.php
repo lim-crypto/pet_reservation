@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Helper\Helper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AppointmentRequest;
 use App\Model\Appointment;
 use App\Model\Service;
-use App\Model\User;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
@@ -17,13 +18,12 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-
         $appointments = auth()->user()->appointments;
         $events = [];
         foreach ($appointments as $appointment) {
             if ($appointment->status != 'cancelled') {
                 $events[] = \Calendar::event(
-                    $appointment->purpose, //event title
+                    $appointment->service, //event title
                     false, //full day event?
                     new \DateTime($appointment->date), //start time (you can also use Carbon instead of DateTime)
                     new \DateTime($appointment->date), //end time (you can also use Carbon instead of DateTime)
@@ -31,78 +31,48 @@ class AppointmentController extends Controller
                 );
             }
         }
-
         $calendar = \Calendar::addEvents($events); //add an array with addEvents
-        return view('user.appointments.index', compact('appointments', 'calendar'));
+        $services = Service::all();
+        foreach ($services as $service) {
+            $service->offer = json_decode($service->offer);
+        }
+        $data = Helper::bookedDates();
+        $disabledDates = $data['disabledDates'];
+        $dates = $data['dates'];
+        return view('user.appointments.index', compact('appointments', 'calendar', 'services', 'disabledDates', 'dates'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $services = Service::all();
         foreach ($services as $service) {
             $service->offer = json_decode($service->offer);
         }
-        $appointments = Appointment::all();
-        $dates = [];
-        $booked = [];
-        $disabledDates = [];
-        foreach ($appointments as $appointment) {
-            $dates[] = $appointment->date;
-            $booked[] = date('Y-m-d', strtotime($appointment->date));
-        }
-        $booked = array_count_values($booked);
-        foreach ($booked as $key => $value) {
-            if ($value > 7) {
-                $disabledDates[] = $key;
-            }
-        }
-        $disabledDates = json_encode($disabledDates);
-        $dates = json_encode($dates);
+        $data = Helper::bookedDates();
+        $disabledDates = $data['disabledDates'];
+        $dates = $data['dates'];
         return view('user.appointments.create', compact('dates', 'services', 'disabledDates'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(AppointmentRequest $request)
     {
+        $dateIsAvailable = Helper::checkDateAvailability($request->date, $request->time);
+        if ($dateIsAvailable == false) {
+            return redirect()->back()->with('error', 'Date is not available');
+        }
         $appointment = new Appointment;
         $appointment->user_id = auth()->user()->id;
-        $appointment->purpose = $request->purpose;
+        $appointment->service = $request->service;
+        $appointment->offer = $request->offer;
         $appointment->date = date('Y-m-d H:i:s', strtotime("$request->date $request->time"));
         $appointment->save();
-        $user = User::find(auth()->user()->id);
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
-        $user->contact_number = $request->contact_number;
-        $user->save();
         return redirect()->route('user.appointments')->with('success', 'Appointment created successfully');
     }
 
-    // cancel
     public function cancel(Appointment $appointment)
     {
         $appointment->status = 'cancelled';
         $appointment->save();
         return redirect()->route('user.appointments')->with('success', 'Appointment cancelled successfully');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

@@ -16,9 +16,10 @@ class DatabaseSeeder extends Seeder
         factory(App\Model\User::class, 10)->create();
         factory(App\Model\Type::class, 2)->create();
         factory(App\Model\Breed::class, 10)->create();
-        factory(App\Model\Pet::class, 30)->create();
-        factory(App\Model\Reservation::class, 10)->create();
-        factory(App\Model\Appointment::class, 10)->create();
+        // factory(App\Model\Pet::class, 30)->create();
+        // factory(App\Model\Reservation::class, 10)->create();
+        // factory(App\Model\Appointment::class, 10)->create();
+        // factory(App\Model\Service::class, 3)->create();
 
     }
 }

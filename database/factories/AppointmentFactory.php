@@ -11,7 +11,8 @@ $factory->define(Appointment::class, function (Faker $faker) {
         'user_id' => function () {
             return   User::all()->random();
         },
-        'purpose' => $faker->word,
+        'service' => $faker->word,
+        'offer' => $faker->word,
         'date' => $faker->dateTimeBetween('now', '+1 months'),
         'status' => $faker->randomElement(['pending', 'approved','rejected', 'cancelled']),
 
