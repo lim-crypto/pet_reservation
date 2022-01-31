@@ -33,6 +33,14 @@ class ReservationController extends Controller
         $reservation->save();
         // update pet status
         Helper::updatePetStatus($reservation->pet_id, $request->status);
+        $details = [
+            'title' =>  $reservation->service .' '. $reservation->offer,
+            'date'=> $reservation->date,
+            'body' => 'Your reservation is '. $reservation->status ,
+
+        ];
+        \Mail::to($reservation->user->email)->send(new Mail('Reservation Updates',$details));
+
         return redirect()->back()->with('success', 'Status updated successfully');
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ReservationRequest;
+use App\Mail\Mail;
 use App\Model\Pet;
 use App\Model\Reservation;
 use Illuminate\Http\Request;
@@ -55,13 +56,27 @@ class ReservationController extends Controller
         $reservation->save();
         // update pet status
         Helper::updatePetStatus($request->pet_id, 'reserved');
-        return redirect()->route('user.reservations')->with('success', 'Reservation Added Successfully');
+        $details = [
+            'title' => $reservation->pet->type->name . ' - ' . $reservation->pet->breed->name . ' - ' . $reservation->pet->name,
+            'date' =>  $reservation->date,
+            'body' => 'Reservation has been made successfully, Please wait for approval',
+
+        ];
+        \Mail::to(auth()->user()->email)->send(new Mail('Reservation', $details));
+
+        return redirect()->route('user.reservations')->with('thanks', 'Reservation has been made successfully, Please wait for approval');
     }
     // update
     public function update(ReservationRequest $request, Reservation $reservation)
     {
         $reservation->date = date('Y-m-d H:i:s',  strtotime("$request->date $request->time"));
         $reservation->save();
+        $details = [
+            'title' => $reservation->pet->type->name . ' - ' . $reservation->pet->breed->name . ' - ' . $reservation->pet->name,
+            'date' =>  $reservation->date,
+            'body' => 'Reservation has been Cancelled',
+        ];
+        \Mail::to(env("MAIL_USERNAME", "wamiyulim@gmail.com"))->send(new Mail('Reservation Update', $details));
         return redirect()->route('user.reservations')->with('success', 'Reservation Updated Successfully');
     }
     // cancel reservation
@@ -71,6 +86,12 @@ class ReservationController extends Controller
             $reservation->status = 'cancelled';
             $reservation->save();
             Helper::updatePetStatus($reservation->pet_id, 'cancelled');
+            $details = [
+                'title' => $reservation->pet->type->name . ' - ' . $reservation->pet->breed->name . ' - ' . $reservation->pet->name,
+                'date' =>  $reservation->date,
+                'body' => 'Reservation has been Cancelled',
+            ];
+            \Mail::to(env("MAIL_USERNAME", "wamiyulim@gmail.com"))->send(new Mail('Reservation Cancelled', $details));
             return redirect()->back()->with('success', 'Reservation cancelled successfully');
         }
         return redirect()->back()->with('error', 'Reservation cannot be cancelled');

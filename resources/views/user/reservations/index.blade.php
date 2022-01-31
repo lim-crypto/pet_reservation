@@ -6,6 +6,9 @@
 <link rel="stylesheet" href="{{asset('Adminlte/plugins/daterangepicker/daterangepicker.css')}}">
 <!-- Tempusdominus Bootstrap 4 -->
 <link rel="stylesheet" href="{{asset('Adminlte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+<!-- sweetalert -->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<x-sweetalert />
 
 @endsection
 @section('content')

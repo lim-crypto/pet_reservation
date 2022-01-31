@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\Mail;
 use App\Model\Appointment;
 use Illuminate\Http\Request;
 
@@ -17,6 +18,13 @@ class AppointmentController extends Controller
     {
         $appointment->status = $request->status;
         $appointment->save();
+        $details = [
+            'title' =>  $appointment->service .' '. $appointment->offer,
+            'date'=> $appointment->date,
+            'body' => 'Your appointment is '. $appointment->status ,
+
+        ];
+        \Mail::to($appointment->user->email)->send(new Mail('Appointment Updates',$details));
         return redirect()->back()->with('success', 'Status updated successfully');
     }
 

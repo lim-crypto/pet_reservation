@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AppointmentRequest;
+use App\Mail\Mail;
 use App\Model\Appointment;
 use App\Model\Service;
 use Illuminate\Http\Request;
@@ -66,13 +67,27 @@ class AppointmentController extends Controller
         $appointment->offer = $request->offer;
         $appointment->date = date('Y-m-d H:i:s', strtotime("$request->date $request->time"));
         $appointment->save();
-        return redirect()->route('user.appointments')->with('success', 'Appointment created successfully');
+        $details = [
+            'title' =>  $appointment->service .' '. $appointment->offer,
+            'date'=> $appointment->date,
+            'body' => 'Appointment has been made successfully, Please wait for approval',
+
+        ];
+        \Mail::to(auth()->user()->email)->send(new Mail('Appointment',$details));
+        return redirect()->route('user.appointments')->with('thanks', 'Appointment has been made successfully, Please wait for approval');
     }
 
     public function cancel(Appointment $appointment)
     {
         $appointment->status = 'cancelled';
         $appointment->save();
+        $details = [
+            'title' =>  $appointment->service .' '. $appointment->offer,
+            'date'=> $appointment->date,
+            'body' => 'Reservation has been Cancelled',
+
+        ];
+        \Mail::to('wamiyulim@gmail.com')->send(new Mail('Appointment Cancelled', $details));
         return redirect()->route('user.appointments')->with('success', 'Appointment cancelled successfully');
     }
 }

@@ -13,6 +13,10 @@
     <script src="{{asset('Adminlte/plugins/fullcalendar/main.min.js')}}"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.css" />
+    <!-- sweetalert -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <x-sweetalert />
+
     <style>
         /* width */
         ::-webkit-scrollbar {
