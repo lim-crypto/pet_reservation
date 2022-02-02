@@ -102,7 +102,7 @@
       </div>
 
     </div>
-
+    <!-- status -->
     <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -121,13 +121,13 @@
               @csrf
               @method('PUT')
               <input type="hidden" name="status" id="status" value="">
-              <button type="sumbit" class="btn btn-primary">Confirm</button>
+              <button type="sumbit" class="btn btn-primary" id="submit">Confirm</button>
             </form>
           </div>
         </div>
       </div>
     </div>
-
+    <!-- view -->
     <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -181,15 +181,42 @@
     $("#table").DataTable({
       "responsive": true,
       "lengthChange": false,
-      "autoWidth": false
+      "autoWidth": false,
+      "order": [[ 0, "desc" ]]
     });
   });
   $('.statusModal').click(function() {
     const status = $(this).attr('data-status');
     const link = $(this).attr('data-link');
-    $('#statusModalText').text(`Are you sure you want to update appointment status to be ${status}?`);
     $('#status').val(status);
     $('#status-form').attr('action', link);
+
+    function changeClass(bg_class, btn_class) {
+      $('#statusModal .modal-header').removeClass('bg-primary');
+      $('#statusModal .modal-header').removeClass('bg-danger');
+      $('#statusModal .modal-header').removeClass('bg-success');
+      $('#status-form .btn').removeClass('btn-primary');
+      $('#status-form .btn').removeClass('btn-danger');
+      $('#status-form .btn').removeClass('btn-success');
+
+      $('#statusModal .modal-header').addClass(bg_class);
+      $('#status-form .btn').addClass(btn_class);
+    }
+
+    if (status == 'approved') {
+      $('#statusModalText').text('Are you sure you want to approve this  appointment?');
+      changeClass('bg-primary', 'btn-primary');
+    } else if (status == 'rejected') {
+      $('#statusModalText').text('Are you sure you want to reject this  appointment?');
+      changeClass('bg-danger', 'btn-danger');
+    } else if (status == 'completed') {
+      $('#statusModalText').text('Are you sure this appointment is complete?');
+
+      changeClass('bg-success', 'btn-success');
+    }
+  });
+  $('#status-form').submit(function() {
+    $('#submit').attr('disabled', true);
   });
 
   $('.viewModal').click(function() {

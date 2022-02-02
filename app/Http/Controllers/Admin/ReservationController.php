@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
+use App\Mail\Mail;
 use App\Model\Pet;
 use App\Model\Reservation;
 use Illuminate\Http\Request;
@@ -40,7 +41,6 @@ class ReservationController extends Controller
 
         ];
         \Mail::to($reservation->user->email)->send(new Mail('Reservation Updates',$details));
-
         return redirect()->back()->with('success', 'Status updated successfully');
     }
 

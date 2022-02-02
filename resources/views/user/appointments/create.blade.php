@@ -98,6 +98,15 @@
 <script src="{{ asset('js/form-validation.js') }}"></script>
 
 <script>
+    $('form').submit(function() {
+    $('button[type=submit]').attr('disabled', true);
+    });
+    $('input').on('blur', function() {
+        $('button[type=submit]').removeAttr('disabled');
+    });
+    $('select').on('change', function() {
+        $('button[type=submit]').removeAttr('disabled');
+    });
     //  var disabledDates = {!!$disabledDates!!};
     var disabledDates = {!!$disabledDates!!};
     $('#reservationdate').datetimepicker({

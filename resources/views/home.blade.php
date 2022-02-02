@@ -108,36 +108,33 @@
         <h2 class="font-weight-bold">
           Email
         </h2>
-        <p> <i class="fas fa-envelope custom-color"></i> info@example.com</p>
+        <p> <i class="fas fa-envelope custom-color"></i> premuimkennel@gmail.com</p>
       </div>
 
       <div class="col-md-6  pb-4">
         <h2 class="font-weight-bold">
-
           Phone
         </h2>
-        <p> <i class="fas fa-phone  custom-color"></i> +1 5589 55488 55s</p>
+        <p> <i class="fas fa-phone  custom-color"></i> +63 921 472 0591</p>
       </div>
 
       <div class="col-md-6  pb-4">
         <h2 class="font-weight-bold ">
-
           Location
         </h2>
-        <p> <i class="fas fa-map-marker-alt custom-color"></i> A108 Adam Street<br>New York, NY 535022</p>
+        <p> <i class="fas fa-map-marker-alt custom-color"></i> 459 Villla Silangan, Calamba, 4027 Laguna</p>
       </div>
 
       <div class="col-md-6  pb-4">
         <h2 class="font-weight-bold">
-
           Working Hours
         </h2>
-
-        <p> <i class="fas fa-clock custom-color"></i> 8:00 AM - 5:00 PM </p>
+        <p> <i class="fas fa-clock custom-color"></i> 7:00 AM - 5:00 PM </p>
       </div>
 
     </div>
   </div>
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1933.8689731629743!2d121.16559305790793!3d14.210116497653816!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd63d4928bb879%3A0xce3e9ca02e88aa5d!2s459%20Villla%20Silangan%2C%20Calamba%2C%204027%20Laguna!5e0!3m2!1sen!2sph!4v1643646068942!5m2!1sen!2sph" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
 </section>
 <section id="footer">
   <div class="container pt-5">

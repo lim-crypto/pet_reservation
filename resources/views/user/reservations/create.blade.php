@@ -69,16 +69,7 @@
                                 </div>
                             </div>
                         </div>
-                        @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-                        <button type="submit" class="btn btn-success float-right">Confirm</button>
+                        <button type="submit" class="btn custom-bg-color float-right">Confirm</button>
                     </form>
                 </div>
             </div>
@@ -105,10 +96,16 @@
         });
 
     });
-</script>
+    $('form').submit(function() {
+        $('button[type=submit]').attr('disabled', true);
+    });
+    $('input').on('blur', function() {
+        $('button[type=submit]').removeAttr('disabled');
+    });
+    $('select').on('change', function() {
+        $('button[type=submit]').removeAttr('disabled');
+    });
 
-
-<script>
     var disabledDates = {!!$disabledDates!!};
     $('#reservationdate').datetimepicker({
         minDate: new Date(),

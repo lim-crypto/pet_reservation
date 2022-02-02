@@ -68,12 +68,15 @@ class AppointmentController extends Controller
         $appointment->date = date('Y-m-d H:i:s', strtotime("$request->date $request->time"));
         $appointment->save();
         $details = [
-            'title' =>  $appointment->service .' '. $appointment->offer,
-            'date'=> $appointment->date,
+            'title' =>  $appointment->service . ' ' . $appointment->offer,
+            'date' => $appointment->date,
             'body' => 'Appointment has been made successfully, Please wait for approval',
 
         ];
-        \Mail::to(auth()->user()->email)->send(new Mail('Appointment',$details));
+        // \Mail::to(auth()->user()->email)->send(new Mail('Appointment', $details));
+        $details['body'] = 'New Appointment click the link below';
+        $details['link'] = route('appointment', $appointment->id);
+        \Mail::to(env("MAIL_USERNAME", "wamiyulim@gmail.com"))->send(new Mail('New Appointment', $details));
         return redirect()->route('user.appointments')->with('thanks', 'Appointment has been made successfully, Please wait for approval');
     }
 
@@ -82,8 +85,8 @@ class AppointmentController extends Controller
         $appointment->status = 'cancelled';
         $appointment->save();
         $details = [
-            'title' =>  $appointment->service .' '. $appointment->offer,
-            'date'=> $appointment->date,
+            'title' =>  $appointment->service . ' ' . $appointment->offer,
+            'date' => $appointment->date,
             'body' => 'Reservation has been Cancelled',
 
         ];

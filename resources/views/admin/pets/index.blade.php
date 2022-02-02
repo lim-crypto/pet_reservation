@@ -104,10 +104,10 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{route('pets.show',$pet->slug)}}"  class="btn btn-info  btn-sm" title="view" >
+                                    <a href="{{route('petDetails',$pet->slug)}}" class="btn btn-info  btn-sm" title="view">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <a href="{{route('pets.edit',$pet->slug)}}" class="btn btn-primary  btn-sm" title="edit" >
+                                    <a href="{{route('pets.edit',$pet->slug)}}" class="btn btn-primary  btn-sm" title="edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     <button class="btn btn-danger btn-sm deleteModal" title="delete" data-toggle="modal" data-target="#deleteModal" data-name="{{$pet->name}}" data-link="{{route('pets.destroy',$pet->slug)}}" @if ( $pet->status == 'reserved' || $pet->status == 'adopted' ) disabled @endif>
@@ -141,7 +141,7 @@
                         <form id="delete-form" action="" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="sumbit" class="btn btn-danger">Delete</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
                     </div>
                 </div>
@@ -165,6 +165,9 @@
 
 <!-- Page specific script -->
 <script>
+    $('form').submit(function() {
+        $(this).find('button[type=submit]').attr('disabled', true);
+    });
     // delete
     $('.deleteModal').click(function() {
         const name = $(this).attr('data-name');

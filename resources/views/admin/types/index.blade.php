@@ -86,7 +86,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="sumbit" class="btn btn-primary">Save</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </form>
                 </div>
@@ -110,7 +110,7 @@
                         <form id="delete-form" action="" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="sumbit" class="btn btn-danger">Delete</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
                     </div>
                 </div>
@@ -151,7 +151,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="sumbit" class="btn btn-primary">Update</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
                         </div>
                     </form>
                 </div>
@@ -173,6 +173,16 @@
 
 <!-- Page specific script -->
 <script>
+    $('form').submit(function() {
+         $(this).find('button[type=submit]').attr('disabled', true);
+    });
+    $('input').on('keydown', function() {
+        $('button[type=submit]').removeAttr('disabled');
+    });
+    $('input').on('change', function() {
+        $('button[type=submit]').removeAttr('disabled');
+    });
+
     $(function() {
         bsCustomFileInput.init();
     });

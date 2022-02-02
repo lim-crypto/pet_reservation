@@ -47,11 +47,6 @@ class PetController extends Controller
         $pet->save();
         return redirect()->route('pets.index')->with('success', 'Pet Added Successfully');
     }
-    public function show(Pet $pet)
-    {
-        $pet->images = json_decode($pet->images);
-        return view('admin.pets.show', compact('pet'));
-    }
     public function edit(Pet $pet)
     {
         $types = Type::all();
@@ -85,7 +80,7 @@ class PetController extends Controller
     {
         if ($pet->reservation == null) {
             $pet->deleteImages($pet->images);
-            $this->deleteDescriptionImages($pet->name);
+            $pet->deleteDescriptionImages($pet->name);
             $pet->delete();
             return redirect()->route('pets.index')->with('success', 'Pet deleted successfully');
         }

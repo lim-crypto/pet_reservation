@@ -76,7 +76,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="contact_number" class="font-weight-normal">{{ __('Contact Number') }}</label><span class="text-danger">*</span>
-                                    <input id="contact_number" type="number" step="any" class="form-control @error('contact_number') is-invalid @enderror" name="contact_number" value="{{ old('contact_number') }}" required autocomplete="contact_number" >
+                                    <input id="contact_number" type="number" step="any" class="form-control @error('contact_number') is-invalid @enderror" name="contact_number" value="{{ old('contact_number') }}" required autocomplete="contact_number">
                                     <span class="invalid-feedback" role="alert">
                                         @if($errors->has('contact_number'))
                                         {{ $errors->first('contact_number') }}
@@ -125,6 +125,13 @@
 
 <script src="{{asset('js/jquery-validation.js')}}"></script>
 <script>
+    $('form').submit(function() {
+        $('button[type=submit]').attr('disabled', true);
+    });
+    $('input').on('keydown', function() {
+        $('button[type=submit]').removeAttr('disabled');
+    });
+
     (function() {
         // validate password
         $('#password').on('keyup', function() {

@@ -83,4 +83,12 @@
 @section('script')
 <!-- jquery validation -->
 <script src="{{ asset('Adminlte/plugins/jquery-validation/jquery-validation.js') }}"></script>
+<script>
+    $('form').submit(function() {
+        $('button[type=submit]').attr('disabled', true);
+    });
+    $('input').on('keydown', function() {
+        $('button[type=submit]').removeAttr('disabled');
+    });
+</script>
 @endsection

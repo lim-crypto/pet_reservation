@@ -60,10 +60,11 @@ class ReservationController extends Controller
             'title' => $reservation->pet->type->name . ' - ' . $reservation->pet->breed->name . ' - ' . $reservation->pet->name,
             'date' =>  $reservation->date,
             'body' => 'Reservation has been made successfully, Please wait for approval',
-
         ];
         \Mail::to(auth()->user()->email)->send(new Mail('Reservation', $details));
-
+        $details['body'] = "New Reservation click the link below";
+        $details['link'] = route('reservation', $reservation->id);
+        \Mail::to(env("MAIL_USERNAME", "wamiyulim@gmail.com"))->send(new Mail('New Reservation', $details));
         return redirect()->route('user.reservations')->with('thanks', 'Reservation has been made successfully, Please wait for approval');
     }
     // update

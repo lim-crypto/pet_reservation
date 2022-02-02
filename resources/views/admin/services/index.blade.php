@@ -23,44 +23,7 @@
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
-            <!-- <div class="card">
-                <div class="card-body">
-                    <table id="table" class="table table-sm table-striped">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Services</th>
-                                <th>Created At</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ( $services as $service)
-                            <tr>
-                                <td>{{$loop->index+1}}</td>
-                                <td>{{ $service->service}}</td>
-                                <td>{{ $service->created_at->diffForHumans()}}</td>
-                                <td>
-                                    <button type="button" class="btn btn-primary btn-sm editModal" data-toggle="modal" data-target="#editModal" data-name="{{$service->service}}" data-link="{{route('services.update', $service->id)}}">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                <td>
-                                    <button type="button" class="btn btn-danger btn-sm deleteModal" data-toggle="modal" data-target="#deleteModal" data-name="{{$service->service}}" data-link="{{route('services.destroy', $service->id)}}" >
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-
-                    </table>
-                </div>
-            </div> -->
-
-
             <div class="row">
-
                 <div class="col-lg-3 col-md-5 col-8 p-4" data-aos="fade-left">
                     <a href="{{route('services.create')}}">
                         <div class="card custom-border h-100">
@@ -86,9 +49,7 @@
                         </div>
                         <div class="card-footer d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <a class="btn btn-sm btn-outline-primary" href="{{route('services.show', $service->id)}}">View</a>
                                 <a href="{{route('services.edit', $service->id)}}" class="btn  btn-outline-secondary btn-sm">
-
                                     Edit
                                 </a>
                                 <a href="#" class="btn btn-outline-danger btn-sm deleteModal " data-toggle="modal" data-target="#deleteModal" data-name="{{$service->service}}" data-link="{{route('services.destroy', $service->id)}}">
@@ -120,7 +81,7 @@
                         <form id="delete-form" action="" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="sumbit" class="btn btn-danger">Delete</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
                     </div>
                 </div>
@@ -145,6 +106,10 @@
 
 <!-- Page specific script -->
 <script>
+    $('form').submit(function() {
+        $(this).find('button[type=submit]').attr('disabled', true);
+    });
+
     $(function() {
         $("#table").DataTable({
             "responsive": true,

@@ -7,7 +7,7 @@ Route::get('/home', function () {
     return view('home');
 })->middleware('CheckUser');
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 Route::get('/', 'HomeController@index')->name('home');
 
 
@@ -69,7 +69,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'admi
 });
 
 //user routes
-Route::group(['namespace' => 'User', 'middleware' => 'auth'], function () {
+Route::group(['namespace' => 'User', 'middleware' => 'auth','middleware'=>'verified'], function () {
     // reservation
     Route::get('/reservations', 'ReservationController@index')->name('user.reservations');
     // Route::get('/reservation/{reservation}', 'ReservationController@show')->name('user.reservation');
@@ -82,7 +82,6 @@ Route::group(['namespace' => 'User', 'middleware' => 'auth'], function () {
     Route::get('/appointments', 'AppointmentController@index')->name('user.appointments');
     Route::get('/appointment/create', 'AppointmentController@create')->name('appointment.create');
     Route::post('/appointment', 'AppointmentController@store')->name('appointment.store');
-    Route::put('/appointment/{appointment}', 'AppointmentController@update')->name('appointment.update');
     Route::put('/appointment/{appointment}/cancel', 'AppointmentController@cancel')->name('appointment.cancel');
     // Route::delete('/appointment/{appointment}', 'AppointmentController@destroy')->name('appointment.destroy');
 

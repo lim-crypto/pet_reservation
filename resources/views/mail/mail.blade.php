@@ -11,5 +11,8 @@
 <p>{{$details['title']}}</p>
 <p>{{date('l F d, Y - g A', strtotime($details['date']))}}</p>
 <p>{{$details['body']}}</p>
+@if(isset($details['link']))
+<a href="{{$details['link']}}">{{$details['link']}}</a>
+@endif
 </body>
 </html>

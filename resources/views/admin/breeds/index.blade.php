@@ -84,7 +84,7 @@
                             <div class="form-group">
                                 <label for="type">Type</label><span class="text-danger">*</span>
                                 <select class="form-control {{ $errors->has('type_id') ? ' is-invalid' : '' }}" name="type_id" id="addType" required>
-                                    <option value="" selected disabled >Select Type</option>
+                                    <option value="" selected disabled>Select Type</option>
                                     @foreach ($types as $type)
                                     <option value="{{$type->id}}">{{$type->name}}</option>
                                     @endforeach
@@ -104,7 +104,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="sumbit" class="btn btn-primary">Save</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </form>
 
@@ -131,7 +131,7 @@
                         <form id="delete-form" action="" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="sumbit" class="btn btn-danger">Delete</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
                     </div>
                 </div>
@@ -174,7 +174,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="sumbit" class="btn btn-primary">Update</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
                         </div>
                     </form>
 
@@ -200,10 +200,19 @@
 <script src="{{ asset('Adminlte/plugins/jquery-validation/jquery-validation.js') }}"></script>
 
 <!-- Page specific script -->
+
 <script>
+    $('form').submit(function() {
+         $(this).find('button[type=submit]').attr('disabled', true);
+    });
+    $('input').on('keydown', function() {
+        $('button[type=submit]').removeAttr('disabled');
+    });
+    $('select').on('change', function() {
+        $('button[type=submit]').removeAttr('disabled');
+    });
     // delete
     $('.deleteModal').click(function() {
-        console.log(' delete clicked 2');
         const name = $(this).attr('data-name');
         const link = $(this).attr('data-link');
         $('#deleteModalText').text(`Are you sure you want to delete ${name}?`);
@@ -212,7 +221,6 @@
 
     // edit
     $('.editModal').click(function() {
-        console.log('edit clicked 2');
         const name = $(this).attr('data-name');
         const link = $(this).attr('data-link');
         const type = $(this).attr('data-type-id');

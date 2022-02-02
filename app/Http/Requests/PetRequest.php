@@ -27,11 +27,9 @@ class PetRequest extends FormRequest
             'name' => 'required|string|max:255',
             'type_id' => 'required|string|max:255',
             'breed_id' => 'required|string|max:255',
-            'price' => 'integer',
             'status' => 'required|string|max:255',
             'birthday' => 'required|date',
             'weight' => 'required|integer',
-            'height' => 'integer',
             'images.*' => 'mimes:jpeg,jpg,png,gif'
 
         ];

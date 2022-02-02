@@ -25,7 +25,7 @@
         <div class="container-fluid">
 
             <div class="card">
-                
+
 
                 <div class="card-body">
                     <table id="table" class="table table-sm table-striped">
@@ -78,7 +78,7 @@
                         <form id="ban-form" action="" method="POST">
                             @csrf
                             @method('PUT')
-                            <button type="sumbit" class="btn btn-danger">Confirm</button>
+                            <button type="submit" class="btn btn-danger">Confirm</button>
                         </form>
                     </div>
                 </div>
@@ -102,6 +102,9 @@
 
 <!-- Page specific script -->
 <script>
+  $('form').submit(function() {
+         $(this).find('button[type=submit]').attr('disabled', true);
+    });
     $(function() {
         $("#table").DataTable({
             "responsive": true,

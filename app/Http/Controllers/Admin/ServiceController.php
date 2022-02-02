@@ -39,10 +39,6 @@ class ServiceController extends Controller
         $service->save();
         return redirect()->route('services.index')->with('success', 'Successfully added service');
     }
-    public function show(Service $service)
-    {
-        return view('admin.services.show', compact('service'));
-    }
     public function edit(Service $service)
     {
         $service->offer = json_decode($service->offer);

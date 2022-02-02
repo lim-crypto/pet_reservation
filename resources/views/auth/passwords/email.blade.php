@@ -11,7 +11,7 @@
     .container .title::before {
         content: "";
         position: absolute;
-        left: 0; 
+        left: 0;
         bottom: 0;
         height: 3px;
         width: 25px;
@@ -37,10 +37,10 @@
                     </div>
                     @endif
 
-                    <form method="POST" action="{{ route('password.email') }}">
+                    <form method="POST" action="{{ route('password.email') }}"  class="needs-validation" novalidate="">
                         @csrf
 
-                        <label for="email"  class="font-weight-normal">{{ __('E-Mail Address') }}</label>
+                        <label for="email" class="font-weight-normal">{{ __('E-Mail Address') }}</label>
                         <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                         @error('email')
                         <span class="invalid-feedback" role="alert">
@@ -49,10 +49,10 @@
                         @enderror
                         <div class="row">
                             <div class="col-sm-6">
-                                <button type="submit" class="btn btn-primary mt-3" style="width: 100%;"> {{ __('Send Password Reset Link') }}</button>
+                                <button type="submit" class="btn custom-bg-color  mt-3" style="width: 100%;"> {{ __('Send Password Reset Link') }}</button>
                             </div>
                             <div class="col-sm-6">
-                                <button class="btn btn-secondary mt-3 " style="width: 100%;"> <a href="{{ route('login') }}" class="text-white">{{ __('Back to Login') }}</a></button>
+                                <a href="{{ route('login') }}"  class="btn btn-default mt-3 " style="width: 100%;" >{{ __('Back to Login') }}</a>
                             </div>
                         </div>
                     </form>
@@ -61,4 +61,16 @@
         </div>
     </div>
 </div>
+@endsection
+@section('script')
+<!-- jquery validation -->
+<script src="{{ asset('Adminlte/plugins/jquery-validation/jquery-validation.js') }}"></script>
+<script>
+    $('form').submit(function() {
+        $('button[type=submit]').attr('disabled', true);
+    });
+    $('input').on('keydown', function() {
+        $('button[type=submit]').removeAttr('disabled');
+    });
+</script>
 @endsection

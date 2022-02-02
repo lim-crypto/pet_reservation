@@ -112,9 +112,14 @@
                       </h1>
                     </div>
                     <div class="card-body">
-                      @foreach($latestReservations as $reservation)
-                      <a href="{{route('reservation', $reservation->id)}}">
-                        <span class="text-muted small">{{ $reservation->created_at->diffForHumans()}}</span>
+                      @forelse($latestReservations as $reservation)
+                      <span>{{$reservation->user->getName()}}</span>
+                      <!-- view -->
+                      <a title="view" href="#" class="viewModal text-body" data-toggle="modal" data-target="#viewModal" data-for="reservation" data-breed="{{$reservation->pet->breed->name}}" data-type="{{$reservation->pet->type->name}}" data-reservation="{{$reservation}}" data-link="{{route('reservation.status',$reservation->id)}}">
+                        <span class="text-muted small">{{ $reservation->created_at->diffForHumans()}}</span> <br>
+                        <span>{{$reservation->pet->breed->name}}</span>
+                        <span>{{$reservation->pet->name}}</span>
+                        <span>{{$reservation->pet->name}}</span>
                         <p class="card-text mb-2"> {{date('m/d/Y h a',strtotime($reservation->date))}}
                           @if($reservation->status == 'pending')
                           <span class="badge badge-warning">Pending</span>
@@ -131,8 +136,12 @@
                           @endif
                         </p>
                       </a>
+
                       <hr class="mb-2">
-                      @endforeach
+
+                      @empty
+                      <p class="card-text">No Reservations</p>
+                      @endforelse
 
                     </div>
                     <div class="card-footer">
@@ -149,25 +158,33 @@
                       </h1>
                     </div>
                     <div class="card-body">
-                      @foreach($latestAppointments as $appointment)
-                      <span class="text-muted small">{{ $appointment->created_at->diffForHumans()}}</span>
-                      <p class="card-text mb-2"> {{date('m/d/Y h a',strtotime($appointment->date))}}
-                        @if($appointment->status == 'pending')
-                        <span class="badge badge-warning">Pending</span>
-                        @elseif($appointment->status == 'approved')
-                        <span class="badge badge-success">Approved</span>
-                        @elseif($appointment->status == 'rejected')
-                        <span class="badge badge-danger">Rejected</span>
-                        @elseif($appointment->status == 'cancelled')
-                        <span class="badge badge-danger">Cancelled</span>
-                        @elseif($appointment->status == 'expired')
-                        <span class="badge badge-danger">Expired</span>
-                        @else
-                        <span class="badge badge-success">Completed</span>
-                        @endif
-                      </p>
+                      @forelse($latestAppointments as $appointment)
+                      <span>{{$appointment->user->getName()}}</span>
+                      <!-- view -->
+                      <a title="view" href="#" class="viewModal text-body" data-toggle="modal" data-target="#viewModal" data-for="appointment" data-appointment="{{$appointment}}" data-link="{{route('appointment.status',$appointment->id)}}">
+                        <span class="text-muted small">{{ $appointment->created_at->diffForHumans()}}</span><br>
+                        <span>{{$appointment->service}}</span>
+                        <p class="card-text mb-2"> {{date('m/d/Y h a',strtotime($appointment->date))}}
+                          @if($appointment->status == 'pending')
+                          <span class="badge badge-warning">Pending</span>
+                          @elseif($appointment->status == 'approved')
+                          <span class="badge badge-success">Approved</span>
+                          @elseif($appointment->status == 'rejected')
+                          <span class="badge badge-danger">Rejected</span>
+                          @elseif($appointment->status == 'cancelled')
+                          <span class="badge badge-danger">Cancelled</span>
+                          @elseif($appointment->status == 'expired')
+                          <span class="badge badge-danger">Expired</span>
+                          @else
+                          <span class="badge badge-success">Completed</span>
+                          @endif
+                        </p>
+                      </a>
+
                       <hr class="mb-2">
-                      @endforeach
+                      @empty
+                      <p class="card-text">No Appointments</p>
+                      @endforelse
 
                     </div>
                     <div class="card-footer">
@@ -187,6 +204,73 @@
           </div>
 
         </div><!-- /.container-fluid -->
+
+        <!-- modal -->
+        <!-- view -->
+        <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header  bg-info">
+                <h5 class="modal-title" id="statusModalLabel"><b>Date of visit : </b> <span id="date"></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body row">
+                <div class="col-md-6">
+                  <span class="text-muted small" id="created_at"></span><br>
+                  Name : <span id="name"></span><br>
+                  Phone : <small id="contact_number"></small> <br>
+                  Email : <small id="email"></small>
+                </div>
+                <div class="col-md-6" id="details">
+                </div>
+
+              </div>
+              <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <!-- approved -->
+                <button title="approve" type="button" class="btn btn-info  statusModal ml-4" data-toggle="modal" data-target="#statusModal" data-status="approved">
+                  <i class="fas fa-thumbs-up"></i>
+                </button>
+                <!-- rejected -->
+                <button title="reject" type="button" class="btn btn-danger statusModal ml-4" data-toggle="modal" data-target="#statusModal" data-status="rejected">
+                  <i class="fas fa-thumbs-down"></i>
+                </button>
+                <!-- completed -->
+                <button title="complete" type="button" class="btn btn-success statusModal ml-4" data-toggle="modal" data-target="#statusModal" data-status="completed">
+                  <i class="fas fa-check"></i>
+                </button>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- status -->
+        <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="statusModalLabel">Confirm update</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p id="statusModalText"></p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <form id="status-form" action="" method="POST">
+                  @csrf
+                  @method('PUT')
+                  <input type="hidden" name="status" id="status" value="">
+                  <button type="submit" class="btn" id="submit">Confirm</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <!-- /.content -->
     </div>
@@ -195,6 +279,130 @@
 
     @include('admin.layouts.footer')
   </div>
+  <script>
+    $('.statusModal').click(function() {
+      const status = $(this).attr('data-status');
+      const a_or_r = $(this).attr('data-for'); // appointment or reservation
+      $('#status').val(status);
+
+      function changeClass(bg_class, btn_class) {
+        $('#statusModal .modal-header').removeClass('bg-primary');
+        $('#statusModal .modal-header').removeClass('bg-danger');
+        $('#statusModal .modal-header').removeClass('bg-success');
+        $('#status-form .btn').removeClass('btn-primary');
+        $('#status-form .btn').removeClass('btn-danger');
+        $('#status-form .btn').removeClass('btn-success');
+
+        $('#statusModal .modal-header').addClass(bg_class);
+        $('#status-form .btn').addClass(btn_class);
+      }
+
+      if (status == 'approved') {
+        $('#statusModalText').text(`Are you sure you want to approve this ${a_or_r}?`);
+        changeClass('bg-primary', 'btn-primary');
+      } else if (status == 'rejected') {
+        $('#statusModalText').text(`Are you sure you want to reject this ${a_or_r}?`);
+        changeClass('bg-danger', 'btn-danger');
+      } else if (status == 'completed') {
+        $('#statusModalText').text(`Are you sure this ${a_or_r} is complete?`);
+        changeClass('bg-success', 'btn-success');
+      }
+    });
+    $('#status-form').submit(function() {
+      $('#submit').attr('disabled', true);
+    });
+
+    function formatDateTime(date) {
+      var months = date.getMonth() + 1;
+      months = months < 10 ? '0' + months : months;
+      var days = date.getDate();
+      days = days < 10 ? '0' + days : days;
+      var hours = date.getHours();
+      var minutes = date.getMinutes();
+      var seconds = date.getSeconds();
+      var ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      hours = hours < 10 ? '0' + hours : hours;
+      minutes = minutes < 10 ? '0' + minutes : minutes; // leading zero
+      var strTime = hours + ':' + minutes + ' ' + ampm;
+      let formattedDate = months + '/' + days + '/' + date.getFullYear() + ' ' + strTime;
+      return formattedDate;
+    }
+
+    $('.viewModal').click(function() {
+      const a_or_r = $(this).attr('data-for'); // appointment or reservation
+      let details;
+      $('#details').html('');
+      if (a_or_r == 'reservation') {
+        details = $(this).attr('data-reservation');
+        details = JSON.parse(details);
+        const breed = $(this).attr('data-breed');
+        const type = $(this).attr('data-type');
+        $('<small></small>').text(type).append('<br>').appendTo('#details');
+        $('<span>Breed : </span>').appendTo('#details');
+        $('<span></span>').text(breed).append('<br>').appendTo('#details');
+        $('<span>Pet Name : </span>').appendTo('#details');
+        $('<span></span>').text(details.pet.name).append('<br>').appendTo('#details');
+      } else {
+        details = $(this).attr('data-appointment');
+        details = JSON.parse(details);
+        $('<br>').appendTo('#details');
+        $('<span></span>').text(details.service).append('<br>').appendTo('#details');
+        $('<span></span>').text(details.offer).append('<br>').appendTo('#details');
+      }
+
+      let created_at = new Date(details.created_at);
+      $('#created_at').text(formatDateTime(created_at));
+      let date = new Date(details.date);
+      $('#date').text(formatDateTime(date));
+      $('#name').text(details.user.first_name + ' ' + details.user.last_name);
+      $('#contact_number').text(details.user.contact_number);
+      $('#email').text(details.user.email);
+      if (details.status == 'pending') {
+        $('<span>Status : </span>').appendTo('#details');
+        $('<span></span>').text(details.status).addClass('badge badge-warning').appendTo('#details');
+      } else if (details.status == 'approved' || details.status == 'completed') {
+        $('<span>Status : </span>').appendTo('#details');
+        $('<span></span>').text(details.status).addClass('badge badge-success').appendTo('#details');
+      } else if (details.status == 'rejected') {
+        $('<span>Status : </span>').appendTo('#details');
+        $('<span></span>').text(details.status).addClass('badge badge-danger').appendTo('#details');
+      } else if (details.status == 'cancelled') {
+        $('<span>Status : </span>').appendTo('#details');
+        $('<span></span>').text(details.status).addClass('badge badge-danger').appendTo('#details');
+      } else if (details.status == 'completed') {
+        $('<span>Status : </span>').appendTo('#details');
+        $('<span></span>').text(details.status).addClass('badge badge-success').appendTo('#details');
+      }
+
+
+
+      $('#viewModal .modal-footer button').each(function() {
+        if ($(this).attr('data-status') == 'approved' || $(this).attr('data-status') == 'rejected') {
+          if (details.status != 'pending') {
+            $(this).attr('disabled', true);
+          } else {
+            $(this).attr('disabled', false);
+          }
+
+        } else if ($(this).attr('data-status') == 'completed') {
+          if (details.status != 'pending' && details.status != 'approved') {
+            $(this).attr('disabled', true);
+          } else {
+            $(this).attr('disabled', false);
+          }
+        }
+
+      });
+
+
+      const link = $(this).attr('data-link');
+      $('#status-form').attr('action', link);
+
+
+    });
+  </script>
 </body>
 
 </html>

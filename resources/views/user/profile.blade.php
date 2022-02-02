@@ -10,7 +10,7 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form action="{{route('profile.update' , auth()->user()->id) }}" method="POST" class="needs-validation" novalidate=""  >
+                <form action="{{route('profile.update' , auth()->user()->id) }}" method="POST" class="needs-validation" novalidate="">
                     @csrf
                     @method('PUT')
                     <div class="card-body">
@@ -50,7 +50,7 @@
                     <!-- /.card-body -->
 
                     <div class="card-footer">
-                        <a class="btn btn-outline-secondary" href="#" onclick="window.history.back()" >Back</a>
+                        <a class="btn btn-outline-secondary" href="#" onclick="window.history.back()">Back</a>
                         <button type="submit" class="btn btn-success float-right">Update</button>
                     </div>
                 </form>
@@ -65,4 +65,12 @@
 <!-- form validation -->
 <script src="{{ asset('js/form-validation.js') }}"></script>
 
+<script>
+    $('form').submit(function() {
+        $('button[type=submit]').attr('disabled', true);
+    });
+    $('input').on('keydown', function() {
+        $('button[type=submit]').removeAttr('disabled');
+    });
+</script>
 @endsection
