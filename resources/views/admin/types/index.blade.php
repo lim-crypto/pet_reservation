@@ -170,18 +170,11 @@
 <script src="{{ asset('Adminlte/plugins/jquery-validation/jquery-validation.js') }}"></script>
 <!-- bs-custom-file-input -->
 <script src="{{asset('Adminlte/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
-
+<!-- disable button on submit  -->
+<script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
 <!-- Page specific script -->
 <script>
-    $('form').submit(function() {
-         $(this).find('button[type=submit]').attr('disabled', true);
-    });
-    $('input').on('keydown', function() {
-        $('button[type=submit]').removeAttr('disabled');
-    });
-    $('input').on('change', function() {
-        $('button[type=submit]').removeAttr('disabled');
-    });
+
 
     $(function() {
         bsCustomFileInput.init();

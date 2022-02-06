@@ -103,12 +103,11 @@
 <script src="{{asset('Adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
 <!-- jquery validation -->
 <script src="{{ asset('Adminlte/plugins/jquery-validation/jquery-validation.js') }}"></script>
+<!-- disable button on submit  -->
+<script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
 
 <!-- Page specific script -->
 <script>
-    $('form').submit(function() {
-        $(this).find('button[type=submit]').attr('disabled', true);
-    });
 
     $(function() {
         $("#table").DataTable({

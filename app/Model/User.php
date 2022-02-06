@@ -38,14 +38,25 @@ class User extends Authenticatable  implements MustVerifyEmail
     ];
 
 
-    public function getName(){
+    public function getName()
+    {
         return $this->first_name . ' ' . $this->last_name;
     }
 
-    public function reservations(){
+    public function reservations()
+    {
         return $this->hasMany(Reservation::class);
     }
-    public function appointments(){
+    public function appointments()
+    {
         return $this->hasMany(Appointment::class);
+    }
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+    public function shipping_addresses()
+    {
+        return $this->hasMany(ShippingAddress::class);
     }
 }

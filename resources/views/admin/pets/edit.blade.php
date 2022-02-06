@@ -83,7 +83,6 @@
                                         <div class="form-group">
                                             <label for="breed">Breed</label> <span class="text-danger">*</span>
                                             <select id="breed" name="breed_id" class="form-control  {{ $errors->has('breed_id') ? ' is-invalid' : '' }}" required>
-                                                <option value="" selected disabled>Select Pet Breed</option>
                                                 @foreach ($breeds as $breed)
                                                 <option {{($pet->breed_id==$breed->id) ? 'selected' : '' }} data-breed_type_id="{{$breed->type->id}}" value="{{$breed->id}}">{{$breed->name}}</option>
                                                 @endforeach
@@ -246,21 +245,11 @@
 <script src="{{ asset('js/form-validation.js') }}"></script>
 <!-- Ekko Lightbox -->
 <script src="{{ asset('Adminlte/plugins/ekko-lightbox/ekko-lightbox.min.js') }}"></script>
-
+<!-- disable button on submit  -->
+<script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
 <!-- Page specific script -->
 <script>
-    $('form').submit(function() {
-        $(this).find('button[type=submit]').attr('disabled', true);
-    });
-    $('input').on('keydown', function() {
-        $('button[type=submit]').removeAttr('disabled');
-    });
-    $('input').on('change', function() {
-        $('button[type=submit]').removeAttr('disabled');
-    });
-    $('select').on('change', function() {
-        $('button[type=submit]').removeAttr('disabled');
-    });
+
 
     function findSameTypeId($type) {
         $('#breed').find('option').each(function() {

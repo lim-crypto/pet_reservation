@@ -175,6 +175,8 @@
 <script src="{{asset('Adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('Adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
 
+<!-- disable button on submit  -->
+<script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
 
 <!-- Page specific script -->
 <script>
@@ -215,9 +217,7 @@
       changeClass('bg-success' , 'btn-success');
     }
   });
-  $('#status-form').submit(function() {
-    $('#submit').attr('disabled', true);
-  });
+
   $('.viewModal').click(function() {
     let reservation = $(this).attr('data-reservation');
     reservation = JSON.parse(reservation);

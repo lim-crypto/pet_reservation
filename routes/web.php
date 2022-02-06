@@ -20,6 +20,10 @@ Route::get('/type/{type}/pets', 'PetController@getByType')->name('petType');
 Route::get('/breed/{breed}/pets', 'PetController@getByBreed')->name('petBreed');
 // service
 Route::get('/services/{service}', 'HomeController@serviceDetails')->name('serviceDetails');
+// product
+Route::get('/products', 'ProductController@getProducts')->name('products');
+Route::get('/products/{product}', 'ProductController@getProduct')->name('product');
+Route::get('/products/category/{id}', 'ProductController@getProductByCategory')->name('productByCategory');
 
 Route::get('/about', 'HomeController@about')->name('about');
 
@@ -66,13 +70,24 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'admi
     Route::get('/users', 'UserController@index')->name('users.index');
     Route::get('/user/{user}', 'UserController@show')->name('user');
     Route::put('/user/ban/{user}', 'UserController@ban')->name('banUser');
+
+    // category
+    Route::get('/category', 'CategoryController@index')->name('category.index');
+    Route::post('/category/store', 'CategoryController@store')->name('category.store');
+    Route::put('/category/{category}', 'CategoryController@update')->name('category.update');
+    Route::delete('/category/{category}', 'CategoryController@destroy')->name('category.destroy');
+
+
+    Route::resource('/products', 'ProductController');
+    Route::get('/orders', 'OrderController@index')->name('orders');
+    Route::get('/order/{order}', 'OrderController@show')->name('order');
+    Route::put('/orders/{order}', 'OrderController@updateStatus')->name('orders.updateStatus');
 });
 
 //user routes
-Route::group(['namespace' => 'User', 'middleware' => 'auth','middleware'=>'verified'], function () {
+Route::group(['namespace' => 'User', 'middleware' => 'auth', 'middleware' => 'verified'], function () {
     // reservation
     Route::get('/reservations', 'ReservationController@index')->name('user.reservations');
-    // Route::get('/reservation/{reservation}', 'ReservationController@show')->name('user.reservation');
     Route::get('/pet/{pet}/reservation', 'ReservationController@create')->name('reservation.create');
     Route::post('/reservation', 'ReservationController@store')->name('reservation.store');
     Route::put('/reservation/{reservation}/cancel', 'ReservationController@cancel')->name('reservation.cancel');
@@ -88,4 +103,25 @@ Route::group(['namespace' => 'User', 'middleware' => 'auth','middleware'=>'verif
 
     Route::get('/profile', 'UserController@profile')->name('profile');
     Route::put('/profile/{user}', 'UserController@update')->name('profile.update');
+
+    // Cart
+    Route::get('/carts', 'CartController@index')->name('carts.index');
+    Route::get('/add-to-cart/{product:id}', 'CartController@add')->name('carts.add');
+    Route::get('/remove/{product:id}', 'CartController@remove')->name('carts.remove');
+    Route::get('/remove-to-cart/{product:id}', 'CartController@destroy')->name('carts.destroy');
+    Route::put('/carts/update/{product:id}', 'CartController@update')->name('carts.update');
+
+    //order
+    // Route::resource('/orders', 'OrderController');
+    Route::get('/orders', 'OrderController@index')->name('orders.index');
+    Route::get('/order/{order}', 'OrderController@show')->name('orders.show');
+    Route::put('/cancel/{order}', 'OrderController@cancelOrder')->name('orders.cancel');
+    Route::get('/print/{order}', 'OrderController@printOrder')->name('orders.print');
+
+    Route::get('/checkout', 'CheckoutController@checkout')->name('checkout');
+    Route::post('/checkout', 'CheckoutController@store')->name('checkout');
+
+    Route::post('/shippingAddresses', 'ShippingAddressController@store')->name('shippingAddresses.store');
+    Route::put('/shippingAddresses/{shippingAddress}', 'ShippingAddressController@update')->name('shippingAddresses.update');
+    Route::delete('/shippingAddresses/{shippingAddress}', 'ShippingAddressController@destroy')->name('shippingAddresses.destroy');
 });

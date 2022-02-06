@@ -49,6 +49,30 @@
     @endforeach
   </section>
   @endif
+
+  @if(App\Model\Product::all()->count() > 0)
+  <section id="products" class="row justify-content-center">
+    <div class="col-12">
+      <h1 class="text-center text-success  pt-5">Featured Products</h1>
+    </div>
+    @foreach(App\Model\Product::where('is_featured', 1)->take(3)->get(); as $product)
+    <div class="col-lg-3 col-md-5 col-8 p-4" data-aos="fade-up">
+      <div class="card">
+        <a href="{{ route('product', $product->id) }}">
+          <img src="{{ asset('storage/images/products/'.$product->image) }}" class="card-img-top" style="object-fit:cover;" height="250px" alt="{{$product->name}}">
+        </a>
+        <div class="card-body">
+          <a href="{{ route('product', $product->id) }}">
+            <h5 class="text-dark  text-truncate "> {{ $product->name }} </h5>
+            <p class="text-muted small mb-0">&#8369; {{ $product->price }}</p>
+          </a>
+        </div>
+      </div>
+    </div>
+    @endforeach
+  </section>
+  @endif
+
   @if(App\Model\Service::all()->count() > 0)
   <section id="services" class="row justify-content-center pt-5">
     <div class="col-12 text-center">

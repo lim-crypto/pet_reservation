@@ -14,12 +14,25 @@
                 <li class="nav-item ">
                     <a href="{{route('home')}}#home" class="nav-link">Home</a>
                 </li>
-
+                @if(App\Model\Category::count() > 0)
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        Shop
+                    </a>
+                    <ul class="dropdown-menu">
+                        @foreach(App\Model\Category::all() as $category)
+                        <li><a class="dropdown-item" href="{{route('productByCategory' , $category->id)}}">{{$category->name}}</a></li>
+                        @endforeach
+                        <div class="dropdown-divider"></div>
+                        <a href="{{route('products')}}" class="dropdown-item"> All Products</a>
+                    </ul>
+                </li>
+                @endif
                 @if(App\Model\Type::all()->count() > 1)
                 <li class="nav-item dropdown d-flex flex-nowrap">
-                    <a href="{{route('home')}}#pets" class="nav-link float-left pr-0">Pets</a>
-                    <a class="nav-link dropdown-toggle float-left pl-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></a>
-                    <ul class="dropdown-menu dropdown-menu-left">
+                    <a href="{{route('home')}}#pets" class="nav-link pr-0">Pets</a>
+                    <a class="nav-link dropdown-toggle pl-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></a>
+                    <ul class="dropdown-menu">
                         @foreach(App\Model\Type::all() as $type )
                         <a class="dropdown-item" href="{{route('petType',$type->slug)}}">
                             {{$type->name}}
@@ -67,6 +80,15 @@
                 </li>
                 @else
                 <li class="nav-item dropdown">
+                    <a class="nav-link " href="{{route('carts.index')}}">
+                        <i class="fas fa-shopping-cart  ">
+                            @if( Cart::session(auth()->id())->getContent()->count() )
+                            <span class="badge badge-danger navbar-badge">{{ Cart::session(auth()->id())->getContent()->count() }}</span>
+                            @endif
+                        </i>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         {{ Auth::user()->getName() }}
                     </a>
@@ -74,6 +96,8 @@
                         <a class="dropdown-item" href="{{route('profile')}}">Profile</a>
                         <a class="dropdown-item" href="{{route('user.reservations')}}">Reservation</a>
                         <a class="dropdown-item" href="{{route('user.appointments')}}">Appointment</a>
+                        <a class="dropdown-item" href="{{route('orders.index')}}">Orders</a>
+
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                         document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}

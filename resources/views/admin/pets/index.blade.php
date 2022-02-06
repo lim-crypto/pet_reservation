@@ -110,7 +110,7 @@
                                     <a href="{{route('pets.edit',$pet->slug)}}" class="btn btn-primary  btn-sm" title="edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <button class="btn btn-danger btn-sm deleteModal" title="delete" data-toggle="modal" data-target="#deleteModal" data-name="{{$pet->name}}" data-link="{{route('pets.destroy',$pet->slug)}}" @if ( $pet->status == 'reserved' || $pet->status == 'adopted' ) disabled @endif>
+                                    <button class="btn btn-danger btn-sm deleteModal" title="delete" data-toggle="modal" data-target="#deleteModal" data-name="{{$pet->name}}" data-link="{{route('pets.destroy',$pet->slug)}}" @if ( $pet->status == 'reserved' || $pet->status == 'adopted' || $pet->reservation != null  ) disabled @endif>
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </td>
@@ -162,12 +162,10 @@
 <script src="{{asset('Adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('Adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
 
-
+<!-- disable button on submit  -->
+<script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
 <!-- Page specific script -->
 <script>
-    $('form').submit(function() {
-        $(this).find('button[type=submit]').attr('disabled', true);
-    });
     // delete
     $('.deleteModal').click(function() {
         const name = $(this).attr('data-name');

@@ -198,19 +198,11 @@
 
 <!-- jquery validation -->
 <script src="{{ asset('Adminlte/plugins/jquery-validation/jquery-validation.js') }}"></script>
-
+<!-- disable button on submit  -->
+<script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
 <!-- Page specific script -->
 
 <script>
-    $('form').submit(function() {
-         $(this).find('button[type=submit]').attr('disabled', true);
-    });
-    $('input').on('keydown', function() {
-        $('button[type=submit]').removeAttr('disabled');
-    });
-    $('select').on('change', function() {
-        $('button[type=submit]').removeAttr('disabled');
-    });
     // delete
     $('.deleteModal').click(function() {
         const name = $(this).attr('data-name');

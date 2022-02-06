@@ -83,7 +83,7 @@
                                         @csrf
                                         @method('PUT')
                                         <input type="hidden" name="status" id="status" value="">
-                                        <button type="sumbit" class="btn btn-primary">Confirm</button>
+                                        <button type="submit" class="btn btn-primary">Confirm</button>
                                     </form>
                                 </div>
                             </div>
@@ -102,6 +102,8 @@
 
 
 @section('script')
+<!-- disable button on submit  -->
+<script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
 
 <!-- Page specific script -->
 <script>

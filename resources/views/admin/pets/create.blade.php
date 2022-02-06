@@ -242,22 +242,11 @@
 <!-- Ekko Lightbox -->
 <script src="{{ asset('Adminlte/plugins/ekko-lightbox/ekko-lightbox.min.js') }}"></script>
 
+<!-- disable button on submit  -->
+<script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
 
 <!-- Page specific script -->
 <script>
-    $('form').submit(function() {
-        $(this).find('button[type=submit]').attr('disabled', true);
-    });
-    $('input').on('keydown', function() {
-        $('button[type=submit]').removeAttr('disabled');
-    });
-    $('input').on('change', function() {
-        $('button[type=submit]').removeAttr('disabled');
-    });
-    $('select').on('change', function() {
-        $('button[type=submit]').removeAttr('disabled');
-    });
-
     function findSameTypeId($type) {
         $('#breed').find('option').each(function() {
             if ($(this).attr('data-breed_type_id') == type) {
@@ -269,7 +258,6 @@
             }
         });
     }
-
     //check the value of type
     var type = $('#type').val();
     findSameTypeId(type);

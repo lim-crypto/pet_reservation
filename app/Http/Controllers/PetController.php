@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\Breed;
 use App\Model\Pet;
-use App\Model\Reservation;
 use App\Model\Type;
-use Illuminate\Http\Request;
 use App\Helper\Helper;
 
 class PetController extends Controller

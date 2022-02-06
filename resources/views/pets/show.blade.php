@@ -16,8 +16,8 @@
   </ol>
   <div class="carousel-inner">
     @foreach($pet->images as $image)
-    <div class="carousel-item {{++$loop->index == 1 ? 'active':''}} ">
-      <img src="{{asset('storage/images/pets/'.$image)}}" alt="{{$pet->name}}" style="object-fit:cover;">
+    <div class="carousel-item {{++$loop->index == 1 ? 'active':''}} "  style="  height:100vh;" >
+      <img src="{{asset('storage/images/pets/'.$image)}}" alt="{{$pet->name}}" style="object-fit:cover; height:100vh; " >
     </div>
     @endforeach
   </div>
