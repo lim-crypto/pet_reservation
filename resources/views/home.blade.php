@@ -23,7 +23,7 @@
 <div class="jumbotron m-0" id="home">
   <div class="container">
     <h1 class="display-3" data-aos="fade-right">We care <br> <b>As you care</b></h1>
-    <p data-aos="fade-right">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam, deserunt rerum. Recusandae nostrum ipsa officia. Error at quas vitae adipisci.</p>
+    <p data-aos="fade-right">Every Pet Needs A Good Owner</p>
     <p><a class="btn custom-bg-color " href="#about" role="button" data-aos="fade-up">Learn more &raquo;</a></p>
   </div>
 </div>

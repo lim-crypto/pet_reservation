@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -85,7 +86,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'admi
 });
 
 //user routes
-Route::group(['namespace' => 'User', 'middleware' => 'auth', 'middleware' => 'verified', 'middleware' => 'CheckUser'], function () {
+Route::group(['namespace' => 'User', 'middleware' => [ 'auth', 'verified', 'CheckUser']], function () {
     // reservation
     Route::get('/reservations', 'ReservationController@index')->name('user.reservations');
     Route::get('/pet/{pet}/reservation', 'ReservationController@create')->name('reservation.create');
@@ -132,3 +133,14 @@ Route::get('/storage-link', function () {
     symlink($targetFolder,$linkFolder);
     echo 'success';
 });
+
+// // migrate
+// Route::get('/migrate', function () {
+//     Artisan::call('migrate:fresh');
+//     return 'migrate success';
+// });
+// // db seed
+// Route::get('/seed', function () {
+//     Artisan::call('db:seed');
+//     return 'seed success';
+// });

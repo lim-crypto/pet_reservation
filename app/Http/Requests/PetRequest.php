@@ -29,7 +29,7 @@ class PetRequest extends FormRequest
             'breed_id' => 'required|string|max:255',
             'status' => 'required|string|max:255',
             'birthday' => 'required|date',
-            'weight' => 'required|integer',
+            'weight' => 'required',
             'images.*' => 'mimes:jpeg,jpg,png,gif'
 
         ];

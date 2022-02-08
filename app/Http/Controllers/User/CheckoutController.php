@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Mail\Mail;
 use App\Model\Order;
+use App\Model\Product;
 use App\Model\ShippingAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -42,6 +43,11 @@ class CheckoutController extends Controller
         $order->transaction_id = $request->transaction_id;
 
         $order->save();
+
+        foreach ($products as $product) {
+            Product::where('id', $product->id)->get()->first()->decrement('quantity', $product->quantity);
+        }
+
         \Cart::session(auth()->id())->clear();
         $details = [
             'title' => ' Order id : ' . $order->order_id,

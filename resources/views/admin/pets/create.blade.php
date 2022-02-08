@@ -70,7 +70,7 @@
                                             <select name="type_id" id="type" class="form-control  {{ $errors->has('type_id') ? ' is-invalid' : '' }}" required>
                                                 <option value="" selected disabled>Select Pet type</option>
                                                 @foreach($types as $type)
-                                                <option value="{{$type->id}}">{{$type->name}}</option>
+                                                <option {{old('type_id') == $type->id ? 'selected' : ''}}  value="{{$type->id}}">{{$type->name}}</option>
                                                 @endforeach
                                             </select>
                                             <span class="invalid-feedback" role="alert">
@@ -82,10 +82,10 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="breed">Breed</label> <span class="text-danger">*</span>
-                                            <select id="breed" name="breed_id" class="form-control  {{ $errors->has('breed_id') ? ' is-invalid' : '' }}" disabled required>
+                                            <select id="breed" name="breed_id" class="form-control  {{ $errors->has('breed_id') ? ' is-invalid' : '' }}" {{old('breed_id') ? '':'disabled'}} required>
                                                 <option value="" selected disabled>Select Pet Breed</option>
                                                 @foreach ($breeds as $breed)
-                                                <option data-breed_type_id="{{$breed->type->id}}" value="{{$breed->id}}">{{$breed->name}}</option>
+                                                <option {{old('breed_id') == $breed->id ? 'selected' : ''}} data-breed_type_id="{{$breed->type->id}}" value="{{$breed->id}}">{{$breed->name}}</option>
                                                 @endforeach
                                             </select>
                                             <span class="invalid-feedback" role="alert">
@@ -127,8 +127,8 @@
                                             <label for="gender">Gender</label> <span class="text-danger">*</span>
                                             <select class="form-control {{ $errors->has('gender') ? ' is-invalid' : '' }}" id="gender" name="gender" required>
                                                 <option value="" selected disabled hidden>Select Gender</option>
-                                                <option {{old('status') == 'male' ? 'selected' : ''}} value="male">Male </option>
-                                                <option {{old('status') == 'female' ? 'selected' : ''}} value="female">Female</option>
+                                                <option {{old('gender') == 'male' ? 'selected' : ''}} value="male">Male </option>
+                                                <option {{old('gender') == 'female' ? 'selected' : ''}} value="female">Female</option>
                                             </select>
                                         </div>
                                     </div>

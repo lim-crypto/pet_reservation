@@ -64,7 +64,7 @@
                     <div class="card-body">
                         <a href="{{ route('product', $product->id) }}">
                             <h5 class="text-dark  text-truncate "> {{ $product->name }} </h5>
-                            <p class="small text-muted text-truncate">Lorem ipsum Lorem ipsum dolor sit amet, consectetur adipisicing elit.dolor sit amet, consectetur adipisicing elit.</p>
+                            <p class="small text-muted text-truncate">{{ $product->description }}</p>
                             <p class="text-muted small mb-0"> &#8369; {{ $product->price }}</p>
                         </a>
                     </div>
