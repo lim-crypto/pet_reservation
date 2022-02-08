@@ -64,7 +64,7 @@ class ReservationController extends Controller
         \Mail::to(auth()->user()->email)->send(new Mail('Reservation', $details));
         $details['body'] = "New Reservation click the link below";
         $details['link'] = route('reservation', $reservation->id);
-        \Mail::to(env("MAIL_USERNAME", "wamiyulim@gmail.com"))->send(new Mail('New Reservation', $details));
+        \Mail::to(env("MAIL_USERNAME"))->send(new Mail('New Reservation', $details));
         return redirect()->route('user.reservations')->with('thanks', 'Reservation has been made successfully, Please wait for approval');
     }
     // update
@@ -77,7 +77,7 @@ class ReservationController extends Controller
             'date' =>  $reservation->date,
             'body' => 'Reservation has been Cancelled',
         ];
-        \Mail::to(env("MAIL_USERNAME", "wamiyulim@gmail.com"))->send(new Mail('Reservation Update', $details));
+        \Mail::to(env("MAIL_USERNAME"))->send(new Mail('Reservation Update', $details));
         return redirect()->route('user.reservations')->with('success', 'Reservation Updated Successfully');
     }
     // cancel reservation
@@ -92,7 +92,7 @@ class ReservationController extends Controller
                 'date' =>  $reservation->date,
                 'body' => 'Reservation has been Cancelled',
             ];
-            \Mail::to(env("MAIL_USERNAME", "wamiyulim@gmail.com"))->send(new Mail('Reservation Cancelled', $details));
+            \Mail::to(env("MAIL_USERNAME"))->send(new Mail('Reservation Cancelled', $details));
             return redirect()->back()->with('success', 'Reservation cancelled successfully');
         }
         return redirect()->back()->with('error', 'Reservation cannot be cancelled');

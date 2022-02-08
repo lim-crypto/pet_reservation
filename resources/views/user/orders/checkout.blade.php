@@ -35,13 +35,13 @@
                 </li>
                 <li class="list-group-item d-flex justify-content-between">
                     <span>Total (PHP)</span>
-                    <strong> &#8369; {{$cartFinalTotal}} </strong>
+                    <strong> &#8369; <span id="total">{{$cartFinalTotal}}</span> </strong>
                 </li>
             </ul>
         </div>
         <div class="col-md-8 order-md-1 border shadow p-3">
             <h4 class="mb-3">Shipping address</h4>
-            <form class="needs-validation" novalidate="" action="{{route('checkout')}}" method="POST">
+            <form id="checkout-form" class="needs-validation" novalidate="" action="{{route('place-order')}}" method="POST">
                 @csrf
                 <div class="row">
                     <div class="col-md-6 mb-3">
@@ -57,74 +57,163 @@
                     <label for="email">Email</label>
                     <input type="email" class="form-control" id="email" placeholder="{{Auth::user()->email}}" disabled>
                 </div>
-
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label for="houseNumber">House number</label>
-                        <input type="text" id="houseNumber" name="houseNumber" class="form-control" id="houseNumber" value="{{$shippingAddress ? $shippingAddress->houseNumber : ''}}">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="street">Street</label>
-                        <input type="text" class="form-control" name="street" id="street" value="{{$shippingAddress ? $shippingAddress->street : ''}}">
-
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="brgy">BRGY</label><span style="color: red !important; display: inline; float: none;">*</span>
-                        <input type="text" class="form-control" id="brgy" name="brgy" required value="{{$shippingAddress  ? $shippingAddress->brgy : ''}}">
-                        <div class="invalid-feedback">
-                            Barangay is required.
-                        </div>
-                    </div>
+                <div class="mb-3">
+                    <label for="address">Address</label> <span class="text-danger">*</span>
+                    <select name="shippingAddress" class="form-control" id="address" required>
+                        @foreach($shippingAddresses as $shippingAddress )
+                        <option value=" {{$shippingAddress->completeAddress()}} "> {{$shippingAddress->completeAddress()}} </option>
+                        @endforeach
+                    </select>
+                    <button type="button" class="btn btn-tool" data-toggle="modal" data-target="#add">
+                        <i class="fas fa-plus"></i> Add New Address
+                    </button>
                 </div>
 
 
-
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label for="city">City</label><span style="color: red !important; display: inline; float: none;">*</span>
-                        <input type="text" class="form-control" id="city" name="city" required value="{{$shippingAddress ? $shippingAddress->city : ''}}">
-                        <div class="invalid-feedback">
-                            City required.
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label for="province">Province / State</label><span style="color: red !important; display: inline; float: none;">*</span>
-                        <input type="text" class="form-control" name="province" id="province" required value="{{$shippingAddress ? $shippingAddress->province : '' }}">
-                        <div class="invalid-feedback">
-                            Please provide a valid state.
-                        </div>
-                    </div>
-                   <div class="col-md-4 mb-3">
-                        <label for="country">Country</label><span style="color: red !important; display: inline; float: none;">*</span>
-                        <input type="text" id="country" name="country" class="form-control" id="country" required value="{{$shippingAddress ? $shippingAddress->country : ''}}">
-                        <div class="invalid-feedback">
-                            Please select a valid country.
-                        </div>
-                    </div>
-                </div>
-                <hr class="mb-4">
+                <!-- <hr class="mb-4">
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="save-info" name="saveInfo">
                     <label class="custom-control-label" for="save-info">Save this information for next time</label>
+                </div> -->
+                <hr class="mb-4">
+                <h4 class="mb-3">Payment</h4>
+
+                <div class="my-3">
+                    <div class="form-check">
+                        <input id="cod" name="paymentMethod" type="radio" class="form-check-input" value="COD" checked="" required="">
+                        <label class="form-check-label" for="cod">Cash on delivery</label>
+                    </div>
+                    <div class="form-check">
+                        <input id="pay-pal" name="paymentMethod" type="radio" class="form-check-input" value="Paypal" required="">
+                        <label class="form-check-label" for="pay-pal">PayPal</label>
+                        <input type="hidden" name="transaction_id" id="transaction_id">
+                        <input type="hidden" name="paymentStatus" id="paymentStatus">
+                    </div>
                 </div>
                 <hr class="mb-4">
-
-                <button class="btn btn-primary btn-lg btn-block" type="submit">Place order now</button>
-
+                <button class="btn custom-bg-color btn-lg btn-block mb-3" type="submit" id="placeOrder">Place order now</button>
             </form>
+
+
+            <!-- Include the PayPal JavaScript SDK; replace "test" with your own sandbox Business account app client ID -->
+            <script src="https://www.paypal.com/sdk/js?client-id=ATEicUepoC2VdhOOVWRwjwZRrfrOq4AT0UeEMCdrrc0CqDApne-va_i9eYPQPZC2h_lfaa6-uYFeQ5CG&currency=PHP"></script>
+
+            <!-- Set up a container element for the button -->
+            <div id="paypal-button-container" class="d-none"></div>
+
+            <script>
+                paypal.Buttons({
+
+                    // Sets up the transaction when a payment button is clicked
+                    createOrder: function(data, actions) {
+                        return actions.order.create({
+                            purchase_units: [{
+                                amount: {
+                                    value: document.getElementById('total').innerText // Can reference variables or functions. Example: `value: document.getElementById('...').value`
+                                }
+                            }]
+                        });
+                    },
+
+                    // Finalize the transaction after payer approval
+                    onApprove: function(data, actions) {
+                        return actions.order.capture().then(function(orderData) {
+                            // Successful capture! For dev/demo purposes:
+                            console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                            var transaction = orderData.purchase_units[0].payments.captures[0];
+                            // alert('Transaction ' + transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
+                            // When ready to go live, remove the alert and show a success message within this page. For example:
+                            // var element = document.getElementById('paypal-button-container');
+                            // element.innerHTML = '';
+                            // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+                            // Or go to another URL: actions.redirect('thank_you.html');
+                            document.getElementById('transaction_id').value = transaction.id;
+                            document.getElementById('paymentStatus').value = 'Paid';
+                            document.getElementById("checkout-form").submit();
+                        });
+                    }
+                }).render('#paypal-button-container');
+            </script>
         </div>
         <!-- <div class="col-md-12 order-md-3">
         </div> -->
     </div>
 </div>
+
+<!-- Add Modal -->
+<div class="modal fade" id="add" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add shipping address</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+
+            </div>
+            <form action="{{route('shippingAddresses.store')}}" method="POST" class="needs-validation" novalidate="">
+                <div class="modal-body">
+                    @csrf
+                    <div class="card-body">
+                        <!-- house number -->
+                        <div class="form-group">
+                            <label for="houseNumber">House number</label>
+                            <input type="text" class="form-control" id="houseNumber" name="houseNumber">
+                        </div>
+                        <!-- street -->
+                        <div class="form-group">
+                            <label for="street">Street</label>
+                            <input type="text" class="form-control" id="street" name="street">
+                        </div>
+                        <!-- brgy -->
+                        <div class="form-group">
+                            <label for="brgy">Brgy</label><span class="text-danger">*</span>
+                            <input type="text" class="form-control" id="brgy" name="brgy" required>
+                        </div>
+                        <!-- city -->
+                        <div class="form-group">
+                            <label for="city">City</label><span class="text-danger">*</span>
+                            <input type="text" class="form-control" id="city" name="city" required>
+                        </div>
+                        <!-- province -->
+                        <div class="form-group">
+                            <label for="province">Province</label><span class="text-danger">*</span>
+                            <input type="text" class="form-control" id="province" name="province" required>
+                        </div>
+                        <!-- country -->
+                        <div class="form-group">
+                            <label for="country">Country</label> <span class="text-danger">*</span>
+                            <input type="text" class="form-control" id="country" name="country" required>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
 @endsection
 
-@section('pluginsjs')
-<script src="{{ asset('AdminLTE-3.1.0/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
-<script src="{{ asset('AdminLTE-3.1.0/plugins/jquery-validation/additional-methods.min.js') }}"></script>
-@endsection
-
-@section('js')
-<script src="{{asset('js/jquery-validation.js')}}"></script>
+@section('script')
+<script src="{{asset('js/form-validation.js')}}"></script>
+<!-- disable button on submit  -->
+<script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
+<script>
+    $('input[type=radio][name=paymentMethod]').change(function() {
+        if ($('#pay-pal').is(':checked')) {
+            $('#paypal-button-container').removeClass('d-none');
+            $('#placeOrder').addClass('d-none');
+        } else {
+            $('#paypal-button-container').addClass('d-none');
+            $('#placeOrder').removeClass('d-none');
+        }
+    })
+</script>
 @endsection

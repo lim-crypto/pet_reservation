@@ -86,6 +86,8 @@
 <script src="{{ asset('Adminlte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 <!-- form validation -->
 <script src="{{ asset('js/form-validation.js') }}"></script>
+<!-- disable button on submit  -->
+<script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
 <script>
     $(function() {
         //Date picker
@@ -95,15 +97,6 @@
             format: 'L'
         });
 
-    });
-    $('form').submit(function() {
-        $('button[type=submit]').attr('disabled', true);
-    });
-    $('input').on('blur', function() {
-        $('button[type=submit]').removeAttr('disabled');
-    });
-    $('select').on('change', function() {
-        $('button[type=submit]').removeAttr('disabled');
     });
 
     var disabledDates = {!!$disabledDates!!};

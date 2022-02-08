@@ -93,9 +93,9 @@
               <!-- title row -->
               <div class="row">
                 <div class="col-12">
-                  <img src="{{ asset('furnilogo.png') }}" width="40" alt="" class="float-left">
+                  <img src="{{ asset('images/kennel-logo.png') }}" width="40" alt="" class="float-left">
                   <h4 class="align-middle">
-                    {{ config('app.name', 'Furni') }}
+                    {{ config('app.name', 'PremiumKennel') }}
                     <small class="float-right">Date: {{$order->created_at->format('d M  Y ')}}</small>
                   </h4>
                 </div>
@@ -105,22 +105,22 @@
               <!-- /.row -->
               <div class="card mt-3">
                 <header class="card-header">
-                  <h4 class="card-title"> My Orders / Tracking</h4>
+                  <h4 class="card-title"> Orders / Tracking</h4>
                   <div class="card-tools">
                     @if($order->status == 'pending')
-                    <span class="text-xs text-muted font-weight-light ">{{$order->created_at->format('d M  Y h:i:s A')}}</span>
+                    <span class="text-xs text-muted">{{$order->created_at->format('d M  Y h:i:s A')}}</span>
                     <span class="badge badge-pill badge-warning ml-2 py-1 px-2">{{$order->status}}</span>
                     @elseif($order->status == 'packed')
-                    <span class="text-xs text-muted font-weight-light "> {{date('d M Y h:i:s A', strtotime($order->packed_at))}}</span>
+                    <span class="text-xs text-muted"> {{date('d M Y h:i:s A', strtotime($order->packed_at))}}</span>
                     <span class="badge badge-pill badge-info ml-2 py-1 px-2">{{$order->status}}</span>
                     @elseif($order->status == 'shipped')
-                    <span class="text-xs text-muted font-weight-light "> {{date('d M Y h:i:s A', strtotime($order->shipped_at))}}</span>
+                    <span class="text-xs text-muted"> {{date('d M Y h:i:s A', strtotime($order->shipped_at))}}</span>
                     <span class="badge badge-pill badge-secondary ml-2 py-1 px-2">{{$order->status}}</span>
                     @elseif($order->status == 'delivered')
-                    <span class="text-xs text-muted font-weight-light "> {{date('d M Y h:i:s A', strtotime($order->delivered_at))}} </span>
+                    <span class="text-xs text-muted"> {{date('d M Y h:i:s A', strtotime($order->delivered_at))}} </span>
                     <span class="badge badge-pill badge-success ml-2 py-1 px-2">{{$order->status}}</span>
                     @elseif($order->status == 'cancelled')
-                    <span class="text-xs text-muted font-weight-light "> {{date('d M Y h:i:s A', strtotime($order->cancelled_at))}} </span>
+                    <span class="text-xs text-muted"> {{date('d M Y h:i:s A', strtotime($order->cancelled_at))}} </span>
                     <span class="badge badge-pill badge-danger ml-2 py-1 px-2">{{$order->status}}</span>
                     @endif
 
@@ -141,34 +141,34 @@
                     <button type="submit" class="btn btn-sm btn-primary">Update</button>
                   </form>
                   @endif
-                  <h6>Order Number: {{$order->id}}</h6>
+                  <h6>Order ID: {{$order->order_id}}</h6>
                   <div class="track">
                     @if($order->status != 'cancelled')
                     <div class="step active">
                       <span class="icon"><i class="fas fa-shopping-cart"></i></span>
                       <span class="text">Placed Order</span>
-                      <span class="text-xs text-muted font-weight-light ">{{$order->created_at->format('d M  Y h:i:s A')}}</span>
+                      <span class="text-xs text-muted">{{$order->created_at->format('d M  Y h:i:s A')}}</span>
                     </div>
                     <div class="step {{$order->status != 'pending' ? 'active' : ''}}">
                       <span class="icon"><i class="fa fa-box"></i></span>
                       <span class="text">Packed</span>
-                      <span class="text-xs text-muted font-weight-light "> {{$order->packed_at ? date('d M Y h:i:s A', strtotime($order->packed_at)) : ''}}</span>
+                      <span class="text-xs text-muted"> {{$order->packed_at ? date('d M Y h:i:s A', strtotime($order->packed_at)) : ''}}</span>
                     </div>
                     <div class="step {{$order->status=='shipped' ? 'active' : ($order->status=='delivered' ? 'active' : '') }}">
                       <span class="icon"> <i class="fa fa-truck"></i> </span>
                       <span class="text"> On the way </span>
-                      <span class="text-xs text-muted font-weight-light "> {{$order->shipped_at ? date('d M Y h:i:s A', strtotime($order->shipped_at)) : ''}}</span>
+                      <span class="text-xs text-muted"> {{$order->shipped_at ? date('d M Y h:i:s A', strtotime($order->shipped_at)) : ''}}</span>
                     </div>
                     <div class="step {{$order->status=='delivered' ? 'active':''}}">
                       <span class="icon"> <i class="fa fa-check"></i> </span>
                       <span class="text">Delivered</span>
-                      <span class="text-xs text-muted font-weight-light "> {{ $order->delivered_at ? date('d M Y h:i:s A', strtotime($order->delivered_at)) : ''}} </span>
+                      <span class="text-xs text-muted"> {{ $order->delivered_at ? date('d M Y h:i:s A', strtotime($order->delivered_at)) : ''}} </span>
                     </div>
                     @else
                     <div class="step active">
                       <span class="icon"> <i class="fa fa-times"></i> </span>
                       <span class="text">Cancelled</span>
-                      <span class="text-xs text-muted font-weight-light "> {{date('d M Y h:i:s A', strtotime($order->cancelled_at))}} </span>
+                      <span class="text-xs text-muted"> {{date('d M Y h:i:s A', strtotime($order->cancelled_at))}} </span>
                     </div>
                     @endif
                   </div>
@@ -224,7 +224,11 @@
                   @if($order->payment_method == 'COD')
                   <p class="h6">Cash on Delivery</p>
                   @else
-                  <img src="/AdminLTE-3.1.0/dist/img/credit/{{$order->payment_method}}.png" alt="{{$order->payment_method}}">
+                  <p class="h6">{{$order->payment_method}}</p>
+                  <p class="lead">Payment Status:</p>
+                  <p class="h6">{{$order->payment_status}}</p>
+                  <p class="lead">Transaction id:</p>
+                  <p class="h6">{{$order->transaction_id}}</p>
                   @endif
                 </div>
                 <div class="col-sm-4">

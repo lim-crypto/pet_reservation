@@ -28,6 +28,14 @@
           </a>
         </li>
         <li class="nav-item">
+          <a href="{{route('orders')}}" class="nav-link">
+            <i class="nav-icon fas fa-cash-register"></i>
+            <p>
+              Orders
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
           <a href="{{route('reservations')}}" class="nav-link">
             <i class="fas fa-calendar-alt nav-icon"></i>
             <p>
@@ -76,14 +84,6 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="{{route('orders')}}" class="nav-link">
-            <i class="nav-icon fas fa-cash-register"></i>
-            <p>
-              Orders
-            </p>
-          </a>
-        </li>
-        <li class="nav-item">
           <a href="{{route('products.index')}}" class="nav-link">
             <i class="nav-icon fas fa-store-alt"></i>
             <p>
@@ -108,7 +108,17 @@
             </p>
           </a>
         </li>
-
+        <li class="nav-item">
+          <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nav-link">
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+              @csrf
+            </form>
+            <i class="nav-icon fas fa-sign-out-alt"></i>
+            <p>
+              Logout
+            </p>
+          </a>
+        </li>
       </ul>
     </nav>
     <!-- /.sidebar-menu -->

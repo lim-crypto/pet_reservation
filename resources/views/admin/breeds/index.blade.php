@@ -196,8 +196,8 @@
 <script src="{{asset('Adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('Adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
 
-<!-- jquery validation -->
-<script src="{{ asset('Adminlte/plugins/jquery-validation/jquery-validation.js') }}"></script>
+<!-- form validation -->
+<script src="{{ asset('js/form-validation.js') }}"></script>
 <!-- disable button on submit  -->
 <script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
 <!-- Page specific script -->

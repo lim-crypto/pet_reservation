@@ -44,15 +44,13 @@
                                     New Appointment
                                 </a>
                                 <h1 class="h2 mb-0">Appointments</h1>
-
                             </div>
                             <div class="card-body">
                                 <table id="table" class="table table-hover table-striped">
                                     <thead>
                                         <tr>
                                             <th>created at</th>
-                                            <th colspan="2">Service</th>
-
+                                            <th>Service</th>
                                             <th>Date</th>
                                             <th>Status</th>
                                             <th>Cancel</th>
@@ -62,7 +60,7 @@
                                         @foreach($appointments as $appointment)
                                         <tr>
                                             <td>{{date('m/d/Y h:i:s a',strtotime($appointment->created_at))}}</td>
-                                            <td colspan="2">{{$appointment->service}} - {{$appointment->offer}} </td>
+                                            <td>{{$appointment->service}} - {{$appointment->offer}} </td>
 
                                             <td> {{date('M d, Y - gA', strtotime($appointment->date))}}</td>
                                             <td>
@@ -83,7 +81,6 @@
                                                     <i class="fas fa-times"></i>
                                                 </button>
                                             </td>
-
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -147,7 +144,11 @@
             $("#table").DataTable({
                 "responsive": true,
                 "lengthChange": false,
-                "autoWidth": false
+                "autoWidth": false,
+                "order": [
+                    [0, "desc"]
+                ]
+
             });
 
         });

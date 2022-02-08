@@ -76,7 +76,7 @@ class AppointmentController extends Controller
         \Mail::to(auth()->user()->email)->send(new Mail('Appointment', $details));
         $details['body'] = 'New Appointment click the link below';
         $details['link'] = route('appointment', $appointment->id);
-        \Mail::to(env("MAIL_USERNAME", "wamiyulim@gmail.com"))->send(new Mail('New Appointment', $details));
+        \Mail::to(env("MAIL_USERNAME"))->send(new Mail('New Appointment', $details));
         return redirect()->route('user.appointments')->with('thanks', 'Appointment has been made successfully, Please wait for approval');
     }
 
@@ -88,9 +88,8 @@ class AppointmentController extends Controller
             'title' =>  $appointment->service . ' ' . $appointment->offer,
             'date' => $appointment->date,
             'body' => 'Reservation has been Cancelled',
-
         ];
-        \Mail::to('wamiyulim@gmail.com')->send(new Mail('Appointment Cancelled', $details));
+        \Mail::to(env("MAIL_USERNAME"))->send(new Mail('Appointment Cancelled', $details));
         return redirect()->route('user.appointments')->with('success', 'Appointment cancelled successfully');
     }
 }

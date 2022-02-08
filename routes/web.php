@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/home', function () {
     return view('home');
-})->middleware('CheckUser');
+})->middleware(['CheckUser', 'verified']);
 
 Auth::routes(['verify' => true]);
 Route::get('/', 'HomeController@index')->name('home');
@@ -85,7 +85,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'admi
 });
 
 //user routes
-Route::group(['namespace' => 'User', 'middleware' => 'auth', 'middleware' => 'verified'], function () {
+Route::group(['namespace' => 'User', 'middleware' => 'auth', 'middleware' => 'verified','middleware'=>'CheckUser'], function () {
     // reservation
     Route::get('/reservations', 'ReservationController@index')->name('user.reservations');
     Route::get('/pet/{pet}/reservation', 'ReservationController@create')->name('reservation.create');
@@ -119,7 +119,7 @@ Route::group(['namespace' => 'User', 'middleware' => 'auth', 'middleware' => 've
     Route::get('/print/{order}', 'OrderController@printOrder')->name('orders.print');
 
     Route::get('/checkout', 'CheckoutController@checkout')->name('checkout');
-    Route::post('/checkout', 'CheckoutController@store')->name('checkout');
+    Route::post('/place-order', 'CheckoutController@store')->name('place-order');
 
     Route::post('/shippingAddresses', 'ShippingAddressController@store')->name('shippingAddresses.store');
     Route::put('/shippingAddresses/{shippingAddress}', 'ShippingAddressController@update')->name('shippingAddresses.update');

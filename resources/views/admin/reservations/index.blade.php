@@ -185,7 +185,9 @@
       "responsive": true,
       "lengthChange": false,
       "autoWidth": false,
-      "order": [[ 0, "desc" ]]
+      "order": [
+        [0, "desc"]
+      ]
     });
   });
   $('.statusModal').click(function() {
@@ -208,13 +210,13 @@
 
     if (status == 'approved') {
       $('#statusModalText').text('Are you sure you want to approve this reservation?');
-      changeClass('bg-primary' , 'btn-primary');
+      changeClass('bg-primary', 'btn-primary');
     } else if (status == 'rejected') {
       $('#statusModalText').text('Are you sure you want to reject this reservation?');
-      changeClass('bg-danger' , 'btn-danger');
+      changeClass('bg-danger', 'btn-danger');
     } else if (status == 'completed') {
       $('#statusModalText').text('Are you sure this reservation is complete?');
-      changeClass('bg-success' , 'btn-success');
+      changeClass('bg-success', 'btn-success');
     }
   });
 

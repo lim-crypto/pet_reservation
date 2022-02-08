@@ -14,7 +14,7 @@
                 <li class="nav-item ">
                     <a href="{{route('home')}}#home" class="nav-link">Home</a>
                 </li>
-                @if(App\Model\Category::count() > 0)
+                @if(App\Model\Category::count() > 1)
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         Shop
@@ -26,6 +26,10 @@
                         <div class="dropdown-divider"></div>
                         <a href="{{route('products')}}" class="dropdown-item"> All Products</a>
                     </ul>
+                </li>
+                @else
+                <li class="nav-item ">
+                    <a href="{{route('products')}}" class="nav-link">Shop</a>
                 </li>
                 @endif
                 @if(App\Model\Type::all()->count() > 1)
@@ -64,7 +68,8 @@
                 </li>
                 @if (Route::has('register'))
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                    <a class="btn custom-bg-color border rounded-pill px-4 d-none d-md-block" href="{{ route('register') }}">{{ __('Register') }}</a>
+                    <a class="nav-link d-block d-md-none" href="{{ route('register') }}">{{ __('Register') }}</a>
                 </li>
                 @endif
                 @else

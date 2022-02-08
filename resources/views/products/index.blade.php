@@ -43,7 +43,7 @@
                 </div>
                 @empty
                 <div class="col-12">
-                        <h5 class="text-center">No products found</h5>
+                    <h5 class="text-center">No products found</h5>
                 </div>
                 @endforelse
             </section>

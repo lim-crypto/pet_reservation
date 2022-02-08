@@ -34,7 +34,6 @@
                 <div class="card-body pt-0">
                     <form method="POST" action="{{ route('register') }}" class="needs-validation" novalidate="">
                         @csrf
-
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -48,8 +47,9 @@
                                         @endif
                                     </span>
                                 </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
-
                                     <label for="last_name" class="font-weight-normal">{{ __('Last Name') }}</label><span class="text-danger">*</span>
                                     <input id="last_name" type="text" class="form-control @error('last_name') is-invalid @enderror" name="last_name" value="{{ old('last_name') }}" required autocomplete="last_name" autofocus>
                                     <span class="invalid-feedback" role="alert">
@@ -60,17 +60,6 @@
                                         @endif
                                     </span>
 
-                                </div>
-                                <div class="form-group">
-                                    <label for="email" class="font-weight-normal">{{ __('E-Mail Address') }}</label><span class="text-danger">*</span>
-                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" pattern="[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+">
-                                    <span class="invalid-feedback" role="alert">
-                                        @if($errors->has('email'))
-                                        {{ $errors->first('email') }}
-                                        @else
-                                        Please enter a valid email address
-                                        @endif
-                                    </span>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -85,6 +74,22 @@
                                         @endif
                                     </span>
                                 </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="email" class="font-weight-normal">{{ __('E-Mail Address') }}</label><span class="text-danger">*</span>
+                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" pattern="[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+">
+                                    <span class="invalid-feedback" role="alert">
+                                        @if($errors->has('email'))
+                                        {{ $errors->first('email') }}
+                                        @else
+                                        Please enter a valid email address
+                                        @endif
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="password" class="font-weight-normal">{{ __('Password') }}</label><span class="text-danger">*</span>
                                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="password">
@@ -96,6 +101,8 @@
                                         @endif
                                     </span>
                                 </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="confirm_password" class="font-weight-normal">{{ __('Confirm Password') }}</label><span class="text-danger">*</span>
                                     <input id="confirm_password" type="password" class="form-control" name="password_confirmation" required autocomplete="confirm_password">

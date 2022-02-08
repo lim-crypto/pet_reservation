@@ -25,7 +25,7 @@
 
                             @if(Cart::session((auth()->user()) ? auth()->id() : '_token')->get($product->id))
                             <form action="{{ route('carts.remove', $product->id) }}">
-                                <button type="submit" class="btn btn-sm btn-danger btn-block"> <i class="fas fa-trash"></i> Remove to cart</button>
+                                <button type="submit" class="btn btn-sm btn-danger"> <i class="fas fa-trash"></i> Remove to cart</button>
                             </form>
                             @else
                             <div class="input-group">
@@ -81,6 +81,9 @@
 @endsection
 
 @section('script')
+<!-- disable button on submit  -->
+<script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
+
 <script>
     window.onload = function() {
         $("input[name='quantity']").val(1);

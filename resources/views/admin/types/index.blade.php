@@ -141,7 +141,7 @@
                             <div class="form-group">
                                 <label for="image">Image</label>
                                 <div class="custom-file">
-                                    <input type="file" name="image" class="custom-file-input  {{ $errors->has('image') ? ' is-invalid'  :''  }}" accept="image/*" >
+                                    <input type="file" name="image" class="custom-file-input  {{ $errors->has('image') ? ' is-invalid'  :''  }}" accept="image/*">
                                     <label class="custom-file-label" for="gallery-photo-add">Choose Image</label>
                                     <div class="invalid-feedback">
                                         Please choose image
@@ -166,20 +166,17 @@
 
 @section('script')
 
-<!-- jquery validation -->
-<script src="{{ asset('Adminlte/plugins/jquery-validation/jquery-validation.js') }}"></script>
+<!-- form validation -->
+<script src="{{ asset('js/form-validation.js') }}"></script>
 <!-- bs-custom-file-input -->
 <script src="{{asset('Adminlte/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
 <!-- disable button on submit  -->
 <script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
 <!-- Page specific script -->
 <script>
-
-
     $(function() {
         bsCustomFileInput.init();
     });
-
     // delete
     $('.deleteModal').click(function() {
         const name = $(this).attr('data-name');

@@ -50,12 +50,12 @@
   </section>
   @endif
 
-  @if(App\Model\Product::all()->count() > 0)
+  @if(App\Model\Product::where('is_featured', 1)->count() > 0)
   <section id="products" class="row justify-content-center">
     <div class="col-12">
       <h1 class="text-center text-success  pt-5">Featured Products</h1>
     </div>
-    @foreach(App\Model\Product::where('is_featured', 1)->take(3)->get(); as $product)
+    @foreach(App\Model\Product::where('is_featured', 1)->take(3)->get() as $product)
     <div class="col-lg-3 col-md-5 col-8 p-4" data-aos="fade-up">
       <div class="card">
         <a href="{{ route('product', $product->id) }}">

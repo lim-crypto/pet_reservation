@@ -11,9 +11,6 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::all()->sortByDesc('created_at');
-        foreach ($orders as $order) {
-            $order->products = json_decode($order->products);
-        }
         return view('admin.orders.index', compact('orders'));
     }
 

@@ -11,6 +11,6 @@ class ShippingAddress extends Model
     ];
     public function completeAddress()
     {
-        return "{$this->houseNumber} {$this->street}, {$this->brgy}, {$this->city}, {$this->province}, {$this->country}";
+        return "{$this->houseNumber} {$this->street}  {$this->brgy}, {$this->city}, {$this->province}, {$this->country}";
     }
 }

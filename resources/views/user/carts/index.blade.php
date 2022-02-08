@@ -12,7 +12,7 @@
       <h1>Cart</h1>
 
 
-      <table id="cart-table" class="table table-sm table-hover table-head-fixed ">
+      <table id="cart-table" class="table table-sm table-head-fixed ">
         <thead>
           <tr>
             <th>Product image</th>
@@ -25,22 +25,13 @@
         <tbody>
           @forelse($products as $product)
           <tr class="text-center">
-
-
-            <td class="w-25">
-              <a href="#">
-                <img class="rounded img-fluid" src="{{ asset('storage/images/products/'. $product->attributes->image) }}" alt="image">
+            <td>
+              <a href="{{route('product',$product->id)}}">
+                <img class="rounded img-fluid" src="{{ asset('storage/images/products/'. $product->attributes->image) }}" alt="image" style="height:100px; object-fit:cover;">
               </a>
             </td>
-
-            <td>
-              <h5>{{ $product->name}}</h5>
-            </td>
-
-            <td>
-              <p class="price text-left"> &#8369; {{$product->price}}</p>
-            </td>
-
+            <td> <a href="{{route('product',$product->id)}}"> {{ $product->name}} </a></td>
+            <td> &#8369; {{$product->price}} </td>
             <td>
               <p class="d-none">{{ $product->quantity }}</p>
               <form action="{{ route('carts.update', $product->id) }}" method="POST">
@@ -48,21 +39,17 @@
                 @method('put')
                 <div class="d-flex align-items-center">
                   <input class="form-control form-control-sm mr-2" type="number" min="1" name="quantity" value="{{ $product->quantity }}" style="width:50px">
-                  <button type="submit" class="btn btn-primary btn-sm btn-save">Save</button>
+                  <button type="submit" class="btn custom-bg-color btn-sm btn-save">Save</button>
                 </div>
-
               </form>
-
             </td>
-
-            <td>
-              <a class="text-danger" href="{{ route('carts.remove', $product->id) }}"><i class="fas fa-trash"></i></a>
-            </td>
+            <td> <a class="btn btn-outline-danger" id="remove" href="{{ route('carts.remove', $product->id) }}"><i class="fas fa-trash"></i></a> </td>
           </tr>
           @empty
           <tr>
             <td colspan="5" class="text-center">
               <h5>No item in cart</h5>
+              <a class="btn custom-bg-color mt-5" href="{{route('products')}}"> Shop Now </a>
             </td>
           </tr>
           @endforelse
@@ -90,7 +77,7 @@
           </div>
           <div class="row">
             <div class="col-md-12">
-              <a href="/checkout" class="btn btn-primary btn-block">Checkout</a>
+              <a href="{{route('checkout')}}" class="btn custom-bg-color btn-block">Checkout</a>
             </div>
           </div>
         </div>
@@ -108,7 +95,8 @@
 <script src="{{asset('Adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('Adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
 
-
+<!-- disable button on submit  -->
+<script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
 <script>
   $(function() {
     $("#cart-table").DataTable({
@@ -119,5 +107,9 @@
     });
 
   });
+  $('#remove').click(function(){
+    console.log('clicked');
+    $(this).addClass('disabled');
+  })
 </script>
 @endsection

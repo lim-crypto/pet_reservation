@@ -23,19 +23,23 @@ class ShippingAddressController extends Controller
         $shippingAddress->country = $request->country;
         $shippingAddress->save();
         return redirect()->back()->with('success', 'Shipping Address Added');
-
     }
 
     public function update(Request $request, ShippingAddress $shippingAddress)
     {
         $request->validate([
-            'houseNumber' => 'required',
-            'street' => 'required',
             'brgy' => 'required',
             'city' => 'required',
             'province' => 'required',
             'country' => 'required',
         ]);
+        $shippingAddress->user_id = auth()->user()->id;
+        $shippingAddress->houseNumber = $request->houseNumber;
+        $shippingAddress->street = $request->street;
+        $shippingAddress->brgy = $request->brgy;
+        $shippingAddress->city = $request->city;
+        $shippingAddress->province = $request->province;
+        $shippingAddress->country = $request->country;
         $shippingAddress->save();
         return redirect()->back()->with('success', 'Shipping Address Updated');
     }
