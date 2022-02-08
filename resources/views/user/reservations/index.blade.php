@@ -66,14 +66,9 @@
                             <p class="text-muted small mb-0">{{date( 'm/d/y h a', strtotime($reservation->date))}}</p>
                             <span class="text-muted small">{{ $reservation->created_at->diffForHumans()}}</span>
                             @if($reservation->status == 'pending')
-                            <div class="btn-group float-right">
-                                <button title="cancel" type="button" class="btn btn-outline-danger btn-xs cancelModal float-right" data-toggle="modal" data-target="#cancelModal" data-reservation="{{$reservation->pet->breed->name.' '.$reservation->pet->name}}" data-link="{{route('reservation.cancel',$reservation->id)}}">
-                                    <i class="fas fa-times-circle"></i>
-                                </button>
-                                <button title="edit" type="button" class="btn  btn-outline-secondary btn-xs editModal" data-toggle="modal" data-target="#editModal" data-date="{{$reservation->date}}" data-link="{{route('reservation.update',$reservation->id)}}">
-                                    <i class="fas fa-pen"></i>
-                                </button>
-                            </div>
+                            <button title="cancel" type="button" class="btn btn-outline-danger btn-sm cancelModal float-right" data-toggle="modal" data-target="#cancelModal" data-reservation="{{$reservation->pet->breed->name.' '.$reservation->pet->name}}" data-link="{{route('reservation.cancel',$reservation->id)}}">
+                                cancel
+                            </button>
                             @endif
 
                         </div>
@@ -110,72 +105,13 @@
                 <form id="cancel-form" action="" method="POST">
                     @csrf
                     @method('PUT')
-                    <button type="sumbit" class="btn btn-danger">Yes</button>
+                    <button type="sumbit" class="btn btn-danger">Confirm</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-<!-- Edit modal -->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editeModalLabel">Edit</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form id="edit-form" action="" method="POST" class="needs-validation" novalidate="">
-                @csrf
-                @method('PUT')
-                <div class="modal-body row">
-                    <div class="col-6">
-                        <!-- Date -->
-                        <div class="form-group">
-                            <label>Date:</label>
-                            <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                <input type="text" name="date" id="date" class="form-control datetimepicker-input" data-target="#reservationdate" data-toggle="datetimepicker" required>
-                                <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- time -->
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="time">Time:</label>
-                            <div class="input-group">
-                                <select class="form-control" name="time" id="time">
-                                    <option value="07:00 AM">7:00 AM</option>
-                                    <option value="08:00 AM">8:00 AM</option>
-                                    <option value="09:00 AM">9:00 AM</option>
-                                    <option value="10:00 AM">10:00 AM</option>
-                                    <option value="11:00 AM">11:00 AM</option>
-                                    <option value="12:00 PM">12:00 PM</option>
-                                    <option value="01:00 PM">1:00 PM</option>
-                                    <option value="02:00 PM">2:00 PM</option>
-                                    <option value="03:00 PM">3:00 PM</option>
-                                    <option value="04:00 PM">4:00 PM</option>
-                                    <option value="05:00 PM">5:00 PM</option>
-                                </select>
-                                <div class="input-group-append">
-                                    <div class="input-group-text"><i class="fa fa-clock"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="sumbit" class="btn btn-primary">Update</button>
-                </div>
-            </form>
 
-        </div>
-    </div>
-</div>
 @endsection
 
 
@@ -229,21 +165,6 @@
         const link = $(this).attr('data-link');
         $('#cancelModalText').text(`Are you sure you want to cancel ${reservation}?`);
         $('#cancel-form').attr('action', link);
-    });
-    // edit
-    $('.editModal').click(function() {
-        const date = $(this).attr('data-date');
-        const link = $(this).attr('data-link');
-        const dateFormat = moment(date).format('MM/DD/YYYY');
-        const time = moment(date).format('hh:mm A');
-        $('#edit-form').attr('action', link);
-        $('#date').val(dateFormat);
-        $('#time').val(time);
-        $('#time').find('option').each(function() {
-            if ($(this).val() == time) {
-                $(this).attr('selected', 'selected');
-            }
-        });
     });
 </script>
 @endsection

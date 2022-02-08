@@ -115,7 +115,7 @@
                             <form id="cancel-form" action="" method="POST">
                                 @csrf
                                 @method('PUT')
-                                <button type="sumbit" class="btn btn-danger">Yes</button>
+                                <button type="sumbit" class="btn btn-danger">Confirm</button>
                             </form>
                         </div>
                     </div>

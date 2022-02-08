@@ -61,25 +61,15 @@ class ReservationController extends Controller
             'date' =>  $reservation->date,
             'body' => 'Reservation has been made successfully, Please wait for approval',
         ];
+        // send mail to user
         \Mail::to(auth()->user()->email)->send(new Mail('Reservation', $details));
         $details['body'] = "New Reservation click the link below";
         $details['link'] = route('reservation', $reservation->id);
-        \Mail::to(env("MAIL_USERNAME"))->send(new Mail('New Reservation', $details));
+        // send mail to admin
+        \Mail::to(env("MAIL_USERNAME", "premiumkennel123@gmail.com"))->send(new Mail('New Reservation', $details));
         return redirect()->route('user.reservations')->with('thanks', 'Reservation has been made successfully, Please wait for approval');
     }
-    // update
-    public function update(ReservationRequest $request, Reservation $reservation)
-    {
-        $reservation->date = date('Y-m-d H:i:s',  strtotime("$request->date $request->time"));
-        $reservation->save();
-        $details = [
-            'title' => $reservation->pet->type->name . ' - ' . $reservation->pet->breed->name . ' - ' . $reservation->pet->name,
-            'date' =>  $reservation->date,
-            'body' => 'Reservation has been Cancelled',
-        ];
-        \Mail::to(env("MAIL_USERNAME"))->send(new Mail('Reservation Update', $details));
-        return redirect()->route('user.reservations')->with('success', 'Reservation Updated Successfully');
-    }
+
     // cancel reservation
     public function cancel(Reservation $reservation)
     {
@@ -92,7 +82,7 @@ class ReservationController extends Controller
                 'date' =>  $reservation->date,
                 'body' => 'Reservation has been Cancelled',
             ];
-            \Mail::to(env("MAIL_USERNAME"))->send(new Mail('Reservation Cancelled', $details));
+            \Mail::to(env("MAIL_USERNAME", "premiumkennel123@gmail.com"))->send(new Mail('Reservation Cancelled', $details));
             return redirect()->back()->with('success', 'Reservation cancelled successfully');
         }
         return redirect()->back()->with('error', 'Reservation cannot be cancelled');

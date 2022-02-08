@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\Mail;
 use App\Model\Order;
 use Illuminate\Http\Request;
 
@@ -35,7 +36,18 @@ class OrderController extends Controller
             $order->cancelled_at = now();
         }
         $order->save();
+
+        $details = [
+            'title' => ' Order id : ' . $order->order_id,
+            'date' =>  $order->created_at,
+            'body' => 'Your order has been ' . $order->status,
+        ];
+        if ($order->transaction_id != null) {
+            $details['transaction_id'] = $order->transaction_id;
+        }
+        // send mail to user
+        \Mail::to($order->user->email)->send(new Mail('Order Updates', $details));
+
         return  redirect()->back()->with('success', 'Order status updated successfully');
     }
-
 }

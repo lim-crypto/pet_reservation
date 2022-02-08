@@ -85,13 +85,12 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'admi
 });
 
 //user routes
-Route::group(['namespace' => 'User', 'middleware' => 'auth', 'middleware' => 'verified','middleware'=>'CheckUser'], function () {
+Route::group(['namespace' => 'User', 'middleware' => 'auth', 'middleware' => 'verified', 'middleware' => 'CheckUser'], function () {
     // reservation
     Route::get('/reservations', 'ReservationController@index')->name('user.reservations');
     Route::get('/pet/{pet}/reservation', 'ReservationController@create')->name('reservation.create');
     Route::post('/reservation', 'ReservationController@store')->name('reservation.store');
     Route::put('/reservation/{reservation}/cancel', 'ReservationController@cancel')->name('reservation.cancel');
-    Route::put('/reservation/{reservation}', 'ReservationController@update')->name('reservation.update');
 
     // appointment
     Route::get('/appointments', 'AppointmentController@index')->name('user.appointments');
@@ -124,4 +123,12 @@ Route::group(['namespace' => 'User', 'middleware' => 'auth', 'middleware' => 've
     Route::post('/shippingAddresses', 'ShippingAddressController@store')->name('shippingAddresses.store');
     Route::put('/shippingAddresses/{shippingAddress}', 'ShippingAddressController@update')->name('shippingAddresses.update');
     Route::delete('/shippingAddresses/{shippingAddress}', 'ShippingAddressController@destroy')->name('shippingAddresses.destroy');
+});
+
+
+Route::get('/storage-link', function () {
+    $targetFolder =  '/home/u993972610/domains/premiumkennel.online/pet_reservation/storage/app/public';
+    $linkFolder = $_SERVER['DOCUMENT_ROOT'].'/storage';
+    symlink($targetFolder,$linkFolder);
+    echo 'success';
 });

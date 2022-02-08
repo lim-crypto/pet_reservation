@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Mail\Mail;
 use App\Model\Order;
 use App\Model\ShippingAddress;
 use Illuminate\Http\Request;
@@ -42,7 +43,20 @@ class CheckoutController extends Controller
 
         $order->save();
         \Cart::session(auth()->id())->clear();
-
+        $details = [
+            'title' => ' Order id : ' . $order->order_id,
+            'date' =>  $order->created_at,
+            'body' => 'Order has been made successfully, Please wait for delivery',
+        ];
+        if ($order->transaction_id != null) {
+            $details['transaction_id'] = $order->transaction_id;
+        }
+        // send mail to user
+        \Mail::to(auth()->user()->email)->send(new Mail('Order', $details));
+        $details['body'] = "New Order click the link below";
+        $details['link'] =  route('order', $order->id);
+        //send mail to admin
+        \Mail::to(env("MAIL_USERNAME", "premiumkennel123@gmail.com"))->send(new Mail('New Order', $details));
         return redirect()->route('orders.index')->with('success', 'Order has been placed successfully!');
     }
 }
