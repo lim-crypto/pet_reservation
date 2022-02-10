@@ -3,16 +3,15 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-
+use App\Http\Requests\ShippingAddressRequest;
 use App\Model\ShippingAddress;
 use Illuminate\Http\Request;
 
 class ShippingAddressController extends Controller
 {
 
-    public function store(Request $request)
+    public function store(ShippingAddressRequest $request)
     {
-        //
         $shippingAddress = new ShippingAddress();
         $shippingAddress->user_id = auth()->user()->id;
         $shippingAddress->houseNumber = $request->houseNumber;
@@ -25,14 +24,8 @@ class ShippingAddressController extends Controller
         return redirect()->back()->with('success', 'Shipping Address Added');
     }
 
-    public function update(Request $request, ShippingAddress $shippingAddress)
+    public function update(ShippingAddressRequest $request, ShippingAddress $shippingAddress)
     {
-        $request->validate([
-            'brgy' => 'required',
-            'city' => 'required',
-            'province' => 'required',
-            'country' => 'required',
-        ]);
         $shippingAddress->user_id = auth()->user()->id;
         $shippingAddress->houseNumber = $request->houseNumber;
         $shippingAddress->street = $request->street;

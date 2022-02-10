@@ -37,7 +37,7 @@
     </script>
 </head>
 
-<body>
+<body style="background-image: url('{{ asset('images/bg.jpg') }}');" >
     <div id="loading">
         <div id="loading-image">
         </div>

@@ -58,7 +58,9 @@
             <tbody>
               @foreach($reservations as $reservation)
               <tr>
-                <td>{{date('m/d/Y h:i:s a',strtotime($reservation->created_at))}}</td>
+                <td>{{date('m/d/Y H:i:s',strtotime($reservation->created_at))}}
+                <span class="text-xs text-muted"> {{$reservation->created_at->diffForHumans() }} </span>
+                </td>
                 <td>{{$reservation->user->getName()}}</td>
                 <td>{{$reservation->pet->name}}</td>
                 <td>{{date('m/d/Y h a',strtotime($reservation->date))}}</td>

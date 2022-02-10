@@ -50,7 +50,7 @@
                                 </td>
                                 <td> &#8369; {{ $order->total }}</td>
                                 <td>
-                                    <button title="Cancel order" href="#!" class="btn btn-outline-danger cancel" data-toggle="modal" data-target="#modal-danger" data-order="{{$order->order_id}}" data-link="{{route('orders.cancel' , $order->id)}}" {{$order->status =='pending' ? '' : 'disabled'}}>Cancel</button>
+                                    <button title="Cancel order" href="#!" class="btn btn-outline-danger cancel" data-toggle="modal" data-target="#modal-danger" data-order="{{$order->order_id}}" data-link="{{route('orders.cancel' , $order->id)}}"  @if($order->status !='pending' || $order->payment_status=='Paid' ) disabled @endif >Cancel</button>
                                     <a href="{{ route('orders.show', $order->id) }}" class="btn custom-bg-color">View</a>
                                 </td>
                             </tr>

@@ -5,6 +5,7 @@ namespace App\Helper;
 use App\Model\Appointment;
 use App\Model\Pet;
 use App\Model\Reservation;
+use App\Model\User;
 use Illuminate\Support\Facades\Storage;
 
 class Helper
@@ -108,6 +109,15 @@ class Helper
             $pet->status = 'adopted';
             $pet->save();
         }
+        return;
+    }
+    public static function updateUserInfo($first_name, $last_name, $contact_number)
+    {
+        $user = User::find(auth()->user()->id);
+        $user->first_name = $first_name;
+        $user->last_name = $last_name;
+        $user->contact_number = $contact_number;
+        $user->save();
         return;
     }
 }

@@ -56,6 +56,8 @@ class ReservationController extends Controller
         $reservation->save();
         // update pet status
         Helper::updatePetStatus($request->pet_id, 'reserved');
+        // update user information
+        Helper::updateUserInfo($request->first_name , $request->last_name, $request->contact_number);
         $details = [
             'title' => $reservation->pet->type->name . ' - ' . $reservation->pet->breed->name . ' - ' . $reservation->pet->name,
             'date' =>  $reservation->date,

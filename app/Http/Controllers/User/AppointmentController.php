@@ -8,6 +8,7 @@ use App\Http\Requests\AppointmentRequest;
 use App\Mail\Mail;
 use App\Model\Appointment;
 use App\Model\Service;
+use App\Model\User;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
@@ -67,6 +68,8 @@ class AppointmentController extends Controller
         $appointment->offer = $request->offer;
         $appointment->date = date('Y-m-d H:i:s', strtotime("$request->date $request->time"));
         $appointment->save();
+        // update user information
+        Helper::updateUserInfo($request->first_name, $request->last_name, $request->contact_number);
         $details = [
             'title' =>  $appointment->service . ' ' . $appointment->offer,
             'date' => $appointment->date,

@@ -36,6 +36,8 @@
                         <a class="dropdown-item" href="{{route('getPetsByStatus','reserved')}}">reserved</a>
                         <a class="dropdown-item" href="{{route('getPetsByStatus','adopted')}}">adopted</a>
                         <a class="dropdown-item" href="{{route('getPetsByStatus','for breed')}}">For breed</a>
+                        <a class="dropdown-item" href="{{route('pets.index')}}">All</a>
+
                     </div>
                 </div>
 
@@ -49,6 +51,7 @@
                             {{$type->name}}
                         </a>
                         @endforeach
+                        <a class="dropdown-item" href="{{route('pets.index')}}">All</a>
                     </div>
                 </div>
 
@@ -62,6 +65,7 @@
                             {{$breed->name}}
                         </a>
                         @endforeach
+                        <a class="dropdown-item" href="{{route('pets.index')}}">All</a>
                     </div>
                 </div>
 

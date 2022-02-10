@@ -29,7 +29,7 @@
     .track .step::before {
         height: 7px;
         position: absolute;
-        content:"";
+        content: "";
         width: 100%;
         left: 0;
         top: 18px
@@ -231,10 +231,13 @@
                         <form action="{{route('orders.cancel' , $order->id)}}" method="POST" class="float-right text-right">
                             @csrf
                             @method('PUT')
-                            <button type="submit" class="btn btn-danger" {{$order->status =="pending" ? '' : 'disabled'}}>
+                            <button type="submit" class="btn btn-danger" @if($order->status !='pending' || $order->payment_status=='Paid' ) disabled @endif>
                                 Cancel
                             </button>
-                            <p class="text-muted font-italic">You can only cancel this order if it is pending, once its processed you cannot cancel this order</p>
+                            @if($order->payment_status == 'Paid')
+                            <p class="text-muted font-italic small">You can't cancel this order if the transaction are done</p>
+                            @endif
+                            <p class="text-muted font-italic small">You can't cancel this order if it is processed</p>
                         </form>
                     </div>
                 </div>

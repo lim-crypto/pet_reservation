@@ -110,9 +110,7 @@
     <div class="row content ">
       <div class="col-lg-6 p-3" data-aos="fade-up" data-aos-delay="300">
         <p>
-          Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-          velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+        Premium Kennel Pet Store Management System is a web-based application system aimed to help a small home-based pet business Premium Kennel to expand and broaden their online presence by implementing the business online. We are the first to elevate a traditional pet store, by having a pet store management system that include better ways of selling a pet (our notable feature) and access to other services (e.g., grooming).
         </p>
       </div>
     </div>

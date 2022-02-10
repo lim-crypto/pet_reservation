@@ -47,8 +47,8 @@
                                 <td>{{$user->contact_number}}</td>
 
                                 <td>
-                                    <button type="button" class="btn btn-danger btn-sm banModal" data-toggle="modal" data-target="#banModal" data-name="{{$user->getName()}}" data-link="{{route('banUser', $user->id)}}" @if($user->is_active==0) disabled @endif >
-                                        <i class="fas fa-trash"></i>
+                                    <button title="Ban this user?" type="button" class="btn btn-danger btn-sm banModal" data-toggle="modal" data-target="#banModal" data-name="{{$user->getName()}}" data-link="{{route('banUser', $user->id)}}" @if($user->is_active==0) disabled @endif >
+                                        <i class="fas fa-ban"></i>
                                     </button>
                                 </td>
                             </tr>

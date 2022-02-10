@@ -14,10 +14,10 @@
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                     <div>
                         <h6 class="my-0">{{$product->name}}</h6>
-                        <small class="text-muted">&#8369; {{$product->price}}</small>
+                        <small class="text-muted">&#8369;{{$product->price}}</small>
                         <small class="text-muted">Qty : {{$product->quantity}}</small>
                     </div>
-                    <span class="text-muted"> &#8369; {{$product->price * $product->quantity}} </span>
+                    <span class="text-muted"> &#8369;{{$product->price * $product->quantity}} </span>
                 </li>
                 @endforeach
 
@@ -25,17 +25,17 @@
                     <div class="text-primary">
                         <h6 class="my-0"> Sub total </h6>
                     </div>
-                    <span class="text-primary"> &#8369; {{$cartSubTotal}} </span>
+                    <span class="text-primary"> &#8369;{{$cartSubTotal}} </span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between bg-light">
                     <div class="text-info">
                         <h6 class="my-0">Shipping Fee</h6>
                     </div>
-                    <span class="text-info"> &#8369; {{$shippingFee}}</span>
+                    <span class="text-info"> &#8369;{{$shippingFee}}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between">
                     <span>Total (PHP)</span>
-                    <strong> &#8369; <span id="total">{{$cartFinalTotal}}</span> </strong>
+                    <strong> &#8369;<span id="total">{{$cartFinalTotal}}</span> </strong>
                 </li>
             </ul>
         </div>
@@ -94,6 +94,8 @@
                 <button class="btn custom-bg-color btn-lg btn-block mb-3" type="submit" id="placeOrder">Place order now</button>
             </form>
 
+
+            <p class="note d-none text-danger small text-italic">note: you cannot cancel order if the transaction are done <br> note: no refund  </p>
 
             <!-- Include the PayPal JavaScript SDK; replace "test" with your own sandbox Business account app client ID -->
             <script src="https://www.paypal.com/sdk/js?client-id=ATEicUepoC2VdhOOVWRwjwZRrfrOq4AT0UeEMCdrrc0CqDApne-va_i9eYPQPZC2h_lfaa6-uYFeQ5CG&currency=PHP"></script>
@@ -208,9 +210,11 @@
 <script>
     $('input[type=radio][name=paymentMethod]').change(function() {
         if ($('#pay-pal').is(':checked')) {
+            $('.note').removeClass('d-none');
             $('#paypal-button-container').removeClass('d-none');
             $('#placeOrder').addClass('d-none');
         } else {
+            $('.note').addClass('d-none');
             $('#paypal-button-container').addClass('d-none');
             $('#placeOrder').removeClass('d-none');
         }

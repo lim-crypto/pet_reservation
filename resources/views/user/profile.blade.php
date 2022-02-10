@@ -42,7 +42,7 @@
                                 <!-- contact number -->
                                 <div class="form-group">
                                     <label for="tel">Contact number</label>
-                                    <input type="number" id="tel" step="any" class="form-control" name="contact_number" placeholder="Enter your contact number" value="{{ old('contact_number') ? old('contact_number') : auth()->user()->contact_number}}" required>
+                                    <input type="number" id="tel" class="form-control" name="contact_number" placeholder="09xxxxxxxxx" min="09000000000" max="09999999999" value="{{ old('contact_number') ? old('contact_number') : auth()->user()->contact_number}}" required>
                                 </div>
                             </div>
                         </div>
@@ -61,7 +61,7 @@
                 <div class="card-header">
                     <h3 class="card-title">Shipping Address</h3>
                     <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-toggle="modal" data-target="#add">
+                        <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#add">
                             <i class="fas fa-plus"></i> Add new address
                         </button>
                     </div>
@@ -72,14 +72,15 @@
                         <thead>
                             <tr>
                                 <th>Address</th>
-                                <th colspan="2">Action</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($shippingAddresses as $shippingAddress)
+                            @forelse($shippingAddresses as $shippingAddress)
                             <tr>
                                 <td>{{$shippingAddress->completeAddress()}}</td>
-                                <td colspan="2">
+                                <td>
                                     <button class="btn btn-primary btn-sm editModal" data-toggle="modal" data-target="#edit" data-shippingAddress="{{$shippingAddress}}" data-link="{{route('shippingAddresses.update',$shippingAddress->id)}}">
                                         <i class="fas fa-edit"></i>
                                     </button>
@@ -90,7 +91,11 @@
                                     </button>
                                 </td>
                             </tr>
-                            @endforeach
+                            @empty
+                            <tr>
+                                <td class="text-danger">No shipping address added yet. Please add at least one</td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

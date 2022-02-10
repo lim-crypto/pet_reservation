@@ -30,7 +30,7 @@
                 <img class="rounded img-fluid" src="{{ asset('storage/images/products/'. $product->attributes->image) }}" alt="image" style="height:100px; object-fit:cover;">
               </a>
             </td>
-            <td> <a href="{{route('product',$product->id)}}"> {{ $product->name}} </a></td>
+            <td> <a href="{{route('product',$product->id)}}"  class="d-inline-block text-truncate" style="max-width: 150px;" > {{ $product->name}} </a></td>
             <td> &#8369; {{$product->price}} </td>
             <td>
               <p class="d-none">{{ $product->quantity }}</p>

@@ -41,7 +41,7 @@
                                 <tbody>
                                     @foreach($orders as $order)
                                     <tr>
-                                        <td>{{$order->created_at->format('m/d/Y h:i:s')}}
+                                        <td>{{$order->created_at->format('m/d/Y H:i:s')}}
                                             <span class="text-xs text-muted"> {{ $order->created_at->diffForHumans() }} </span>
                                         </td>
                                         <td> <a href="{{ route('order', $order->id) }}"> {{$order->order_id}} </a> </td>

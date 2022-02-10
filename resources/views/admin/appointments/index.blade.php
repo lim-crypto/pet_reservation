@@ -57,10 +57,12 @@
             <tbody>
               @foreach($appointments as $appointment)
               <tr>
-                <td class="small">{{date('m/d/Y h:i a',strtotime($appointment->created_at))}}</td>
+                <td>{{date('m/d/Y H:i',strtotime($appointment->created_at))}}
+                <span class="text-xs text-muted"> {{$reservation->created_at->diffForHumans() }} </span>
+                </td>
                 <td>{{$appointment->user->getName()}}</td>
                 <td>{{$appointment->service}} - {{$appointment->offer}}</td>
-                <td class="small">{{date('M d, Y - gA', strtotime($appointment->date))}}</td>
+                <td>{{date('M d, Y - gA', strtotime($appointment->date))}}</td>
                 <td>
                   @if($appointment->status == 'pending')
                   <span class="badge badge-warning">Pending</span>
