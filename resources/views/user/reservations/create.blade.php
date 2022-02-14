@@ -102,7 +102,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn custom-bg-color float-right">Confirm</button>
+                        <button type="submit" class="btn custom-bg-color float-right">Submit</button>
                     </form>
                 </div>
             </div>
