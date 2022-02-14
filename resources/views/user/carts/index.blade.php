@@ -30,7 +30,7 @@
                 <img class="rounded img-fluid" src="{{ asset('storage/images/products/'. $product->attributes->image) }}" alt="image" style="height:100px; object-fit:cover;">
               </a>
             </td>
-            <td> <a href="{{route('product',$product->id)}}"  class="d-inline-block text-truncate" style="max-width: 150px;" > {{ $product->name}} </a></td>
+            <td> <a href="{{route('product',$product->id)}}" class="d-inline-block text-truncate" style="max-width: 150px;"> {{ $product->name}} </a></td>
             <td> &#8369; {{$product->price}} </td>
             <td>
               <p class="d-none">{{ $product->quantity }}</p>
@@ -40,13 +40,13 @@
                 <div class="d-flex align-items-center">
                   <div class="input-group">
                     <div class="input-group-prepend">
-                      <button type="button" class="btn btn-default btn-sm btn-number" data-type="minus" data-field="quantity">
+                      <button type="button" class="btn btn-default btn-sm input-number" data-type="minus" data-field="quantity">
                         <i class="fas fa-minus"></i>
                       </button>
                     </div>
                     <input type="number" name="quantity" class="text-center input-number" value="{{ $product->quantity < App\Model\Product::where('id', '=', $product->id)->get()->first()->quantity ? $product->quantity : App\Model\Product::where('id', '=', $product->id)->get()->first()->quantity }}" min="1" max="{{ App\Model\Product::where('id', '=', $product->id)->get()->first()->quantity }}">
                     <div class="input-group-append">
-                      <button type="button" class="btn btn-default btn-sm btn-number" data-type="plus" data-field="quantity">
+                      <button type="button" class="btn btn-default btn-sm input-number" data-type="plus" data-field="quantity">
                         <i class="fas fa-plus"></i>
                       </button>
                     </div>
@@ -127,15 +127,14 @@
 
   //plugin bootstrap minus and plus
   //http://jsfiddle.net/laelitenetwork/puJ6G/
-  $('.btn-number').click(function(e) {
+  $('.input-group .input-number').click(function(e) {
     e.preventDefault();
-
     type = $(this).attr('data-type');
-    var input = $("input[name='quantity']");
+    var input = $(this).parent().parent().find("input[name='quantity']");
     var currentVal = parseInt(input.val());
     if (!isNaN(currentVal)) {
-      if (type == 'minus') {
 
+      if (type == 'minus') {
         if (currentVal > input.attr('min')) {
           input.val(currentVal - 1).change();
         }
@@ -144,39 +143,34 @@
         }
 
       } else if (type == 'plus') {
-
         if (currentVal < input.attr('max')) {
           input.val(currentVal + 1).change();
         }
         if (parseInt(input.val()) == input.attr('max')) {
           $(this).attr('disabled', true);
         }
-
       }
     } else {
       input.val(0);
     }
   });
-  $("input[name='quantity']").focusin(function() {
-    $(this).data('oldValue', $(this).val());
-  });
+
 
   function changeValue() {
-    var input = $("input[name='quantity']");
-    input.val($(this).val());
+    var input = $(this);
     minValue = parseInt($(this).attr('min'));
     maxValue = parseInt($(this).attr('max'));
     valueCurrent = parseInt($(this).val());
 
     name = $(this).attr('name');
     if (valueCurrent >= minValue) {
-      $(".btn-number[data-type='minus'][data-field='" + name + "']").removeAttr('disabled');
+      $(".input-number[data-type='minus'][data-field='" + name + "']").removeAttr('disabled');
     } else {
       input.val(minValue).change();
       $(this).val(1);
     }
     if (valueCurrent <= maxValue) {
-      $(".btn-number[data-type='plus'][data-field='" + name + "']").removeAttr('disabled');
+      $(".input-number[data-type='plus'][data-field='" + name + "']").removeAttr('disabled');
     } else {
       input.val(maxValue).change();
       $(this).val(maxValue);
