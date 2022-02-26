@@ -67,10 +67,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-
-                <!-- Main content -->
                 <div class="invoice p-3 mb-3">
-                    <!-- title row -->
                     <div class="row">
                         <div class="col-12">
                             <img src="{{ asset('images/kennel-logo.png') }}" width="40" alt="" class="float-left">
@@ -79,10 +76,7 @@
                                 <small class="float-right">Date: {{$order->created_at->format('d M  Y ')}}</small>
                             </h4>
                         </div>
-                        <!-- /.col -->
                     </div>
-
-                    <!-- /.row -->
                     <div class="card mt-3">
                         <header class="card-header">
                             <h4 class="card-title"> My Orders / Tracking</h4>
@@ -107,7 +101,6 @@
                         </header>
                         <div class="card-body pb-5">
                             <h6>Order ID: {{$order->order_id}}</h6>
-
                             <div class="track">
                                 @if($order->status != 'cancelled')
                                 <div class="step active">
@@ -140,7 +133,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Table row -->
                     <div class="row">
                         <div class="col-12 table-responsive">
                             <table class="table table-striped">
@@ -169,10 +161,7 @@
 
                             </table>
                         </div>
-                        <!-- /.col -->
                     </div>
-                    <!-- /.row -->
-
                     <div class="row">
                         <div class="col-sm-5 invoice-col">
                             <p class="lead">Shipping address</p>
@@ -183,8 +172,6 @@
                                 <br> {{$order->user->contact_number}}
                             </address>
                         </div>
-
-                        <!-- accepted payments column -->
                         <div class="col-sm-3">
                             <p class="lead">Payment Methods:</p>
                             @if($order->payment_method == 'COD')
@@ -196,14 +183,9 @@
                             <p class="lead">Transaction id:</p>
                             <p class="h6">{{$order->transaction_id}}</p>
                             @endif
-
-
-
                         </div>
-                        <!-- /.col -->
                         <div class="col-sm-4">
                             <p class="lead">Order Summary</p>
-
                             <div class="table-responsive">
                                 <table class="table">
                                     <tr>
@@ -221,13 +203,10 @@
                                 </table>
                             </div>
                         </div>
-                        <!-- /.col -->
                     </div>
-                    <!-- /.row -->
                 </div>
-                <!-- /.invoice -->
-            </div><!-- /.col -->
-        </div><!-- /.row -->
+            </div>
+        </div>
     </div>
     <script>
         window.addEventListener("load", window.print());

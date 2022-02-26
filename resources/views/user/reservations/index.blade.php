@@ -1,22 +1,14 @@
 @extends('layouts.app')
 @section('style')
-<!-- Select2 -->
-<link rel="stylesheet" href="{{asset('Adminlte/plugins/select2/css/select2.min.css')}}">
-<!-- daterange picker -->
-<link rel="stylesheet" href="{{asset('Adminlte/plugins/daterangepicker/daterangepicker.css')}}">
-<!-- Tempusdominus Bootstrap 4 -->
-<link rel="stylesheet" href="{{asset('Adminlte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
 <!-- sweetalert -->
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <x-sweetalert />
-
 @endsection
 @section('content')
 <div class="container py-4">
     <div class="row justify-content-center">
         @if($reservations->count() > 0)
         <div class="col-lg-10 col-md-12">
-
             <div class="float-right btn-group mt-2">
                 <div class="dropdown">
                     <button class="btn btn-sm custom-bg-color" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
@@ -70,9 +62,7 @@
                                 cancel
                             </button>
                             @endif
-
                         </div>
-
                     </div>
                 </div>
                 @endforeach
@@ -105,66 +95,46 @@
                 <form id="cancel-form" action="" method="POST">
                     @csrf
                     @method('PUT')
-                    <button type="sumbit" class="btn btn-danger">Confirm</button>
+                    <button type="submit" class="btn btn-danger">Confirm</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 @endsection
-
-
-
 @section('script')
-<!-- InputMask -->
-<script src="{{ asset('Adminlte/plugins/moment/moment.min.js') }}"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="{{ asset('Adminlte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
-<!-- form validation -->
-<script src="{{ asset('js/form-validation.js') }}"></script>
 <!-- Filterizr-->
 <script src="{{ asset('Adminlte/plugins/filterizr/jquery.filterizr.min.js') }}"></script>
-
+<!-- disable button on submit  -->
+<script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
 <script>
-    $('.filter-container').filterizr({
-        gutterPixels: 3
-    });
-    $('.btn[data-filter]').on('click', function() {
-        $('.btn[data-filter]').removeClass('active');
-        $(this).addClass('active');
-    });
-    // sort toggle
-    $('.sort-btn').on('click', function() {
-        console.log(1);
-        if ($(this).hasClass('asc')) {
-            $('.asc').hide();
-            $('.desc').show();
-            $('.desc').removeClass('d-none')
-        } else {
-            $('.desc').hide();
-            $('.asc').show();
-        }
-
-    });
-
-
     $(function() {
-        //Date picker
-        $('#reservationdate').datetimepicker({
-            minDate: new Date(new Date().getTime() + (1 * 24 * 60 * 60 * 1000)),
-            maxDate: new Date(new Date().getTime() + (7 * 24 * 60 * 60 * 1000)),
-            format: 'L'
+        $('.filter-container').filterizr({
+            gutterPixels: 3
         });
-    });
-</script>
-<script>
-    // cancel
-    $('.cancelModal').click(function() {
-        const reservation = $(this).attr('data-reservation');
-        const link = $(this).attr('data-link');
-        $('#cancelModalText').text(`Are you sure you want to cancel ${reservation}?`);
-        $('#cancel-form').attr('action', link);
+        $('.btn[data-filter]').on('click', function() {
+            $('.btn[data-filter]').removeClass('active');
+            $(this).addClass('active');
+        });
+        // sort toggle
+        $('.sort-btn').on('click', function() {
+            console.log(1);
+            if ($(this).hasClass('asc')) {
+                $('.asc').hide();
+                $('.desc').show();
+                $('.desc').removeClass('d-none')
+            } else {
+                $('.desc').hide();
+                $('.asc').show();
+            }
+        });
+        // cancel
+        $('.cancelModal').click(function() {
+            const reservation = $(this).attr('data-reservation');
+            const link = $(this).attr('data-link');
+            $('#cancelModalText').text(`Are you sure you want to cancel ${reservation}?`);
+            $('#cancel-form').attr('action', link);
+        });
     });
 </script>
 @endsection

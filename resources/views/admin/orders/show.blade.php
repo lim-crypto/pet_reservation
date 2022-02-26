@@ -67,30 +67,22 @@
 </style>
 @endsection
 @section('main-content')
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-  <!-- Content Header (Page header) -->
   <div class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
           <h1 class="m-0">Order</h1>
-        </div><!-- /.col -->
-      </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
+        </div>
+      </div>
+    </div>
   </div>
-  <!-- /.content-header -->
-
-  <!-- Main content -->
   <div class="content">
     <div class="container-fluid">
       <div class="container">
         <div class="row">
           <div class="col-12">
-
-            <!-- Main content -->
             <div class="invoice p-3 mb-3">
-              <!-- title row -->
               <div class="row">
                 <div class="col-12">
                   <img src="{{ asset('images/kennel-logo.png') }}" width="40" alt="" class="float-left">
@@ -99,10 +91,7 @@
                     <small class="float-right">Date: {{$order->created_at->format('d M  Y ')}}</small>
                   </h4>
                 </div>
-                <!-- /.col -->
               </div>
-
-              <!-- /.row -->
               <div class="card mt-3">
                 <header class="card-header">
                   <h4 class="card-title"> Orders / Tracking</h4>
@@ -123,7 +112,6 @@
                     <span class="text-xs text-muted"> {{date('d M Y h:i:s A', strtotime($order->cancelled_at))}} </span>
                     <span class="badge badge-pill badge-danger ml-2 py-1 px-2">{{$order->status}}</span>
                     @endif
-
                   </div>
                 </header>
                 <div class="card-body pb-5">
@@ -174,7 +162,6 @@
                   </div>
                 </div>
               </div>
-              <!-- Table row -->
               <div class="row">
                 <div class="col-12 table-responsive">
                   <table class="table table-striped">
@@ -200,13 +187,9 @@
                       </tr>
                       @endforeach
                     </tbody>
-
                   </table>
                 </div>
-                <!-- /.col -->
               </div>
-              <!-- /.row -->
-
               <div class="row">
                 <div class="col-sm-5 invoice-col">
                   <p class="lead">Shipping address</p>
@@ -217,8 +200,6 @@
                     <br> {{$order->user->contact_number}}
                   </address>
                 </div>
-
-                <!-- accepted payments column -->
                 <div class="col-sm-3">
                   <p class="lead">Payment Methods:</p>
                   @if($order->payment_method == 'COD')
@@ -233,7 +214,6 @@
                 </div>
                 <div class="col-sm-4">
                   <p class="lead">Order Summary</p>
-
                   <div class="table-responsive">
                     <table class="table">
                       <tr>

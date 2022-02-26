@@ -53,6 +53,7 @@ class ReservationController extends Controller
         $reservation->pet_id = $request->pet_id;
         $reservation->user_id = auth()->user()->id;
         $reservation->date = date('Y-m-d H:i:s', strtotime("$request->date $request->time"));
+        $reservation->expiration_date = date('Y-m-d H:i:s', strtotime("+7 day", strtotime(now())));
         $reservation->save();
         // update pet status
         Helper::updatePetStatus($request->pet_id, 'reserved');

@@ -7,11 +7,9 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
-
                 <li class="nav-item ">
                     <a href="{{route('home')}}#home" class="nav-link">Home</a>
                 </li>
@@ -52,7 +50,6 @@
                     <a href="{{route('pets')}}" class="nav-link">Pets</a>
                 </li>
                 @endif
-
                 <li class="nav-item ">
                     <a href="{{route('home')}}#services" class="nav-link">Services</a>
                 </li>
@@ -114,7 +111,6 @@
                     </div>
                 </li>
                 @endif
-
                 @endguest
             </ul>
         </div>

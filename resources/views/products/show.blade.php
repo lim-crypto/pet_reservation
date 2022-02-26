@@ -85,9 +85,8 @@
 <script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
 
 <script>
-    window.onload = function() {
-        $("input[name='quantity']").val(1);
-    }
+$(function(){
+    $("input[name='quantity']").val(1);
     //plugin bootstrap minus and plus
     //http://jsfiddle.net/laelitenetwork/puJ6G/
     $('.btn-number').click(function(e) {
@@ -163,5 +162,6 @@
             e.preventDefault();
         }
     });
+});
 </script>
 @endsection

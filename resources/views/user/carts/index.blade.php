@@ -5,13 +5,10 @@
 <link rel="stylesheet" href="{{asset('Adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
 @endsection
 @section('content')
-
 <div class="container">
   <div class="row mt-5">
     <div class="col-md-8">
       <h1>Cart</h1>
-
-
       <table id="cart-table" class="table table-sm table-head-fixed ">
         <thead>
           <tr>
@@ -55,7 +52,7 @@
                 </div>
               </form>
             </td>
-            <td> <a class="btn btn-outline-danger" id="remove" href="{{ route('carts.remove', $product->id) }}"><i class="fas fa-trash"></i></a> </td>
+            <td> <a class="btn btn-outline-danger remove" href="{{ route('carts.remove', $product->id) }}"><i class="fas fa-trash"></i></a> </td>
           </tr>
           @empty
           <tr>
@@ -117,82 +114,74 @@
       "autoWidth": false,
       "searching": false,
     });
+    //plugin bootstrap minus and plus
+    //http://jsfiddle.net/laelitenetwork/puJ6G/
+    $('.input-group .input-number').click(function(e) {
+      e.preventDefault();
+      type = $(this).attr('data-type');
+      var input = $(this).parent().parent().find("input[name='quantity']");
+      var currentVal = parseInt(input.val());
+      if (!isNaN(currentVal)) {
+        if (type == 'minus') {
+          if (currentVal > input.attr('min')) {
+            input.val(currentVal - 1).change();
+          }
+          if (parseInt(input.val()) == input.attr('min')) {
+            $(this).attr('disabled', true);
+          }
 
+        } else if (type == 'plus') {
+          if (currentVal < input.attr('max')) {
+            input.val(currentVal + 1).change();
+          }
+          if (parseInt(input.val()) == input.attr('max')) {
+            $(this).attr('disabled', true);
+          }
+        }
+      } else {
+        input.val(0);
+      }
+    });
+
+    function changeValue() {
+      var input = $(this);
+      minValue = parseInt($(this).attr('min'));
+      maxValue = parseInt($(this).attr('max'));
+      valueCurrent = parseInt($(this).val());
+      name = $(this).attr('name');
+      if (valueCurrent >= minValue) {
+        $(".input-number[data-type='minus'][data-field='" + name + "']").removeAttr('disabled');
+      } else {
+        input.val(minValue).change();
+        $(this).val(1);
+      }
+      if (valueCurrent <= maxValue) {
+        $(".input-number[data-type='plus'][data-field='" + name + "']").removeAttr('disabled');
+      } else {
+        input.val(maxValue).change();
+        $(this).val(maxValue);
+      }
+    }
+    $('.input-number').change(changeValue);
+    $('.input-number').keyup(changeValue);
+    $('.input-number').keydown(function(e) {
+      // Allow: backspace, delete, tab, escape, enter and .
+      if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 ||
+        // Allow: Ctrl+A
+        (e.keyCode == 65 && e.ctrlKey === true) ||
+        // Allow: home, end, left, right
+        (e.keyCode >= 35 && e.keyCode <= 39)) {
+        // let it happen, don't do anything
+        return;
+      }
+      // Ensure that it is a number and stop the keypress
+      if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+        e.preventDefault();
+      }
+    });
   });
-  $('#remove').click(function() {
-    console.log('clicked');
+  $('.remove').click(function() {
     $(this).addClass('disabled');
   })
-
-
-  //plugin bootstrap minus and plus
-  //http://jsfiddle.net/laelitenetwork/puJ6G/
-  $('.input-group .input-number').click(function(e) {
-    e.preventDefault();
-    type = $(this).attr('data-type');
-    var input = $(this).parent().parent().find("input[name='quantity']");
-    var currentVal = parseInt(input.val());
-    if (!isNaN(currentVal)) {
-
-      if (type == 'minus') {
-        if (currentVal > input.attr('min')) {
-          input.val(currentVal - 1).change();
-        }
-        if (parseInt(input.val()) == input.attr('min')) {
-          $(this).attr('disabled', true);
-        }
-
-      } else if (type == 'plus') {
-        if (currentVal < input.attr('max')) {
-          input.val(currentVal + 1).change();
-        }
-        if (parseInt(input.val()) == input.attr('max')) {
-          $(this).attr('disabled', true);
-        }
-      }
-    } else {
-      input.val(0);
-    }
-  });
-
-
-  function changeValue() {
-    var input = $(this);
-    minValue = parseInt($(this).attr('min'));
-    maxValue = parseInt($(this).attr('max'));
-    valueCurrent = parseInt($(this).val());
-
-    name = $(this).attr('name');
-    if (valueCurrent >= minValue) {
-      $(".input-number[data-type='minus'][data-field='" + name + "']").removeAttr('disabled');
-    } else {
-      input.val(minValue).change();
-      $(this).val(1);
-    }
-    if (valueCurrent <= maxValue) {
-      $(".input-number[data-type='plus'][data-field='" + name + "']").removeAttr('disabled');
-    } else {
-      input.val(maxValue).change();
-      $(this).val(maxValue);
-    }
-  }
-
-  $('.input-number').change(changeValue);
-  $('.input-number').keyup(changeValue);
-  $('.input-number').keydown(function(e) {
-    // Allow: backspace, delete, tab, escape, enter and .
-    if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 ||
-      // Allow: Ctrl+A
-      (e.keyCode == 65 && e.ctrlKey === true) ||
-      // Allow: home, end, left, right
-      (e.keyCode >= 35 && e.keyCode <= 39)) {
-      // let it happen, don't do anything
-      return;
-    }
-    // Ensure that it is a number and stop the keypress
-    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-      e.preventDefault();
-    }
-  });
 </script>
 @endsection

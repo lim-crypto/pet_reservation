@@ -83,9 +83,7 @@
                 </form>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 
 @endsection
@@ -98,7 +96,6 @@
 <script src="{{asset('Adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
 <!-- disable button on submit  -->
 <script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
-
 <script>
     // cancel
     $('.cancel').click(function() {
@@ -107,7 +104,6 @@
         $('#cancel-form').attr('action', link);
         $('#order_id').text(order);
     });
-
     $(function() {
         $("#orders-table").DataTable({
             "responsive": true,

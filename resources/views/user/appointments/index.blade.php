@@ -7,7 +7,6 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="{{asset('Adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('Adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
-
     <!-- fullCalendar -->
     <script src="{{asset('Adminlte/plugins/moment/moment.min.js')}}"></script>
     <script src="{{asset('Adminlte/plugins/fullcalendar/main.min.js')}}"></script>
@@ -16,7 +15,6 @@
     <!-- sweetalert -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <x-sweetalert />
-
     <style>
         /* width */
         ::-webkit-scrollbar {
@@ -24,7 +22,6 @@
         }
     </style>
 </head>
-
 <body>
     <div id="loading">
         <div id="loading-image">
@@ -61,7 +58,6 @@
                                         <tr>
                                             <td>{{date('m/d/Y h:i:s a',strtotime($appointment->created_at))}}</td>
                                             <td>{{$appointment->service}} - {{$appointment->offer}} </td>
-
                                             <td> {{date('M d, Y - gA', strtotime($appointment->date))}}</td>
                                             <td>
                                                 @if($appointment->status == 'pending')
@@ -86,7 +82,6 @@
                                     </tbody>
                                 </table>
                             </div>
-
                         </div>
                     </div>
                     <div class="col-md-12" data-aos="fade-up">
@@ -123,13 +118,11 @@
             </div>
         </main>
     </div>
-
     <!-- DataTables  & Plugins -->
     <script src="{{asset('Adminlte/plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('Adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
     <script src="{{asset('Adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('Adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-
 
     <!-- Page specific script -->
     <script>
@@ -148,15 +141,10 @@
                 "order": [
                     [0, "desc"]
                 ]
-
             });
-
-        });
-
-        //  loading
-        $(window).on('load', function() {
+            //  loading
             $('#loading').hide();
-        })
+        });
     </script>
 </body>
 

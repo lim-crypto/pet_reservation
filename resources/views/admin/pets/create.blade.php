@@ -25,9 +25,7 @@
 </style>
 @endsection
 @section('main-content')
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -42,14 +40,11 @@
                     </ol>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
-
-    <!-- Main content -->
     <section class="content">
         <div class="row">
             <div class="col-md-12">
-                <!-- general form elements -->
                 <div class="card card-primary card-outline">
                     <div class="card-header">
                         <h3 class="card-title">
@@ -57,27 +52,24 @@
                             Pet Details
                         </h3>
                     </div>
-                    <!-- form start -->
                     <form action="{{route('pets.store')}}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate="">
                         @csrf
                         <div class="card-body row">
                             <div class="col-sm-6">
                                 <div class="row">
                                     <div class="col-6">
-                                        <!-- type -->
                                         <div class="form-group">
                                             <label for="type">Type</label> <span class="text-danger">*</span>
                                             <select name="type_id" id="type" class="form-control  {{ $errors->has('type_id') ? ' is-invalid' : '' }}" required>
                                                 <option value="" selected disabled>Select Pet type</option>
                                                 @foreach($types as $type)
-                                                <option {{old('type_id') == $type->id ? 'selected' : ''}}  value="{{$type->id}}">{{$type->name}}</option>
+                                                <option {{old('type_id') == $type->id ? 'selected' : ''}} value="{{$type->id}}">{{$type->name}}</option>
                                                 @endforeach
                                             </select>
                                             <span class="invalid-feedback" role="alert">
                                                 Type is required
                                             </span>
                                         </div>
-
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
@@ -118,8 +110,6 @@
                                             </div>
                                         </div>
                                     </div>
-
-
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-4">
@@ -144,7 +134,6 @@
                                         <div class="form-group">
                                             <label for="height">Height</label> <span class="text-info small">(cm)</span>
                                             <input type="number" step="any" min="0" class="form-control" id="height" name="height" placeholder="Enter Height" value="{{old('height')}}">
-
                                         </div>
                                     </div>
                                 </div>
@@ -198,7 +187,6 @@
                                     </ul>
                                 </div>
                                 @endif
-
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
@@ -213,18 +201,11 @@
                         </div>
                     </form>
                 </div>
-                <!-- /.card -->
             </div>
-            <!-- /.col-->
         </div>
     </section>
-    <!-- /.content -->
 </div>
-<!-- /.content-wrapper -->
-
 @endsection
-
-
 @section('script')
 <!-- Select2 -->
 <script src="{{asset('Adminlte/plugins/select2/js/select2.full.min.js')}}"></script>
@@ -240,33 +221,31 @@
 <script src="{{ asset('js/form-validation.js') }}"></script>
 <!-- Ekko Lightbox -->
 <script src="{{ asset('Adminlte/plugins/ekko-lightbox/ekko-lightbox.min.js') }}"></script>
-
 <!-- disable button on submit  -->
 <script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
-
 <!-- Page specific script -->
 <script>
-    function findSameTypeId($type) {
-        $('#breed').find('option').each(function() {
-            if ($(this).attr('data-breed_type_id') == type) {
-                $(this).show();
-                $(this).removeAttr('disabled');
-            } else {
-                $(this).hide();
-                $(this).attr('disabled', 'disabled');
-            }
-        });
-    }
-    //check the value of type
-    var type = $('#type').val();
-    findSameTypeId(type);
-    $('#type').change(function() {
-        $('#breed').removeAttr('disabled');
-        type = $(this).val();
-        $('#breed').val('');
-        findSameTypeId(type);
-    });
     $(function() {
+        function findSameTypeId($type) {
+            $('#breed').find('option').each(function() {
+                if ($(this).attr('data-breed_type_id') == type) {
+                    $(this).show();
+                    $(this).removeAttr('disabled');
+                } else {
+                    $(this).hide();
+                    $(this).attr('disabled', 'disabled');
+                }
+            });
+        }
+        //check the value of type
+        var type = $('#type').val();
+        findSameTypeId(type);
+        $('#type').change(function() {
+            $('#breed').removeAttr('disabled');
+            type = $(this).val();
+            $('#breed').val('');
+            findSameTypeId(type);
+        });
         // custom file input
         bsCustomFileInput.init();
         // Summernote

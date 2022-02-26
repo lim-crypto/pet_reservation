@@ -5,22 +5,16 @@
 <link rel="stylesheet" href="{{asset('Adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
 @endsection
 @section('main-content')
-
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1>Services</h1>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
             <div class="row">
@@ -33,7 +27,6 @@
                         </div>
                     </a>
                 </div>
-
                 @foreach ( $services as $service)
                 <div class="col-lg-3 col-md-5 col-8 p-4" data-aos="fade-left">
                     <div class="card custom-border h-100">
@@ -43,9 +36,7 @@
                                 <i class="fas fa-paw"></i>
                                 {{$service->service}}
                             </h5>
-
                             <p class="card-text text-truncate ">{{$service->description}}</p>
-
                         </div>
                         <div class="card-footer d-flex justify-content-between align-items-center">
                             <div class="btn-group">
@@ -62,40 +53,34 @@
                 @endforeach
             </div>
         </div>
-        <!-- /.container-fluid -->
-        <!-- delete modal -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel">Delete</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p id="deleteModalText">Are you sure you want to delete this?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <form id="delete-form" action="" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                    </div>
-                </div>
+    </div>
+</div>
+<!-- delete modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="deleteModalText">Are you sure you want to delete this?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <form id="delete-form" action="" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
             </div>
         </div>
     </div>
-    <!-- /.content -->
 </div>
-<!-- /.content-wrapper -->
-
 @endsection
-
 @section('script')
-
 <!-- DataTables  & Plugins -->
 <script src="{{asset('Adminlte/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('Adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
@@ -108,14 +93,12 @@
 
 <!-- Page specific script -->
 <script>
-
     $(function() {
         $("#table").DataTable({
             "responsive": true,
             "lengthChange": false,
             "autoWidth": false
         });
-
     });
     // delete
     $('.deleteModal').click(function() {

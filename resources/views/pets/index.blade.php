@@ -1,11 +1,10 @@
 @extends('layouts.app')
-
 @section('style')
 <!-- Ekko Lightbox -->
 <link rel="stylesheet" href="{{asset('Adminlte/plugins/ekko-lightbox/ekko-lightbox.css')}}">
 @endsection
 @section('content')
-<div class="container py-4 mb-5" >
+<div class="container py-4 mb-5">
     <div class="row justify-content-center">
         <div class="col-12">
             @if($pets->count() > 0)
@@ -31,7 +30,6 @@
             </h1>
             @endif
         </div>
-
         @foreach($pets as $pet)
         <div class="col-md-3 mb-5">
             <div class="card">
@@ -55,12 +53,9 @@
     </div>
 </div>
 @endsection
-
 @section('script')
-
 <!-- Ekko Lightbox -->
 <script src="{{ asset('Adminlte/plugins/ekko-lightbox/ekko-lightbox.min.js') }}"></script>
-
 @foreach($pets as $pet)
 <script>
     $(function() {
@@ -71,8 +66,4 @@
     })
 </script>
 @endforeach
-
-
-
-
 @endsection

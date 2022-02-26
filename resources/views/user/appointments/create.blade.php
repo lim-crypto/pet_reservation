@@ -3,7 +3,6 @@
 @section('style')
 <!-- Tempusdominus Bootstrap 4 -->
 <link rel="stylesheet" href="{{asset('Adminlte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
-
 @endsection
 @section('content')
 <div class="container py-4">
@@ -50,7 +49,6 @@
                                 </div>
                             </div>
                             <div class="col-6">
-                                <!-- Date -->
                                 <div class="form-group">
                                     <label>Date of visit:</label> <span class="text-danger">*</span>
                                     <div class="input-group date" id="reservationdate" data-target-input="nearest">
@@ -64,7 +62,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- time -->
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="time">Time:</label> <span class="text-danger">*</span>
@@ -143,50 +140,54 @@
 <!-- disable button on submit  -->
 <script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
 <script>
+
     //  var disabledDates = {!!$disabledDates!!};
-    var disabledDates = {!!$disabledDates!!};
-    $('#reservationdate').datetimepicker({
-        minDate: new Date(),
-        format: 'L',
-        disabledDates: disabledDates,
-    });
+     var disabledDates = {!!$disabledDates!!};
     // var dates = {!!$dates!!};
     var dates = {!!$dates!!};
-    $('#date').blur(function() {
-        var date = $(this).val();
-        if (date == moment().format('L')) {
-            $(this).val(''); // if today is selected, clear the field
-        }
-        var date_format = moment(date, 'MM-DD-YYYY').format('YYYY-MM-DD');
-        $('#time').removeAttr('disabled');
-        $('div.form-group').find('#time').find('option').each(function() {
-            if ($(this).val() != '') { // if not empty || <option disabled value="">Select time</option>
-                var time = $(this).val();
-                var time_format = moment(time, 'hh:mm A').format('HH:mm:ss');
-                if (dates.includes(date_format + ' ' + time_format)) {
-                    $(this).attr('disabled', 'disabled').text(time + ' not available');
-                    $('#time').val('');
-                } else {
-                    $(this).removeAttr('disabled').text(time);
-                }
-            }
-        });
-    });
 
-    function getOffer() {
-        var service = $('#service').val().toLowerCase();
-        $('div.form-group').find('#offer').find('option').each(function() {
-            if ($(this).attr('data-service').toLowerCase() == service) {
-                $(this).show();
-            } else {
-                $(this).hide();
-            }
+    $(function() {
+        $('#reservationdate').datetimepicker({
+            minDate: new Date(),
+            format: 'L',
+            disabledDates: disabledDates,
         });
-    }
-    $('#service').change(function() {
-        $('#offer').removeAttr('disabled').val('');
+        $('#date').blur(function() {
+            var date = $(this).val();
+            if (date == moment().format('L')) {
+                $(this).val(''); // if today is selected, clear the field
+            }
+            var date_format = moment(date, 'MM-DD-YYYY').format('YYYY-MM-DD');
+            $('#time').removeAttr('disabled');
+            $('div.form-group').find('#time').find('option').each(function() {
+                if ($(this).val() != '') { // if not empty || <option disabled value="">Select time</option>
+                    var time = $(this).val();
+                    var time_format = moment(time, 'hh:mm A').format('HH:mm:ss');
+                    if (dates.includes(date_format + ' ' + time_format)) {
+                        $(this).attr('disabled', 'disabled').text(time + ' not available');
+                        $('#time').val('');
+                    } else {
+                        $(this).removeAttr('disabled').text(time);
+                    }
+                }
+            });
+        });
+
+        function getOffer() {
+            var service = $('#service').val().toLowerCase();
+            $('div.form-group').find('#offer').find('option').each(function() {
+                if ($(this).attr('data-service').toLowerCase() == service) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+        $('#service').change(function() {
+            $('#offer').removeAttr('disabled').val('');
+            getOffer();
+        });
         getOffer();
     });
-    getOffer();
 </script>
 @endsection

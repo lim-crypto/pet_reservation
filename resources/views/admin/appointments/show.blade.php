@@ -1,21 +1,15 @@
 @extends('admin.layouts.app')
 @section('main-content')
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-md-6">
                     <h1 class="m-0">Appointment</h1>
-                </div><!-- /.col -->
-
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
             <div class="card mb-3" style="max-width: 540px;">
@@ -44,19 +38,15 @@
                     <p class="card-text mb-0">{{$appointment->service}} </p>
                     <p class="text-muted small mb-0">{{$appointment->offer}}</p>
                     <span class="text-muted small">{{ $appointment->created_at->diffForHumans()}}</span>
-
                 </div>
                 @if($appointment->status == 'pending' || $appointment->status == 'approved')
                 <div class="card-footer">
-                    <!-- approved -->
                     <button title="approve" type="button" class="btn btn-info btn-sm statusModal" data-toggle="modal" data-target="#statusModal" data-status="approved">
                         <i class="fas fa-thumbs-up"></i>
                     </button>
-                    <!-- rejected -->
                     <button title="reject" type="button" class="btn btn-danger btn-sm statusModal" data-toggle="modal" data-target="#statusModal" data-status="rejected">
                         <i class="fas fa-thumbs-down"></i>
                     </button>
-                    <!-- completed -->
                     <button title="complete" type="button" class="btn btn-success btn-sm statusModal" data-toggle="modal" data-target="#statusModal" data-status="completed">
                         <i class="fas fa-check"></i>
                     </button>
@@ -87,17 +77,11 @@
                 </div>
                 @endif
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </div>
-    <!-- /.content -->
 </div>
-<!-- /.content-wrapper -->
-
 @endsection
-
-
 @section('script')
-
 <!-- Page specific script -->
 <script>
     $('.statusModal').click(function() {

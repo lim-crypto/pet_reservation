@@ -1,21 +1,15 @@
 @extends('admin.layouts.app')
 @section('main-content')
-
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0">Type of Pets</h1>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
             <div class="row">
@@ -49,123 +43,117 @@
                     </div>
                 </div>
                 @endforeach
-
             </div>
             <div id="getType"></div>
         </div>
-        <!-- add modal -->
-        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editeModalLabel">Add</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form id="add-form" action="{{route('type.store')}}" method="POST" class="needs-validation" novalidate="" enctype="multipart/form-data">
-                        @csrf
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label for="type"> Add Type of Pets</label><span class="text-danger">*</span>
-                                <input type="text" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" id="addType" placeholder="title" value="" required>
-                                <span class="invalid-feedback" role="alert">
-                                    Type is required
-                                </span>
-                            </div>
-                            <div class="form-group">
-                                <label for="image">Image</label> <span class="text-danger">*</span>
-                                <div class="custom-file">
-                                    <input type="file" name="image" class="custom-file-input  {{ $errors->has('image') ? ' is-invalid'  :''  }}" accept="image/*" required>
-                                    <label class="custom-file-label" for="gallery-photo-add">Choose Image</label>
-                                    <div class="invalid-feedback">
-                                        Please choose image
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </form>
-                </div>
+    </div>
+</div>
+<!-- add modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editeModalLabel">Add</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-        </div>
-        <!-- delete modal -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel">Delete</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+            <form id="add-form" action="{{route('type.store')}}" method="POST" class="needs-validation" novalidate="" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="type"> Add Type of Pets</label><span class="text-danger">*</span>
+                        <input type="text" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" id="addType" placeholder="title" value="" required>
+                        <span class="invalid-feedback" role="alert">
+                            Type is required
+                        </span>
                     </div>
-                    <div class="modal-body">
-                        <p id="deleteModalText">Are you sure you want to delete this?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <form id="delete-form" action="" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
+                    <div class="form-group">
+                        <label for="image">Image</label> <span class="text-danger">*</span>
+                        <div class="custom-file">
+                            <input type="file" name="image" class="custom-file-input  {{ $errors->has('image') ? ' is-invalid'  :''  }}" accept="image/*" required>
+                            <label class="custom-file-label" for="gallery-photo-add">Choose Image</label>
+                            <div class="invalid-feedback">
+                                Please choose image
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- delete modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-        </div>
-        <!-- Edit modal -->
-        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editeModalLabel">Edit</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form id="edit-form" action="" method="POST" class="needs-validation" novalidate="" enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label for="type">Type of Pets</label>
-
-                                <input type="text" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" id="editType" placeholder="title" value="" required>
-                                <span class="invalid-feedback" role="alert">
-                                    Type is required
-                                </span>
-                            </div>
-                            <div class="form-group">
-                                <label for="image">Image</label>
-                                <div class="custom-file">
-                                    <input type="file" name="image" class="custom-file-input  {{ $errors->has('image') ? ' is-invalid'  :''  }}" accept="image/*">
-                                    <label class="custom-file-label" for="gallery-photo-add">Choose Image</label>
-                                    <div class="invalid-feedback">
-                                        Please choose image
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Update</button>
-                        </div>
-                    </form>
-                </div>
+            <div class="modal-body">
+                <p id="deleteModalText">Are you sure you want to delete this?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <form id="delete-form" action="" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
             </div>
         </div>
     </div>
-    <!-- /.content -->
 </div>
-<!-- /.content-wrapper -->
+<!-- Edit modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editeModalLabel">Edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="edit-form" action="" method="POST" class="needs-validation" novalidate="" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="type">Type of Pets</label>
 
+                        <input type="text" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" id="editType" placeholder="title" value="" required>
+                        <span class="invalid-feedback" role="alert">
+                            Type is required
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Image</label>
+                        <div class="custom-file">
+                            <input type="file" name="image" class="custom-file-input  {{ $errors->has('image') ? ' is-invalid'  :''  }}" accept="image/*">
+                            <label class="custom-file-label" for="gallery-photo-add">Choose Image</label>
+                            <div class="invalid-feedback">
+                                Please choose image
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
-
 @section('script')
-
 <!-- form validation -->
 <script src="{{ asset('js/form-validation.js') }}"></script>
 <!-- bs-custom-file-input -->

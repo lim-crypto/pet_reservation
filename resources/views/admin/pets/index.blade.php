@@ -5,22 +5,16 @@
 <link rel="stylesheet" href="{{asset('Adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
 @endsection
 @section('main-content')
-
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0">Pets</h1>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
             <a class="btn btn-success btn-sm mb-3" href="{{route('pets.create')}}">Add Pet</a>
@@ -37,10 +31,8 @@
                         <a class="dropdown-item" href="{{route('getPetsByStatus','adopted')}}">adopted</a>
                         <a class="dropdown-item" href="{{route('getPetsByStatus','for breed')}}">For breed</a>
                         <a class="dropdown-item" href="{{route('pets.index')}}">All</a>
-
                     </div>
                 </div>
-
                 <div class="dropdown">
                     <button class="btn btn-secondary btn-sm dropdown-toggle mx-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
                         Type
@@ -54,7 +46,6 @@
                         <a class="dropdown-item" href="{{route('pets.index')}}">All</a>
                     </div>
                 </div>
-
                 <div class="dropdown">
                     <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
                         Breed
@@ -68,9 +59,7 @@
                         <a class="dropdown-item" href="{{route('pets.index')}}">All</a>
                     </div>
                 </div>
-
             </div>
-
             <div class="card">
                 <div class="card-body">
                     <table id="table" class="table table-hover table-striped">
@@ -86,7 +75,6 @@
                                 </tr>
                         </thead>
                         <tbody>
-
                             @foreach ($pets as $pet)
                             <tr>
                                 <td>{{$loop->index+1}}</td>
@@ -114,58 +102,51 @@
                                     <a href="{{route('pets.edit',$pet->slug)}}" class="btn btn-primary  btn-sm" title="edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <button class="btn btn-danger btn-sm deleteModal" title="delete" data-toggle="modal" data-target="#deleteModal" data-name="{{$pet->name}}" data-link="{{route('pets.destroy',$pet->slug)}}" @if ( $pet->status == 'reserved' || $pet->status == 'adopted' || $pet->reservation != null  ) disabled @endif>
+                                    <button class="btn btn-danger btn-sm deleteModal" title="delete" data-toggle="modal" data-target="#deleteModal" data-name="{{$pet->name}}" data-link="{{route('pets.destroy',$pet->slug)}}" @if ( $pet->status == 'reserved' || $pet->status == 'adopted' || $pet->reservation != null ) disabled @endif>
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </td>
                             </tr>
                             @endforeach
                         </tbody>
-
                     </table>
-                </div>
-            </div>
-
-        </div><!-- /.container-fluid -->
-        <!-- delete modal -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel">Delete</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p id="deleteModalText">Are you sure you want to delete this?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <form id="delete-form" action="" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- /.content -->
 </div>
-<!-- /.content-wrapper -->
-
+<!-- delete modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="deleteModalText">Are you sure you want to delete this?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <form id="delete-form" action="" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('script')
-
 <!-- DataTables  & Plugins -->
 <script src="{{asset('Adminlte/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('Adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{asset('Adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('Adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-
 <!-- disable button on submit  -->
 <script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
 <!-- Page specific script -->

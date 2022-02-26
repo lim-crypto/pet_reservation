@@ -5,21 +5,16 @@
 <link rel="stylesheet" href="{{asset('Adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
 @endsection
 @section('main-content')
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0">Category</h1>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
             <button type="button" class="btn btn-success btn-sm  mb-3 addModal" data-toggle="modal" data-target="#addModal">
@@ -58,12 +53,8 @@
                                     @endforeach
                                 </tbody>
                             </table>
-
                         </div>
-                        <!-- /.card-body -->
                     </div>
-                    <!-- /.card -->
-
                 </div>
             </div>
         </div>
@@ -160,11 +151,8 @@
         </div>
     </div>
 </div>
-
 @endsection
-
 @section('script')
-
 <!-- DataTables  & Plugins -->
 <script src="{{asset('Adminlte/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('Adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
@@ -174,10 +162,8 @@
 <script src="{{ asset('Adminlte/plugins/jquery-validation/jquery-validation.js') }}"></script>
 <!-- bs-custom-file-input -->
 <script src="{{asset('Adminlte/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
-
 <!-- disable button on submit  -->
 <script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
-
 <!-- Page specific script -->
 <script>
     $(function() {
@@ -186,14 +172,8 @@
             "lengthChange": true,
             "autoWidth": false,
         });
-    });
-
-
-
-    $(function() {
         bsCustomFileInput.init();
     });
-
     // delete
     $('.deleteModal').click(function() {
         const name = $(this).attr('data-name');

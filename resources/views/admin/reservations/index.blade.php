@@ -5,22 +5,16 @@
 <link rel="stylesheet" href="{{asset('Adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
 @endsection
 @section('main-content')
-
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-  <!-- Content Header (Page header) -->
   <div class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
           <h1 class="m-0">Reservations</h1>
-        </div><!-- /.col -->
-      </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
+        </div>
+      </div>
+    </div>
   </div>
-  <!-- /.content-header -->
-
-  <!-- Main content -->
   <div class="content">
     <div class="container-fluid">
       <div class="d-flex">
@@ -40,9 +34,7 @@
           </div>
         </div>
       </div>
-
       <div class="card">
-
         <div class="card-body">
           <table id="table" class="table  table-striped table-hover ">
             <thead>
@@ -59,7 +51,7 @@
               @foreach($reservations as $reservation)
               <tr>
                 <td>{{date('m/d/Y H:i:s',strtotime($reservation->created_at))}}
-                <span class="text-xs text-muted"> {{$reservation->created_at->diffForHumans() }} </span>
+                  <span class="text-xs text-muted"> {{$reservation->created_at->diffForHumans() }} </span>
                 </td>
                 <td>{{$reservation->user->getName()}}</td>
                 <td>{{$reservation->pet->name}}</td>
@@ -80,19 +72,15 @@
                   @endif
                 </td>
                 <td>
-                  <!-- view -->
                   <button title="view" type="button" class="btn btn-info btn-sm viewModal" data-toggle="modal" data-target="#viewModal" data-breed="{{$reservation->pet->breed->name}}" data-type="{{$reservation->pet->type->name}}" data-reservation="{{$reservation}}">
                     <i class="fas fa-eye"></i>
                   </button>
-                  <!-- approved -->
                   <button title="approve" type="button" class="btn btn-info btn-sm statusModal" data-toggle="modal" data-target="#statusModal" data-status="approved" data-link="{{route('reservation.status',$reservation->id)}}" @if($reservation->status != 'pending' ) disabled @endif >
                     <i class="fas fa-thumbs-up"></i>
                   </button>
-                  <!-- rejected -->
                   <button title="reject" type="button" class="btn btn-danger btn-sm statusModal" data-toggle="modal" data-target="#statusModal" data-status="rejected" data-link="{{route('reservation.status',$reservation->id)}}" @if($reservation->status != 'pending' ) disabled @endif >
                     <i class="fas fa-thumbs-down"></i>
                   </button>
-                  <!-- completed -->
                   <button title="complete" type="button" class="btn btn-success btn-sm statusModal" data-toggle="modal" data-target="#statusModal" data-status="completed" data-link="{{route('reservation.status',$reservation->id)}}" @if($reservation->status != 'pending' && $reservation->status != 'approved') disabled @endif>
                     <i class="fas fa-check"></i>
                   </button>
@@ -100,86 +88,76 @@
               </tr>
               @endforeach
             </tbody>
-
           </table>
-        </div>
-      </div>
-
-    </div><!-- /.container-fluid -->
-    <!-- view -->
-    <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header  bg-info">
-            <h5 class="modal-title" id="statusModalLabel"><b>Date of visit : </b> <span id="date"></span></h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body row">
-            <div class="col-md-6">
-              <span class="text-muted small" id="created_at"></span><br>
-              Name : <span id="name"></span><br>
-              Phone : <small id="contact_number"></small> <br>
-              Email : <small id="email"></small>
-            </div>
-            <div class="col-md-6">
-              <small id="type"></small><br>
-              Breed : <span id="breed"></span><br>
-              Pet Name : <span id="petname"></span><br>
-              <span>Status : </span> <span id="reservationStatus"></span>
-            </div>
-
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- status -->
-    <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="statusModalLabel">Confirm update</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p id="statusModalText"></p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <form id="status-form" action="" method="POST">
-              @csrf
-              @method('PUT')
-              <input type="hidden" name="status" id="status" value="">
-              <button type="submit" class="btn" id="submit">Confirm</button>
-            </form>
-          </div>
         </div>
       </div>
     </div>
   </div>
-  <!-- /.content -->
 </div>
-<!-- /.content-wrapper -->
-
+<!-- view -->
+<div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header  bg-info">
+        <h5 class="modal-title" id="statusModalLabel"><b>Date of visit : </b> <span id="date"></span></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body row">
+        <div class="col-md-6">
+          <span class="text-muted small" id="created_at"></span><br>
+          Name : <span id="name"></span><br>
+          Phone : <small id="contact_number"></small> <br>
+          Email : <small id="email"></small>
+        </div>
+        <div class="col-md-6">
+          <small id="type"></small><br>
+          Breed : <span id="breed"></span><br>
+          Pet Name : <span id="petname"></span><br>
+          <span>Status : </span> <span id="reservationStatus"></span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- status -->
+<div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="statusModalLabel">Confirm update</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="statusModalText"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <form id="status-form" action="" method="POST">
+          @csrf
+          @method('PUT')
+          <input type="hidden" name="status" id="status" value="">
+          <button type="submit" class="btn" id="submit">Confirm</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
-
 @section('script')
-
 <!-- DataTables  & Plugins -->
 <script src="{{asset('Adminlte/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('Adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{asset('Adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('Adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-
 <!-- disable button on submit  -->
 <script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
-
 <!-- Page specific script -->
 <script>
   $(function() {
@@ -197,7 +175,6 @@
     const link = $(this).attr('data-link');
     $('#status-form').attr('action', link);
     $('#status').val(status);
-
     function changeClass(bg_class, btn_class) {
       $('#statusModal .modal-header').removeClass('bg-primary');
       $('#statusModal .modal-header').removeClass('bg-danger');
@@ -205,11 +182,9 @@
       $('#status-form .btn').removeClass('btn-primary');
       $('#status-form .btn').removeClass('btn-danger');
       $('#status-form .btn').removeClass('btn-success');
-
       $('#statusModal .modal-header').addClass(bg_class);
       $('#status-form .btn').addClass(btn_class);
     }
-
     if (status == 'approved') {
       $('#statusModalText').text('Are you sure you want to approve this reservation?');
       changeClass('bg-primary', 'btn-primary');
@@ -221,7 +196,6 @@
       changeClass('bg-success', 'btn-success');
     }
   });
-
   $('.viewModal').click(function() {
     let reservation = $(this).attr('data-reservation');
     reservation = JSON.parse(reservation);
@@ -243,13 +217,11 @@
     } else {
       $('#reservationStatus').text(reservation.status).css('color', 'black');
     }
-
     // $('#created_at').text(reservation.created_at);
     let created_at = new Date(reservation.created_at);
     $('#created_at').text(formatDateTime(created_at));
     let date = new Date(reservation.date);
     $('#date').text(formatDateTime(date));
-
     function formatDateTime(date) {
       var months = date.getMonth() + 1;
       months = months < 10 ? '0' + months : months;
@@ -267,8 +239,6 @@
       let formattedDate = months + '/' + days + '/' + date.getFullYear() + ' ' + strTime;
       return formattedDate;
     }
-
-
   });
 </script>
 @endsection

@@ -1,20 +1,15 @@
 @extends('admin.layouts.app')
 @section('main-content')
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0">Edit Product</h1>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
             <div class="row">
@@ -27,7 +22,6 @@
                                 <div class="row">
                                     <div class="col-12 col-sm-8">
                                         <div class="form-group">
-
                                             <label for="name">Product Name</label>
                                             <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ $product->name }}" required autofocus>
                                             <span class="invalid-feedback" role="alert">
@@ -104,10 +98,8 @@
         </div>
     </div>
 </div>
-
 @endsection
 @section('script')
 <!-- disable button on submit  -->
 <script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
-
 @endsection

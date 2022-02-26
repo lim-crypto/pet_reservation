@@ -15,36 +15,28 @@
   <div class="wrapper">
     @include('admin.layouts.header')
     @include('admin.layouts.sidebar')
-
-    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-      <!-- Content Header (Page header) -->
       <div class="content-header">
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
               <h1 class="m-0">Dashboard</h1>
-            </div><!-- /.col -->
+            </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item active"><a href="{{route('admin.home')}}">Dashboard</a></li>
               </ol>
-            </div><!-- /.col -->
-          </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+            </div>
+          </div>
+        </div>
       </div>
-      <!-- /.content-header -->
-
-      <!-- Main content -->
       <div class="content">
         <div class="container-fluid">
           <div class="row">
             <div class="col-lg-3 col-6">
-              <!-- small box -->
               <div class="small-box bg-primary">
                 <div class="inner">
                   <h3>{{$reservation}}</h3>
-
                   <p>Reservations</p>
                 </div>
                 <div class="icon">
@@ -53,9 +45,7 @@
                 <a href="{{route('reservations')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
-            <!-- ./col -->
             <div class="col-lg-3 col-6">
-              <!-- small box -->
               <div class="small-box bg-success">
                 <div class="inner">
                   <h3>{{$appointment}}</h3>
@@ -67,14 +57,10 @@
                 <a href="{{route('appointments')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
-
-            <!-- ./col -->
             <div class="col-lg-3 col-6">
-              <!-- small box -->
               <div class="small-box bg-secondary">
                 <div class="inner">
                   <h3>{{$orders}}</h3>
-
                   <p>Orders</p>
                 </div>
                 <div class="icon">
@@ -83,13 +69,10 @@
                 <a href="{{route('orders')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
-            <!-- ./col -->
             <div class="col-lg-3 col-6">
-              <!-- small box -->
               <div class="small-box bg-warning">
                 <div class="inner">
                   <h3>{{$users}}</h3>
-
                   <p>User Registrations</p>
                 </div>
                 <div class="icon">
@@ -98,10 +81,7 @@
                 <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
-            <!-- ./col -->
-
           </div>
-
           <div class="row">
             <div class="col-lg-3 col-md-6 mb-4">
               <div class="card card-outline card-primary h-100">
@@ -135,13 +115,10 @@
                       @endif
                     </p>
                   </a>
-
                   <hr class="mb-2">
-
                   @empty
                   <p class="card-text">No Reservations</p>
                   @endforelse
-
                 </div>
                 <div class="card-footer">
                   <a href="{{route('reservations')}}" class="btn btn-primary">View All</a>
@@ -158,7 +135,6 @@
                 <div class="card-body">
                   @forelse($latestAppointments as $appointment)
                   <span>{{$appointment->user->getName()}}</span>
-                  <!-- view -->
                   <a title="view" href="#" class="viewModal text-body" data-toggle="modal" data-target="#viewModal" data-for="appointment" data-appointment="{{$appointment}}" data-link="{{route('appointment.status',$appointment->id)}}">
                     <span class="text-muted small">{{ $appointment->created_at->diffForHumans()}}</span><br>
                     <span>{{$appointment->service}}</span>
@@ -178,19 +154,16 @@
                       @endif
                     </p>
                   </a>
-
                   <hr class="mb-2">
                   @empty
                   <p class="card-text">No Appointments</p>
                   @endforelse
-
                 </div>
                 <div class="card-footer">
                   <a class="btn btn-success" href="{{route('appointments')}}">View All</a>
                 </div>
               </div>
             </div>
-
             <div class="col-lg-6 col-md-12 ">
               <div class="card card-outline card-warning">
                 <div class="card-header">
@@ -232,7 +205,6 @@
                     </tbody>
                   </table>
                 </div>
-                <!-- /.card-body -->
               </div>
             </div>
           </div>
@@ -244,9 +216,7 @@
               </div>
             </div>
           </div>
-
-        </div><!-- /.container-fluid -->
-
+        </div>
         <!-- modal -->
         <!-- view -->
         <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
@@ -314,11 +284,7 @@
           </div>
         </div>
       </div>
-      <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
-
-
     @include('admin.layouts.footer')
   </div>
   <script>
@@ -326,7 +292,6 @@
       const status = $(this).attr('data-status');
       const a_or_r = $(this).attr('data-for'); // appointment or reservation
       $('#status').val(status);
-
       function changeClass(bg_class, btn_class) {
         $('#statusModal .modal-header').removeClass('bg-primary');
         $('#statusModal .modal-header').removeClass('bg-danger');
@@ -334,11 +299,9 @@
         $('#status-form .btn').removeClass('btn-primary');
         $('#status-form .btn').removeClass('btn-danger');
         $('#status-form .btn').removeClass('btn-success');
-
         $('#statusModal .modal-header').addClass(bg_class);
         $('#status-form .btn').addClass(btn_class);
       }
-
       if (status == 'approved') {
         $('#statusModalText').text(`Are you sure you want to approve this ${a_or_r}?`);
         changeClass('bg-primary', 'btn-primary');
@@ -353,7 +316,6 @@
     $('#status-form').submit(function() {
       $('#submit').attr('disabled', true);
     });
-
     function formatDateTime(date) {
       var months = date.getMonth() + 1;
       months = months < 10 ? '0' + months : months;
@@ -371,7 +333,6 @@
       let formattedDate = months + '/' + days + '/' + date.getFullYear() + ' ' + strTime;
       return formattedDate;
     }
-
     $('.viewModal').click(function() {
       const a_or_r = $(this).attr('data-for'); // appointment or reservation
       let details;
@@ -393,7 +354,6 @@
         $('<span></span>').text(details.service).append('<br>').appendTo('#details');
         $('<span></span>').text(details.offer).append('<br>').appendTo('#details');
       }
-
       let created_at = new Date(details.created_at);
       $('#created_at').text(formatDateTime(created_at));
       let date = new Date(details.date);
@@ -417,9 +377,6 @@
         $('<span>Status : </span>').appendTo('#details');
         $('<span></span>').text(details.status).addClass('badge badge-success').appendTo('#details');
       }
-
-
-
       $('#viewModal .modal-footer button').each(function() {
         if ($(this).attr('data-status') == 'approved' || $(this).attr('data-status') == 'rejected') {
           if (details.status != 'pending') {
@@ -427,7 +384,6 @@
           } else {
             $(this).attr('disabled', false);
           }
-
         } else if ($(this).attr('data-status') == 'completed') {
           if (details.status != 'pending' && details.status != 'approved') {
             $(this).attr('disabled', true);
@@ -435,14 +391,9 @@
             $(this).attr('disabled', false);
           }
         }
-
       });
-
-
       const link = $(this).attr('data-link');
       $('#status-form').attr('action', link);
-
-
     });
   </script>
 </body>

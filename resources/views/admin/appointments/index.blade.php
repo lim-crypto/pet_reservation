@@ -5,22 +5,16 @@
 <link rel="stylesheet" href="{{asset('Adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
 @endsection
 @section('main-content')
-
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-  <!-- Content Header (Page header) -->
   <div class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
           <h1 class="m-0">Appointments</h1>
-        </div><!-- /.col -->
-      </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
+        </div>
+      </div>
+    </div>
   </div>
-  <!-- /.content-header -->
-
-  <!-- Main content -->
   <div class="content">
     <div class="container-fluid">
       <div class="d-flex">
@@ -40,8 +34,6 @@
         </div>
       </div>
       <div class="card">
-
-
         <div class="card-body">
           <table id="table" class="table table-hover table-striped">
             <thead>
@@ -58,10 +50,10 @@
               @foreach($appointments as $appointment)
               <tr>
                 <td>{{date('m/d/Y H:i',strtotime($appointment->created_at))}}
-                <span class="text-xs text-muted"> {{$reservation->created_at->diffForHumans() }} </span>
+                <span class="text-xs text-muted"> {{$appointment->created_at->diffForHumans() }} </span>
                 </td>
                 <td>{{$appointment->user->getName()}}</td>
-                <td>{{$appointment->service}} - {{$appointment->offer}}</td>
+                <td class="text-truncate" style="max-width: 150px;" >{{$appointment->service}} - {{$appointment->offer}}</td>
                 <td>{{date('M d, Y - gA', strtotime($appointment->date))}}</td>
                 <td>
                   @if($appointment->status == 'pending')
@@ -77,34 +69,26 @@
                   @endif
                 </td>
                 <td>
-                  <!-- view -->
                   <button title="view" type="button" class="btn btn-info btn-sm viewModal" data-toggle="modal" data-target="#viewModal" data-appointment="{{$appointment}}">
                     <i class="fas fa-eye"></i>
                   </button>
-                  <!-- approved -->
                   <button title="approve" type="button" class="btn btn-primary btn-sm statusModal" data-toggle="modal" data-target="#statusModal" data-status="approved" data-link="{{route('appointment.status',$appointment->id)}}" @if($appointment->status != 'pending' ) disabled @endif>
                     <i class="fas fa-thumbs-up"></i>
                   </button>
-                  <!-- rejected -->
                   <button title="reject" type="button" class="btn btn-danger btn-sm statusModal" data-toggle="modal" data-target="#statusModal" data-status="rejected" data-link="{{route('appointment.status',$appointment->id)}}" @if($appointment->status != 'pending') disabled @endif>
                     <i class="fas fa-thumbs-down"></i>
                   </button>
-                  <!-- completed -->
                   <button title="complete" type="button" class="btn btn-success btn-sm statusModal" data-toggle="modal" data-target="#statusModal" data-status="completed" data-link="{{route('appointment.status',$appointment->id)}}" @if($appointment->status != 'pending' && $appointment->status != 'approved') disabled @endif>
                     <i class="fas fa-check"></i>
                   </button>
-
                 </td>
               </tr>
               @endforeach
             </tbody>
-
           </table>
         </div>
       </div>
-
     </div>
-    <!-- status -->
     <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -129,7 +113,6 @@
         </div>
       </div>
     </div>
-    <!-- view -->
     <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -152,7 +135,6 @@
               <span id="offer"></span><br>
               <span>Status : </span> <span id="appointmentStatus"></span>
             </div>
-
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -160,23 +142,16 @@
         </div>
       </div>
     </div>
-
   </div>
-  <!-- /.content -->
 </div>
-<!-- /.content-wrapper -->
 
 @endsection
 
 @section('script')
-
-<!-- DataTables  & Plugins -->
 <script src="{{asset('Adminlte/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('Adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{asset('Adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('Adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-
-
 <!-- Page specific script -->
 <script>
   $(function() {
@@ -263,8 +238,6 @@
       let formattedDate = months + '/' + days + '/' + date.getFullYear() + ' ' + strTime;
       return formattedDate;
     }
-
-
   });
 </script>
 @endsection

@@ -5,30 +5,22 @@
 <link rel="stylesheet" href="{{asset('Adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
 @endsection
 @section('main-content')
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-  <!-- Content Header (Page header) -->
   <div class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
           <h1 class="m-0">Products</h1>
-        </div><!-- /.col -->
-      </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
+        </div>
+      </div>
+    </div>
   </div>
-  <!-- /.content-header -->
-
-  <!-- Main content -->
   <div class="content">
     <div class="container-fluid">
       <a href="{{route('products.create')}}" class="btn btn-sm mb-3 btn-primary "> <i class="fas fa-plus-circle"></i> Add Product</a>
-
       <div class="row">
         <div class="col-12">
           <div class="card">
-
-            <!-- /.card-header -->
             <div class="card-body">
               <table id="products-table" class="table table-sm table-hover table-head-fixed">
                 <thead>
@@ -38,7 +30,6 @@
                     <th>Description</th>
                     <th>Price</th>
                     <th>Image</th>
-                    <!-- <th></th> -->
                     <th>created at</th>
                     <th>Actions</th>
                   </tr>
@@ -47,11 +38,11 @@
                   @foreach($products as $product)
                   <tr>
                     <td>{{ $product->category->name }}</td>
-                    <td>{{ $product->name }}</td>
+                    <td class="text-truncate" style="max-width: 150px;">{{ $product->name }}</td>
                     <td>{{$product->description}}</td>
                     <td> &#8369; {{$product->price}}</td>
                     <td>
-                      <img class="img-fluid"  src="/storage/images/products/{{$product->image}}" alt="{{ $product->name }}" style="height:100px; object-fit:cover;">
+                      <img class="img-fluid" src="/storage/images/products/{{$product->image}}" alt="{{ $product->name }}" style="height:100px; object-fit:cover;">
                     </td>
                     <td>{{ $product->created_at->diffForHumans() }}</td>
                     <td>
@@ -62,14 +53,11 @@
                       </button>
                     </td>
                   </tr>
-
                   @endforeach
                 </tbody>
               </table>
             </div>
-            <!-- /.card-body -->
           </div>
-          <!-- /.card -->
         </div>
       </div>
     </div>
@@ -100,18 +88,14 @@
   </div>
 </div>
 @endsection
-
 @section('script')
-
 <!-- DataTables & Plugins -->
 <script src="{{asset('Adminlte/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('Adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{asset('Adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('Adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-
 <!-- disable button on submit  -->
 <script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
-
 <script>
   $(function() {
     $("#products-table").DataTable({
@@ -120,7 +104,6 @@
       "autoWidth": false,
     });
   });
-
   // delete
   $('.deleteModal').click(function() {
     const name = $(this).attr('data-name');

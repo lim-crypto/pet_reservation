@@ -11,7 +11,6 @@
 @section('content')
 <div class="container">
     <div class="row my-5">
-
         <div class="col-md-3">
             <!-- Section: Sidebar -->
             <section class="mb-5 d-none d-sm-block">
@@ -52,6 +51,5 @@
             </div>
         </div>
     </div>
-
 </div>
 @endsection

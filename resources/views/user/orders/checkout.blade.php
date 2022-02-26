@@ -3,7 +3,6 @@
 @section('content')
 <div class="container">
     <div class="row">
-
         <div class="col-md-4 order-md-2  mb-4 p-3">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
                 <span class="text-muted">Your Order Summary</span>
@@ -20,7 +19,6 @@
                     <span class="text-muted"> &#8369;{{$product->price * $product->quantity}} </span>
                 </li>
                 @endforeach
-
                 <li class="list-group-item d-flex justify-content-between bg-light">
                     <div class="text-primary">
                         <h6 class="my-0"> Sub total </h6>
@@ -68,16 +66,8 @@
                         <i class="fas fa-plus"></i> Add New Address
                     </button>
                 </div>
-
-
-                <!-- <hr class="mb-4">
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="save-info" name="saveInfo">
-                    <label class="custom-control-label" for="save-info">Save this information for next time</label>
-                </div> -->
                 <hr class="mb-4">
                 <h4 class="mb-3">Payment</h4>
-
                 <div class="my-3">
                     <div class="form-check">
                         <input id="cod" name="paymentMethod" type="radio" class="form-check-input" value="COD" checked="" required="">
@@ -95,7 +85,7 @@
             </form>
 
 
-            <p class="note d-none text-danger small text-italic">note: you cannot cancel order if the transaction are done <br> note: no refund  </p>
+            <p class="note d-none text-danger small text-italic">note: you cannot cancel order if the transaction are done <br> note: no refund </p>
 
             <!-- Include the PayPal JavaScript SDK; replace "test" with your own sandbox Business account app client ID -->
             <script src="https://www.paypal.com/sdk/js?client-id=ATEicUepoC2VdhOOVWRwjwZRrfrOq4AT0UeEMCdrrc0CqDApne-va_i9eYPQPZC2h_lfaa6-uYFeQ5CG&currency=PHP"></script>
@@ -105,40 +95,27 @@
 
             <script>
                 paypal.Buttons({
-
-                    // Sets up the transaction when a payment button is clicked
                     createOrder: function(data, actions) {
                         return actions.order.create({
                             purchase_units: [{
                                 amount: {
-                                    value: document.getElementById('total').innerText // Can reference variables or functions. Example: `value: document.getElementById('...').value`
+                                    value: document.getElementById('total').innerText
                                 }
                             }]
                         });
                     },
-
-                    // Finalize the transaction after payer approval
                     onApprove: function(data, actions) {
                         return actions.order.capture().then(function(orderData) {
-                            // Successful capture! For dev/demo purposes:
-                            console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
                             var transaction = orderData.purchase_units[0].payments.captures[0];
-                            // alert('Transaction ' + transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
-                            // When ready to go live, remove the alert and show a success message within this page. For example:
-                            // var element = document.getElementById('paypal-button-container');
-                            // element.innerHTML = '';
-                            // element.innerHTML = '<h3>Thank you for your payment!</h3>';
-                            // Or go to another URL: actions.redirect('thank_you.html');
                             document.getElementById('transaction_id').value = transaction.id;
                             document.getElementById('paymentStatus').value = 'Paid';
                             document.getElementById("checkout-form").submit();
+                            document.getElementById('loading').style.display='';
                         });
                     }
                 }).render('#paypal-button-container');
             </script>
         </div>
-        <!-- <div class="col-md-12 order-md-3">
-        </div> -->
     </div>
 </div>
 
@@ -149,46 +126,38 @@
             <div class="modal-header">
                 <h4 class="modal-title">Add shipping address</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
+                    <span aria-hidden="true">&times;</span>
                 </button>
-
             </div>
             <form action="{{route('shippingAddresses.store')}}" method="POST" class="needs-validation" novalidate="">
                 <div class="modal-body">
                     @csrf
                     <div class="card-body">
-                        <!-- house number -->
                         <div class="form-group">
                             <label for="houseNumber">House number</label>
                             <input type="text" class="form-control" id="houseNumber" name="houseNumber">
                         </div>
-                        <!-- street -->
                         <div class="form-group">
                             <label for="street">Street</label>
                             <input type="text" class="form-control" id="street" name="street">
                         </div>
-                        <!-- brgy -->
                         <div class="form-group">
                             <label for="brgy">Brgy</label><span class="text-danger">*</span>
                             <input type="text" class="form-control" id="brgy" name="brgy" required>
                         </div>
-                        <!-- city -->
                         <div class="form-group">
                             <label for="city">City</label><span class="text-danger">*</span>
                             <input type="text" class="form-control" id="city" name="city" required>
                         </div>
-                        <!-- province -->
                         <div class="form-group">
                             <label for="province">Province</label><span class="text-danger">*</span>
                             <input type="text" class="form-control" id="province" name="province" required>
                         </div>
-                        <!-- country -->
                         <div class="form-group">
                             <label for="country">Country</label> <span class="text-danger">*</span>
                             <input type="text" class="form-control" id="country" name="country" required>
                         </div>
                     </div>
-
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -196,28 +165,30 @@
                 </div>
             </form>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
-
 @endsection
-
 @section('script')
+<!-- form-validation -->
 <script src="{{asset('js/form-validation.js')}}"></script>
 <!-- disable button on submit  -->
 <script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
 <script>
-    $('input[type=radio][name=paymentMethod]').change(function() {
-        if ($('#pay-pal').is(':checked')) {
-            $('.note').removeClass('d-none');
-            $('#paypal-button-container').removeClass('d-none');
-            $('#placeOrder').addClass('d-none');
-        } else {
-            $('.note').addClass('d-none');
-            $('#paypal-button-container').addClass('d-none');
-            $('#placeOrder').removeClass('d-none');
-        }
-    })
+    $(function() {
+        $('#checkout-form').submit(function() {
+            $('#loading').show();
+        });
+        $('input[type=radio][name=paymentMethod]').change(function() {
+            if ($('#pay-pal').is(':checked')) {
+                $('.note').removeClass('d-none');
+                $('#paypal-button-container').removeClass('d-none');
+                $('#placeOrder').addClass('d-none');
+            } else {
+                $('.note').addClass('d-none');
+                $('#paypal-button-container').addClass('d-none');
+                $('#placeOrder').removeClass('d-none');
+            }
+        })
+    });
 </script>
 @endsection

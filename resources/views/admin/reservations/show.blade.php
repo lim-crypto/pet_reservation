@@ -1,21 +1,15 @@
 @extends('admin.layouts.app')
 @section('main-content')
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0">Reservation</h1>
-                </div><!-- /.col -->
-
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
             <div class="card mb-3" style="max-width: 540px;">
@@ -92,19 +86,13 @@
                 </div>
                 @endif
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </div>
-    <!-- /.content -->
 </div>
-<!-- /.content-wrapper -->
-
 @endsection
-
-
 @section('script')
 <!-- disable button on submit  -->
 <script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
-
 <!-- Page specific script -->
 <script>
     $('.statusModal').click(function() {

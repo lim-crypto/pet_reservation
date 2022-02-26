@@ -5,7 +5,11 @@
 <link rel="stylesheet" href="{{asset('css/carousel.css')}}">
 <!-- style for description -->
 <link rel="stylesheet" href="{{asset('css/blog.css')}}">
-
+<style>
+  p img {
+    width: 100% !important;
+  }
+</style>
 @endsection
 @section('content')
 <div id="myCarousel" class="carousel slide shadow" data-ride="carousel">
@@ -16,8 +20,8 @@
   </ol>
   <div class="carousel-inner">
     @foreach($pet->images as $image)
-    <div class="carousel-item {{++$loop->index == 1 ? 'active':''}} "  style="  height:100vh;" >
-      <img src="{{asset('storage/images/pets/'.$image)}}" alt="{{$pet->name}}" style="object-fit:cover; height:100vh; " >
+    <div class="carousel-item {{++$loop->index == 1 ? 'active':''}} " style="  height:100vh;">
+      <img src="{{asset('storage/images/pets/'.$image)}}" alt="{{$pet->name}}" style="object-fit:cover; height:100vh; ">
     </div>
     @endforeach
   </div>
@@ -43,7 +47,6 @@
         <a href="{{route('reservation.create',$pet->slug)}}" class="btn custom-bg-color  rounded-pill float-right">Reserve this pet</a>
         @endif
       </h3>
-
       <div class="blog-post">
         @if($pet->status == 'available')
         <span class="badge badge-success float-right">{{ $pet->status }}</span>
@@ -52,7 +55,6 @@
         @endif
         <h2 class="blog-post-title"> {{ $pet->name }}</h2>
         <p class="blog-post-meta">Gender : <span class="custom-color text-capitalize">{{$pet->gender}}</span> </p>
-        <!-- price -->
         @if($pet->price)
         <span class="font-italic p-0">
           ₱ {{ $pet->price}}
@@ -60,14 +62,11 @@
         @endif
         <hr>
         <p>{!! $pet->description !!} </p>
-      </div><!-- /.blog-post -->
-
+      </div>
       <nav class="blog-pagination">
-        <a class="btn btn-outline-secondary" href="#" onclick="history.back()" >Back</a>
+        <a class="btn btn-outline-secondary" href="#" onclick="history.back()">Back</a>
       </nav>
-
     </div>
-
     <aside class="col-md-4 blog-sidebar">
       <div class="p-4 mb-3 bg-light rounded">
         <h4 class="font-italic">About</h4>
@@ -86,7 +85,6 @@
           </li>
         </ul>
       </div>
-
       <div class="p-4">
         @if($pet->breed->type->pets->count()>1 || $pet->breed->pets->count() > 1)
         <h4 class="font-italic">Find more pets</h4>
@@ -97,26 +95,13 @@
           <hr>
           @foreach($pet->breed->type->pets as $p)
           @if($pet->id != $p->id)
-          <li><a  href="{{route('petDetails',$pet->slug)}}" >{{$p->name}}</a></li>
+          <li><a href="{{route('petDetails',$pet->slug)}}">{{$p->name}}</a></li>
           @endif
           @endforeach
-
-
         </ol>
         @endif
       </div>
-
-
-    </aside><!-- /.blog-sidebar -->
-
+    </aside>
   </div>
 </div>
-@endsection
-
-@section('script')
-<style>
-  p img {
-    width: 100% !important;
-}
-</style>
 @endsection

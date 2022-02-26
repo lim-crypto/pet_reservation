@@ -5,22 +5,16 @@
 <link rel="stylesheet" href="{{asset('Adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
 @endsection
 @section('main-content')
-
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0">Breed of Pets</h1>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
             <button type="button" class="btn btn-success btn-sm  mb-3 addModal" data-toggle="modal" data-target="#addModal">
@@ -40,14 +34,12 @@
                             </tr>
                         </thead>
                         <tbody>
-
                             @foreach ( $breeds as $breed)
                             <tr>
                                 <td>{{$loop->index+1}}</td>
                                 <td>{{ $breed->type->name}}</td>
                                 <td>{{ $breed->name}}</td>
                                 <td>{{ $breed->created_at->diffForHumans()}}</td>
-
                                 <td>
                                     <button type="button" class="btn btn-primary  btn-sm editModal" data-toggle="modal" data-target="#editModal" data-name="{{$breed->name}}" data-type-id="{{$breed->type_id}}" data-link="{{route('breed.update', $breed->slug)}}">
                                         <i class="fas fa-edit"></i>
@@ -61,147 +53,132 @@
                             </tr>
                             @endforeach
                         </tbody>
-
                     </table>
-                </div>
-            </div>
-
-        </div><!-- /.container-fluid -->
-
-        <!-- add modal -->
-        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editeModalLabel">Add</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form id="add-form" action="{{route('breed.store')}}" method="POST" class="needs-validation" novalidate="" enctype="multipart/form-data">
-                        @csrf
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label for="type">Type</label><span class="text-danger">*</span>
-                                <select class="form-control {{ $errors->has('type_id') ? ' is-invalid' : '' }}" name="type_id" id="addType" required>
-                                    <option value="" selected disabled>Select Type</option>
-                                    @foreach ($types as $type)
-                                    <option value="{{$type->id}}">{{$type->name}}</option>
-                                    @endforeach
-                                </select>
-                                <span class="invalid-feedback" role="alert">
-                                    Type is required
-                                </span>
-                            </div>
-                            <div class="form-group">
-                                <label for="type">Breed</label><span class="text-danger">*</span>
-                                <input type="text" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" id="addType" placeholder="Pet Breed" value="" required>
-                                <span class="invalid-feedback" role="alert">
-                                    Breed is required
-                                </span>
-                            </div>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </form>
-
-
-                </div>
-            </div>
-        </div>
-
-        <!-- delete modal -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel">Delete</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p id="deleteModalText">Are you sure you want to delete this?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <form id="delete-form" action="" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Edit modal -->
-        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editeModalLabel">Edit</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form id="edit-form" action="" method="POST" class="needs-validation" novalidate="">
-                        @csrf
-                        @method('PUT')
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label for="type">Type</label><span class="text-danger">*</span>
-                                <select name="type_id" id="editType" class="form-control {{ $errors->has('type_id') ? ' is-invalid' : '' }}" required>
-                                    <option value="" disabled selected>Select type</option>
-                                    @foreach($types as $type)
-                                    <option value="{{$type->id}}" @if(old('type_id')==$type->id) selected @endif >{{$type->name}}</option>
-                                    @endforeach
-                                </select>
-
-                                <span class="invalid-feedback">
-                                    Type is required
-                                </span>
-                            </div>
-                            <div class="form-group">
-                                <label for="type">Breed</label><span class="text-danger">*</span>
-                                <input type="text" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" id="editBreed" placeholder="title" value="" required>
-                                <span class="invalid-feedback">
-                                    Breed is required
-                                </span>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Update</button>
-                        </div>
-                    </form>
-
                 </div>
             </div>
         </div>
     </div>
-    <!-- /.content -->
 </div>
-<!-- /.content-wrapper -->
-
+<!-- add modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editeModalLabel">Add</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="add-form" action="{{route('breed.store')}}" method="POST" class="needs-validation" novalidate="" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="type">Type</label><span class="text-danger">*</span>
+                        <select class="form-control {{ $errors->has('type_id') ? ' is-invalid' : '' }}" name="type_id" id="addType" required>
+                            <option value="" selected disabled>Select Type</option>
+                            @foreach ($types as $type)
+                            <option value="{{$type->id}}">{{$type->name}}</option>
+                            @endforeach
+                        </select>
+                        <span class="invalid-feedback" role="alert">
+                            Type is required
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="type">Breed</label><span class="text-danger">*</span>
+                        <input type="text" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" id="addType" placeholder="Pet Breed" value="" required>
+                        <span class="invalid-feedback" role="alert">
+                            Breed is required
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- delete modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="deleteModalText">Are you sure you want to delete this?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <form id="delete-form" action="" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Edit modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editeModalLabel">Edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="edit-form" action="" method="POST" class="needs-validation" novalidate="">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="type">Type</label><span class="text-danger">*</span>
+                        <select name="type_id" id="editType" class="form-control {{ $errors->has('type_id') ? ' is-invalid' : '' }}" required>
+                            <option value="" disabled selected>Select type</option>
+                            @foreach($types as $type)
+                            <option value="{{$type->id}}" @if(old('type_id')==$type->id) selected @endif >{{$type->name}}</option>
+                            @endforeach
+                        </select>
+                        <span class="invalid-feedback">
+                            Type is required
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="type">Breed</label><span class="text-danger">*</span>
+                        <input type="text" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" id="editBreed" placeholder="title" value="" required>
+                        <span class="invalid-feedback">
+                            Breed is required
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('script')
-
 <!-- DataTables  & Plugins -->
 <script src="{{asset('Adminlte/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('Adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{asset('Adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('Adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-
 <!-- form validation -->
 <script src="{{ asset('js/form-validation.js') }}"></script>
 <!-- disable button on submit  -->
 <script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
 <!-- Page specific script -->
-
 <script>
     // delete
     $('.deleteModal').click(function() {
@@ -210,7 +187,6 @@
         $('#deleteModalText').text(`Are you sure you want to delete ${name}?`);
         $('#delete-form').attr('action', link);
     });
-
     // edit
     $('.editModal').click(function() {
         const name = $(this).attr('data-name');
@@ -221,14 +197,11 @@
 
         $('#edit-form').attr('action', link);
     });
-
     $(function() {
         $("#table").DataTable({
             "responsive": true,
             "lengthChange": false,
             "autoWidth": false,
-
-
         });
     });
 </script>

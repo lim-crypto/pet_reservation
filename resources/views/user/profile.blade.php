@@ -8,22 +8,18 @@
                 <div class="card-header">
                     <h3 class="card-title">Profile</h3>
                 </div>
-                <!-- /.card-header -->
-                <!-- form start -->
                 <form action="{{route('profile.update' , auth()->user()->id) }}" method="POST" class="needs-validation" novalidate="">
                     @csrf
                     @method('PUT')
                     <div class="card-body">
                         <div class="row">
                             <div class="col-6">
-                                <!-- first name -->
                                 <div class="form-group">
                                     <label for="firstname">First name</label>
                                     <input type="text" id="firstname" class="form-control" name="first_name" placeholder="Enter your first name" value="{{ old('first_name') ? old('first_name') : auth()->user()->first_name}}" required>
                                 </div>
                             </div>
                             <div class="col-6">
-                                <!-- last name -->
                                 <div class="form-group">
                                     <label for="lastname">Last name</label>
                                     <input type="text" id="lastname" class="form-control" name="last_name" placeholder="Enter your last name" value="{{ old('last_name') ? old('last_name') : auth()->user()->last_name}}" required>
@@ -32,14 +28,12 @@
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                <!-- email -->
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input type="email" id="email" class="form-control" placeholder="Enter your email" value="{{ old('email') ? old('email') : auth()->user()->email}}" disabled>
                                 </div>
                             </div>
                             <div class="col-6">
-                                <!-- contact number -->
                                 <div class="form-group">
                                     <label for="tel">Contact number</label>
                                     <input type="number" id="tel" class="form-control" name="contact_number" placeholder="09xxxxxxxxx" min="09000000000" max="09999999999" value="{{ old('contact_number') ? old('contact_number') : auth()->user()->contact_number}}" required>
@@ -47,8 +41,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- /.card-body -->
-
                     <div class="card-footer">
                         <a class="btn btn-outline-secondary" href="#" onclick="window.history.back()">Back</a>
                         <button type="submit" class="btn btn-success float-right">Update</button>
@@ -250,26 +242,27 @@
 <!-- disable button on submit  -->
 <script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
 <script>
-    // delete
-    $('.deleteModal').click(function() {
-        const shippingAddress = $(this).attr('data-shippingAddress');
-        const link = $(this).attr('data-link');
-        $('#deleteModalText').text(shippingAddress);
-        $('#delete-form').attr('action', link);
-    });
-    // edit
-    $('.editModal').click(function() {
-        const link = $(this).attr('data-link');
-        $('#edit-form').attr('action', link);
-        let shippingAddress = $(this).attr('data-shippingAddress');
-        shippingAddress = JSON.parse(shippingAddress);
-        $('#houseNumber2').val(shippingAddress.houseNumber);
-        $('#street2').val(shippingAddress.street);
-        $('#brgy2').val(shippingAddress.brgy);
-        $('#city2').val(shippingAddress.city);
-        $('#province2').val(shippingAddress.province);
-        $('#country2').val(shippingAddress.country);
-
+    $(function() {
+        // delete
+        $('.deleteModal').click(function() {
+            const shippingAddress = $(this).attr('data-shippingAddress');
+            const link = $(this).attr('data-link');
+            $('#deleteModalText').text(shippingAddress);
+            $('#delete-form').attr('action', link);
+        });
+        // edit
+        $('.editModal').click(function() {
+            const link = $(this).attr('data-link');
+            $('#edit-form').attr('action', link);
+            let shippingAddress = $(this).attr('data-shippingAddress');
+            shippingAddress = JSON.parse(shippingAddress);
+            $('#houseNumber2').val(shippingAddress.houseNumber);
+            $('#street2').val(shippingAddress.street);
+            $('#brgy2').val(shippingAddress.brgy);
+            $('#city2').val(shippingAddress.city);
+            $('#province2').val(shippingAddress.province);
+            $('#country2').val(shippingAddress.country);
+        });
     });
 </script>
 @endsection

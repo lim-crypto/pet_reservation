@@ -1,25 +1,20 @@
 @extends('admin.layouts.app')
 @section('main-content')
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0">Add New Product</h1>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                <div class="card card-primary card-outline">
+                    <div class="card card-primary card-outline">
                         <div class="card-body">
                             <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data" class="needs-validation" novalidate="">
                                 @csrf
@@ -76,7 +71,6 @@
                                                 Quantity is required
                                             </span>
                                         </div>
-                                        <!-- featured -->
                                         <div class="form-group">
                                             <label for="featured">Featured</label> <span class="text-danger">*</span>
                                             <select id="featured" class="form-control{{ $errors->has('is_featured') ? ' is-invalid' : '' }}" name="is_featured" required>
@@ -110,7 +104,6 @@
 <script src="{{asset('Adminlte/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
 <!-- disable button on submit  -->
 <script src="{{asset('js/disableButtonOnSubmit.js')}}"></script>
-
 <!-- Page specific script -->
 <script>
     $(function() {
